@@ -1,0 +1,5 @@
+[user]
+        name = Camden Cheek
+        email = ccheek22@gmail.com
+[credential]
+        helper = osxkeychain
