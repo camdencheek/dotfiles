@@ -1,4 +1,22 @@
-syntax on
+" Plugin manager
+call plug#begin('~/.vim/plugged')
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Syntax Highlighting
+syntax on 
+colorscheme Chasing_Logic
+
+filetype plugin indent on 
+set encoding=utf-8
+set tabstop=4
+set shiftwidth=4
+set smarttab
+
+" Change escape sequence to  
+inoremap jk <ESC>
+xnoremap jk <ESC>
+
+set timeout timeoutlen=200 ttimeoutlen=100
+
+let mapleader = "\<Space>"
+
+
