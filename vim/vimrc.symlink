@@ -1,6 +1,10 @@
 " Plugin manager
 call plug#begin('~/.vim/plugged')
 
+Plug 'PProvost/vim-ps1'
+Plug 'scrooloose/nerdcommenter'
+Plug 'saltstack/salt-vim'
+call plug#end()
 " Syntax Highlighting
 syntax on 
 colorscheme Chasing_Logic
@@ -19,4 +23,5 @@ set timeout timeoutlen=200 ttimeoutlen=100
 
 let mapleader = "\<Space>"
 
-
+" Open file
+nnoremap <Leader>w :w<CR>
