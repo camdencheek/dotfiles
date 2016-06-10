@@ -4,6 +4,7 @@ alias em='emacs -nw'
 alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias nv='nvim'
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 
 # Cmake aliases
 

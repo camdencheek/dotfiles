@@ -9,3 +9,8 @@
         relink: true
         force: true
         path: zsh/zshrc
+    ~/.config/nvim/init.vim:
+        relink: true
+        force: true
+        create: true
+        path: vim/vimrc
