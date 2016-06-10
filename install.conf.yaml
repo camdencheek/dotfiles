@@ -14,7 +14,7 @@
         force: true
         create: true
         path: vim/vimrc
-    ~/.vimrc
+    ~/.vimrc:
         relink: true
         force: true
         path: vim/vimrc
