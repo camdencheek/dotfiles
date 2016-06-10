@@ -18,3 +18,8 @@
         relink: true
         force: true
         path: vim/vimrc
+    ~/.vim/autoload/plug.vim:
+        relink: true
+        create: true
+        force: true
+        path: vim/vim-plug/plug.vim
