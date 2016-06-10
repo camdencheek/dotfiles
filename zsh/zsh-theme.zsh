@@ -1,0 +1,43 @@
+source "$HOME/.dotfiles/zsh/zsh-git-integration.zsh"
+setopt prompt_subst
+function box_name {
+		[ -f ~/.box-name ] && cat ~/.box-name || echo $HOST | cut -d . -f 1
+}
+
+# Directory info.
+canonical=$(cd -P -- "$(dirname -- "$0")" && printf '%s\n' "$(pwd -P)/$(basename -- "$0")")
+local current_dir="${canonical/#$HOME/~}"
+
+# Git info.
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" on $fg[white]git:$fg[cyan]"
+ZSH_THEME_GIT_PROMPT_DIRTY=" $fg[red]x$reset_color"
+ZSH_THEME_GIT_PROMPT_CLEAN=" $fg[green]o$reset_color"
+
+local git_info='$(git_prompt_info)'
+local dirty='$(parse_git_dirty)'
+
+# Prompt format: USER@MACHINE DIRECTORY on REPO:BRANCH STATE [TIME] \n $
+PROMPT="
+%{$terminfo[bold]$fg[blue]%}%{$reset_color%}\
+%{$fg[cyan]%}%n\
+%{$fg[white]%}@\
+%{$fg[green]%}$(box_name) \
+%{$fg[white]%}\
+%{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%}\
+${git_info} 
+%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
+
+if [[ "$USER" == "root" ]]; then
+PROMPT="
+%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+%{$bg[yellow]%}%{$fg[cyan]%}%n%{$reset_color%} \
+%{$fg[white]%}at \
+%{$fg[green]%}$(box_name) \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%}\
+${git_info} \
+%{$fg[white]%}[%*]
+%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
+fi
+

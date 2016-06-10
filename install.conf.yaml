@@ -1,0 +1,11 @@
+- defaults:
+    link:
+        relink: true
+
+- clean: ['~']
+
+- link: 
+    ~/.zshrc:
+        relink: true
+        force: true
+        path: zsh/zshrc

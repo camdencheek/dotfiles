@@ -1,0 +1,78 @@
+# Shell Aliases
+
+alias em='emacs -nw'
+alias sup='sudo $(fc -ln -1)'
+alias sudo='sudo '
+alias nv='nvim'
+
+# Cmake aliases
+
+alias cm="cmake . && make"
+function cmgen {
+	source=$1
+	dir="$(pwd)"
+	echo "cmake_minimum_required ( VERSION 3.5.0 )\n"
+		"project ( $( basename $pwd ) )\n"
+		"add_executable ( prog $source )\n"
+		"target_compile_features ( prog PRIVATE cxx_range_for )\n"
+		"set ( CMAKE_CXX_COMPILER \"/usr/bin/clang++\" )\n"
+		"set ( CMAKE_CXX_FLAGS \"-Wall\" )" > CMakeLists.txt
+}
+
+# Completion
+
+zstyle ':completion:*' menu select
+
+# History
+
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt append_history
+setopt extended_history
+setopt hist_ignore_space
+setopt hist_verify
+setopt share_history
+
+# Directory Options
+
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_silent
+setopt extended_glob
+
+# Define Word Endings
+
+WORDCHARS='*?+[]~=&;!#$%^(){}<>'
+
+# Terminal Colors
+
+autoload -U colors
+colors
+
+TC='\e['
+Rst="${TC}0m"     # Reset all coloring and style
+Black="${TC}30m";
+Red="${TC}31m";
+Green="${TC}32m";
+Yellow="${TC}33m";
+Blue="${TC}34m";
+Purple="${TC}35m";
+Cyan="${TC}36m";
+White="${TC}37m";
+
+# Theme
+
+source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
+
+# Set Shell
+
+if [ -z ${SHELL+x} ]; then
+	export SHELL=$(which zsh)
+fi
+
+# Standard Configs
+
+export LANG=en.US.UTF-8
+export TERM=xterm-256color
+export EDITOR=nvim
