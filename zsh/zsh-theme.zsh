@@ -28,7 +28,6 @@ git_prompt_info () {
 	echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(parse_git_dirty)"
 }
 
-source "$HOME/.dotfiles/zsh/zsh-git-integration.zsh"
 setopt prompt_subst
 function box_name {
 		[ -f ~/.box-name ] && cat ~/.box-name || echo $HOST | cut -d . -f 1

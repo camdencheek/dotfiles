@@ -5,6 +5,7 @@ alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias nv='nvim'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias ls='ls -G'
 
 # Cmake aliases
 
@@ -48,6 +49,9 @@ WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 
 # Terminal Colors
 
+if (( $+commands[grc] )) && (( $+commands[brew] )); then
+	source `brew --prefix`/etc/grc.bashrc
+fi
 autoload -U colors
 colors
 
