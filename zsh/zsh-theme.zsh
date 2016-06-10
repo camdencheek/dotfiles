@@ -5,8 +5,7 @@ function box_name {
 }
 
 # Directory info.
-canonical=$(cd -P -- "$(dirname -- "$0")" && printf '%s\n' "$(pwd -P)/$(basename -- "$0")")
-local current_dir="${canonical/#$HOME/~}"
+local current_dir='${$(pwd)/#$HOME/~}'
 
 # Git info.
 
