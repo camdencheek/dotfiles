@@ -21,6 +21,18 @@ function cmgen {
 		"set ( CMAKE_CXX_FLAGS \"-Wall\" )" > CMakeLists.txt
 }
 
+# Git Aliases
+
+alias gl='git pull --prune'
+alias gp='git push origin HEAD'
+alias gd='git diff'
+alias gco='git checkout'
+alias gcb='git copy-branch-name'
+alias gcl='git clean -dix'
+alias gb='git branch'
+alias gs='git status -sb'
+alias gac='git add -A && git commit -m'
+
 # Completion
 
 zstyle ':completion:*' menu select
