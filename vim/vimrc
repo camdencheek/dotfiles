@@ -23,6 +23,12 @@ set smarttab
 inoremap jk <ESC>
 xnoremap jk <ESC>
 
+" Change vim split bindings
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
 set timeout timeoutlen=200 ttimeoutlen=100
 
 let mapleader = "\<Space>"
