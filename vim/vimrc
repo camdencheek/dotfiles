@@ -8,7 +8,6 @@ Plug 'flazz/vim-colorschemes'
 
 call plug#end()
 
-
 " Syntax Highlighting
 syntax on 
 colorscheme Chasing_Logic
@@ -18,6 +17,11 @@ set encoding=utf-8
 set tabstop=4
 set shiftwidth=4
 set smarttab
+
+" Set Statusline
+set laststatus=2
+set statusline=%.20f
+set statusline+=\ %l/%L
 
 " Change escape sequence to  
 inoremap jk <ESC>
@@ -33,5 +37,3 @@ set timeout timeoutlen=200 ttimeoutlen=100
 
 let mapleader = "\<Space>"
 
-" Open file
-nnoremap <Leader>w :w<CR>

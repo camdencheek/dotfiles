@@ -114,6 +114,9 @@ if [ -z ${SHELL+x} ]; then
 	export SHELL=$(which zsh)
 fi
 
+# Docker Env
+eval "$(docker-machine env default)"
+
 # Standard Configs
 
 export LANG=en.US.UTF-8
