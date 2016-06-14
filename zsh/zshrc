@@ -9,6 +9,17 @@ source ~/.dotfiles/zsh/zplug/init.zsh
 
 zplug "felixr/docker-zsh-completion"
 
+if ! zplug check --verbose; then
+	printf "Install? [y/N]: "
+	if read -q; then
+		echo; zplug install
+	else
+		echo 
+	fi
+fi
+
+zplug load
+
 # Shell Aliases
 
 alias em='emacs -nw'
