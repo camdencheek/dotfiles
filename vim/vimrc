@@ -1,4 +1,5 @@
 " Plugin manager
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'PProvost/vim-ps1'
