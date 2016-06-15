@@ -134,7 +134,9 @@ if [ -z ${SHELL+x} ]; then
 fi
 
 # Docker Env
-eval "$(docker-machine env default)"
+if (( $+commands[grc] )); then
+	eval "$(docker-machine env default)"
+fi	
 
 # Standard Configs
 
