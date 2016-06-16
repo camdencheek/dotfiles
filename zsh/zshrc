@@ -1,3 +1,5 @@
+# Launch tmux
+
 # Zplug
 
 if [[ ! -d ~/.zplug ]]; then
@@ -129,7 +131,7 @@ Black="${TC}30m";
 Red="${TC}31m";
 Green="${TC}32m";
 Yellow="${TC}33m";
-Blue="${TC}34m";
+Blue="${TC}35m";
 Purple="${TC}35m";
 Cyan="${TC}36m";
 White="${TC}37m";
@@ -154,3 +156,5 @@ fi
 export LANG=en.US.UTF-8
 export TERM=xterm-256color
 export EDITOR=nvim
+export USE_EDITOR=$EDITOR
+export VISUAL=$EDITOR
