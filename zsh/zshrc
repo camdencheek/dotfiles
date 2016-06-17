@@ -1,4 +1,10 @@
-# Launch tmux
+# tmux
+if command -v tmux>/dev/null; then
+    if [ ! -z "$PS1" ]; then # unless shell not loaded interactively, run tmux
+        [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux && clear
+    fi
+fi
+
 
 # Zplug
 
@@ -105,6 +111,7 @@ setopt extended_history
 setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
+setopt hist_ignore_dups
 
 # Directory Options
 
