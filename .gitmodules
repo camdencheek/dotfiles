@@ -3,7 +3,7 @@
 	url = https://github.com/anishathalye/dotbot
 [submodule "vim/vim-plug"]
 	path = vim/vim-plug
-	url = git@github.com:junegunn/vim-plug.git
+	url = https://github.com/junegunn/vim-plug
 [submodule "zsh/zplug"]
 	path = zsh/zplug
-	url = git@github.com:zplug/zplug.git
+	url = https://github.com/zplug/zplug
