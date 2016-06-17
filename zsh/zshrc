@@ -1,11 +1,3 @@
-# tmux
-if command -v tmux>/dev/null; then
-    if [ ! -z "$PS1" ]; then # unless shell not loaded interactively, run tmux
-        [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux && clear
-    fi
-fi
-
-
 # Zplug
 
 if [[ ! -d ~/.zplug ]]; then
@@ -35,6 +27,17 @@ alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias nv='nvim'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+
+# Tmux aliases
+
+alias ta='tmux attach-session -t '
+alias tn='tmux new -s '
+
+# Config editing aliases
+
+alias ez='nvim ~/.zshrc'
+alias ev='nvim ~/.vimrc'
+alias et='nvim ~/.tmux.conf'
 
 # Determine ls type
 
@@ -98,8 +101,12 @@ extract () {
 
 # Completion
 
-zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -U compinit && compinit
+
+# Keybindings
+
+bindkey -e
 
 # History
 
