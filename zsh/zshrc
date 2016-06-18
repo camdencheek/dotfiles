@@ -64,6 +64,8 @@ function cmgen {
 
 # Git Aliases
 
+alias ga='git add'
+alias gc='git commit -m'
 alias gl='git pull --prune'
 alias gp='git push origin HEAD'
 alias gd='git diff'

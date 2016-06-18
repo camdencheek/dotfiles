@@ -26,6 +26,12 @@ set laststatus=2
 set statusline=%.20f
 set statusline+=\ %l/%L
 
+" NerdCommenter settings
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+map <leader>/ <plug>(NERDCommentToggle)
+imap <C-/> <Plug>(NERDCommentToggle)
+
 " Incsearch settings
 map /  <Plug>(incsearch-easymotion-/)
 map ?  <Plug>(incsearch-easymotion-?)
