@@ -32,6 +32,7 @@ alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pa
 
 alias ta='tmux attach-session -t '
 alias tn='tmux new -s '
+alias tl='tmux list-sessions'
 
 # Config editing aliases
 
@@ -161,9 +162,12 @@ if [ -z ${SHELL+x} ]; then
 fi
 
 # Docker Env
-if (( $+commands[grc] )); then
-	eval "$(docker-machine env default)"
-fi	
+
+if [ "$(docker-machine status)" = "Running" ]; then
+	if (( $+commands[grc] )); then
+		eval "$(docker-machine env default)"
+	fi		
+fi
 
 # Standard Configs
 

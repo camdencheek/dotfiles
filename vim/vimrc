@@ -4,8 +4,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'PProvost/vim-ps1'
 Plug 'scrooloose/nerdcommenter'
-Plug 'saltstack/salt-vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'haya14busa/incsearch.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch-easymotion.vim'
 
 call plug#end()
 
@@ -23,6 +25,36 @@ set smarttab
 set laststatus=2
 set statusline=%.20f
 set statusline+=\ %l/%L
+
+" Incsearch settings
+map /  <Plug>(incsearch-easymotion-/)
+map ?  <Plug>(incsearch-easymotion-?)
+map g/ <Plug>(incsearch-easymotion-stay)
+
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
+let g:incsearch#magic = '\v'
+
+augroup incsearch-keymap
+    autocmd!
+    autocmd VimEnter call s:incsearch_keymap()
+augroup END
+function! s:incsearch_keymap()
+    IncSearchNoreMap <C-n> <Over>(incsearch-next)
+    IncSearchNoreMap <C-p> <Over>(incsearch-prev)
+    IncSearchNoreMap <C-f> <Over>(incsearch-scroll-f)
+    IncSearchNoreMap <C-b> <Over>(incsearch-scroll-b)
+endfunction
+
+" Easymotion settings
+map <C-D> <Plug>(easymotion-prefix)
 
 " Change escape sequence to  
 inoremap jk <ESC>
