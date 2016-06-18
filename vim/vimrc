@@ -2,14 +2,28 @@
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'PProvost/vim-ps1'
 Plug 'scrooloose/nerdcommenter'
-Plug 'flazz/vim-colorschemes'
 Plug 'haya14busa/incsearch.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'mbbill/undotree'
+Plug 'scrooloose/nerdtree'
 
 call plug#end()
+
+set timeout timeoutlen=200 ttimeoutlen=100
+
+let mapleader = "\<Space>"
+
+" Change escape sequence to  
+inoremap jk <ESC>
+xnoremap jk <ESC>
+
+" Change window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " Syntax Highlighting
 syntax on 
@@ -26,11 +40,37 @@ set laststatus=2
 set statusline=%.20f
 set statusline+=\ %l/%L
 
+" Undofile
+set undofile
+set undodir=~/.vim/undodir
+if has('persistent_undo')
+    set rtp+=~/configit/vim/modules/undotree
+    nnoremap <silent> <Space>u :UndotreeToggle<CR>
+    let g:undotree_SetFocusWhenToggle = 1
+    set undofile
+    set undodir=~/.undodir/
+    set undolevels=1000
+    set undoreload=10000
+endif
+
+" Undotree
+nnoremap <C-u> :UndotreeToggle<cr>
+
+" undotree window width
+if !exists('g:undotree_SplitWidth')
+    let g:undotree_SplitWidth = 30
+endif
+
 " NerdCommenter settings
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
-map <leader>/ <plug>(NERDCommentToggle)
-imap <C-/> <Plug>(NERDCommentToggle)
+map <leader>/ <plug>NERDCommenterToggle
+
+" NerdTree settings
+map <C-n> :NERDTreeToggle<cr>
+" Close vim if NerdTree is only buffer
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 
 " Incsearch settings
 map /  <Plug>(incsearch-easymotion-/)
@@ -59,20 +99,5 @@ function! s:incsearch_keymap()
     IncSearchNoreMap <C-b> <Over>(incsearch-scroll-b)
 endfunction
 
-" Easymotion settings
-map <C-D> <Plug>(easymotion-prefix)
-
-" Change escape sequence to  
-inoremap jk <ESC>
-xnoremap jk <ESC>
-
-" Change vim split bindings
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-set timeout timeoutlen=200 ttimeoutlen=100
-
-let mapleader = "\<Space>"
-
+" Clear trailing whitespace in selected file types on save
+autocmd BufWritePre *.py,*.js,*.hs,*.html,*.css,*.scss :%s/\s\+$//e

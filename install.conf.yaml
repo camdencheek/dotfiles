@@ -23,8 +23,14 @@
         create: true
         force: true
         path: vim/vim-plug/plug.vim
+    ~/.vim/colors/Chasing_Logic.vim:
+        relink: true
+        create: true
+        force: true
+        path: vim/Chasing_logic.vim
     ~/.tmux.conf:
         relink: true
         create: true
         force: true
         path: tmux/tmux.conf
+
