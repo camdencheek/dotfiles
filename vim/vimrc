@@ -8,6 +8,16 @@ Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'mbbill/undotree'
 Plug 'scrooloose/nerdtree'
+function! DoRemote(arg)
+	UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+Plug 'kien/ctrlp.vim'
+Plug 'vim-scripts/TaskList.vim'
+Plug 'Rip-Rip/clang_complete'
+Plug 'scrooloose/syntastic'
+Plug 'PProvost/vim-ps1'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -25,6 +35,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" CtrlP only by filename default. Change with C-d
+let g:ctrlp_by_filename = 1
+
 " Syntax Highlighting
 syntax on 
 colorscheme Chasing_Logic
@@ -39,6 +52,17 @@ set smarttab
 set laststatus=2
 set statusline=%.20f
 set statusline+=\ %l/%L
+
+" Searchtasks
+let g:tlTokenList = ['TODO','FIXME']
+
+"" Deoplete
+let g:deoplete#enable_at_startup = 0
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#auto_complete_start_length = 0
+
+" Clang_complete
+let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 " Undofile
 set undofile

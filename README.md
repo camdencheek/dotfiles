@@ -7,4 +7,5 @@ To install:
  - chsh -s /bin/zsh
  - ~/.dotfiles/install
  - Restart shell. Follow prompts for zplug 
+ - follow instructions to install deocomplete-clang
  
