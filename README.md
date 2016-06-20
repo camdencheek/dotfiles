@@ -3,9 +3,10 @@ To install:
  	- zsh
 	- neovim/vim
 	- tmux
- - git clone --recursive https://github.com/ccheek21/dotfiles.git ~/.dotfile
+ - git clone --recursive https://github.com/ccheek21/dotfiles.git ~/.dotfiles
  - chsh -s /bin/zsh
  - ~/.dotfiles/install
- - Restart shell. Follow prompts for zplug 
+ - run 'zplug install'
  - follow instructions to install deocomplete-clang
+ - in vim, run ':PlugInstall'
  
