@@ -34,11 +34,11 @@ hi Identifier guifg=#65a3f0 guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NO
 hi SpecialChar guifg=#dc322f guibg=NONE guisp=NONE gui=NONE ctermfg=160 ctermbg=NONE cterm=NONE
 hi Conditional guifg=#719e07 guibg=NONE guisp=NONE gui=NONE ctermfg=106 ctermbg=NONE cterm=NONE
 hi StorageClass guifg=#b58900 guibg=NONE guisp=NONE gui=NONE ctermfg=136 ctermbg=NONE cterm=NONE
-hi Todo guifg=#ff00d9 guibg=#303030 guisp=#303030 gui=bold ctermfg=200 ctermbg=236 cterm=bold
+hi Todo guifg=#ff00d9 guibg=#303030 guisp=#303030 gui=bold ctermfg=200 ctermbg=235 cterm=bold
 hi Special guifg=#cf0889 guibg=NONE guisp=NONE gui=NONE ctermfg=162 ctermbg=NONE cterm=NONE
-hi LineNr guifg=#d9d9d9 guibg=#242424 guisp=#242424 gui=NONE ctermfg=253 ctermbg=235 cterm=NONE
+hi LineNr guifg=#d9d9d9 guibg=#242424 guisp=#242424 gui=NONE ctermfg=253 ctermbg=236 cterm=NONE
 hi StatusLine guifg=#2b2b2b guibg=#c7c7c7 guisp=#c7c7c7 gui=bold ctermfg=235 ctermbg=251 cterm=bold
-hi Normal guifg=#ffffff guibg=#303030 guisp=#303030 gui=NONE ctermfg=15 ctermbg=236 cterm=NONE
+hi Normal guifg=#ffffff guibg=#303030 guisp=#303030 gui=NONE ctermfg=15 ctermbg=235 cterm=NONE
 hi Label guifg=#719e07 guibg=NONE guisp=NONE gui=NONE ctermfg=106 ctermbg=NONE cterm=NONE
 hi CTagsImport guifg=#e2e4e5 guibg=NONE guisp=NONE gui=NONE ctermfg=254 ctermbg=NONE cterm=NONE
 hi PMenuSel guifg=#586e75 guibg=#eee8d5 guisp=#eee8d5 gui=NONE ctermfg=66 ctermbg=230 cterm=NONE

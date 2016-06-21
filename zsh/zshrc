@@ -1,15 +1,14 @@
 # Zplug
 
-if [[ ! -d ~/.zplug ]]; then
-	git clone https://github.com/zplug/zplug ~/.dotfiles/zsh/zplug
-	source ~/.dotfiles/zsh/zplug/init.zsh && zplug update --self
-fi
-
 source ~/.dotfiles/zsh/zplug/init.zsh
 
 zplug "felixr/docker-zsh-completion"
-
 zplug load
+
+# Path
+if [[ -e ~/.path ]]; then
+	source ~/.path
+fi
 
 # Shell Aliases
 
@@ -157,17 +156,9 @@ if [ -z ${SHELL+x} ]; then
 	export SHELL=$(which zsh)
 fi
 
-# Docker Env
-
-if [ "$(docker-machine status)" = "Running" ]; then
-	if (( $+commands[grc] )); then
-		eval "$(docker-machine env default)"
-	fi		
-fi
-
 # Standard Configs
 
-export LANG=en.US.UTF-8
+export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR

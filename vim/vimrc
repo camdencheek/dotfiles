@@ -56,6 +56,12 @@ set statusline+=\ %l/%L
 " Searchtasks
 let g:tlTokenList = ['TODO','FIXME']
 
+" Auto pair parenthesis, etc.
+
+inoremap ( ()<Esc>i
+inoremap { {}<Esc>i
+inoremap [ []<Esc>i
+
 "" Deoplete
 let g:deoplete#enable_at_startup = 0
 let g:deoplete#enable_ignore_case = 1
