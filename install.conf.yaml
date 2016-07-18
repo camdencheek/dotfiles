@@ -27,10 +27,15 @@
         relink: true
         create: true
         force: true
-        path: vim/Chasing_logic.vim
+        path: vim/Chasing_Logic.vim
     ~/.tmux.conf:
         relink: true
         create: true
         force: true
         path: tmux/tmux.conf
+    ~/.vimperatorrc:
+        relink: true
+        create: true
+        force: true
+        path: vimperator/vimperatorrc
 

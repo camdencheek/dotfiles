@@ -1,0 +1,15 @@
+" default search/suggest engine
+set defsearch=google
+set suggestengines=google
+
+" completion priority in :[tab]open
+set complete=bSl
+
+" a max number of listing items
+set maxitems=10
+
+set hintmatching=contains
+
+set followhints=1
+
+set focuscontent

@@ -28,6 +28,8 @@ let mapleader = "\<Space>"
 " Change escape sequence to  
 inoremap jk <ESC>
 xnoremap jk <ESC>
+nnoremap jk <ESC>
+cnoremap jk <ESC>
 
 " Change window navigation
 nnoremap <C-h> <C-w>h
