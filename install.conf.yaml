@@ -28,6 +28,10 @@
         create: true
         force: true
         path: vim/Chasing_Logic.vim
+    ~/.config/nvim/colors:
+        relink: true
+        create: true
+        force: true
     ~/.tmux.conf:
         relink: true
         create: true
