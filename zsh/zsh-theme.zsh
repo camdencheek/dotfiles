@@ -55,9 +55,9 @@ local dirty='$(parse_git_dirty)'
 # Prompt format: USER@MACHINE DIRECTORY on REPO:BRANCH STATE [TIME] \n $
 PROMPT="
 %{$terminfo[bold]$fg[blue]%}%{$reset_color%}\
-%{$fg[cyan]%}%n\
+%{$fg[green]%}%n\
 %{$fg[white]%}@\
-%{$fg[green]%}$(box_name) \
+%{$fg[red]%}$(box_name) \
 %{$fg[white]%}\
 %{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%}\
 ${git_info} 
