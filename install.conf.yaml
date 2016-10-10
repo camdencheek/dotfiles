@@ -43,11 +43,11 @@
         create: true
         force: true
         path: tmux/tmux.conf
-    ~/.vimperatorrc:
+    ~/.tmux/plugins/tpm:
         relink: true
         create: true
         force: true
-        path: vimperator/vimperatorrc
+        path: tmux/tpm
     ~/.sage/init.sage:
         relink: true
         create: true
