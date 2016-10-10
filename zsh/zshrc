@@ -1,22 +1,13 @@
-# Zplug
-
-source ~/.dotfiles/zsh/zplug/init.zsh
-
-zplug "felixr/docker-zsh-completion"
-zplug load
-
-# Path
-if [[ -e ~/.path ]]; then
-	source ~/.path
-fi
-
 # Shell Aliases
 
-alias em='emacs -nw'
 alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias nv='nvim'
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias open='xdg-open'
+
+# Tmsu aliases
+alias tag='tmsu tag'
 
 # Tmux aliases
 
@@ -24,11 +15,18 @@ alias ta='tmux attach-session -t '
 alias tn='tmux new -s '
 alias tl='tmux list-sessions'
 
+# Autojump
+
+source /etc/profile.d/autojump.sh
+
 # Config editing aliases
 
 alias ez='nvim ~/.zshrc'
 alias ev='nvim ~/.vimrc'
 alias et='nvim ~/.tmux.conf'
+
+# Extract alias
+alias extract='dtrx'
 
 # Determine ls type
 
@@ -37,23 +35,6 @@ if ls --color -d . > /dev/null 2>&1; then
 elif ls -G -d . > /dev/null 2>&1; then
 	alias ls=' ls -G'
 fi
-
-# Cmake aliases
-
-alias cm="cmake . && make"
-function cmgen {
-	source=$1
-	dir="$(pwd)"
-	cat > CMakeLists.txt << EOF
-cmake_minimum_required ( VERSION 3.5.0 )
-project ( $( basename $(pwd) ) )
-add_executable ( prog $source )
-target_compile_features ( prog PRIVATE cxx_range_for )
-set ( CMAKE_CXX_COMPILER "/usr/bin/clang++" )
-set ( CMAKE_CXX_FLAGS "-Wall" )
-EOF
-
-}
 
 # Git Aliases
 
@@ -69,40 +50,13 @@ alias gb='git branch'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 
-# Universal extract
-
-extract () {
-    if [ -f $1 ]; then
-        case $1 in
-            *.tar.bz2)  tar -jxvf $1                        ;;
-            *.tar.gz)   tar -zxvf $1                        ;;
-            *.bz2)      bunzip2 $1                          ;;
-            *.dmg)      hdiutil mount $1                    ;;
-            *.gz)       gunzip $1                           ;;
-            *.tar)      tar -xvf $1                         ;;
-            *.tbz2)     tar -jxvf $1                        ;;
-            *.tgz)      tar -zxvf $1                        ;;
-            *.zip)      unzip $1                            ;;
-            *.ZIP)      unzip $1                            ;;
-            *.pax)      cat $1 | pax -r                     ;;
-            *.pax.Z)    uncompress $1 --stdout | pax -r     ;;
-            *.rar)      unrar x $1                          ;;
-            *.Z)        uncompress $1                       ;;
-            *)          echo "'$1' cannot be extracted/mounted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
+# Tap caps lock for escape
+xcape -e 'Control_L=Escape'
 
 # Completion
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -U compinit && compinit
-
-# Keybindings
-
-bindkey -e
 
 # History
 
@@ -127,11 +81,11 @@ setopt extended_glob
 
 WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 
+# Vim keybindings
+bindkey -e
+
 # Terminal Colors
 
-if (( $+commands[grc] )) && (( $+commands[brew] )); then
-	source `brew --prefix`/etc/grc.bashrc
-fi
 autoload -U colors
 colors
 
@@ -150,12 +104,6 @@ White="${TC}37m";
 
 source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
 
-# Set Shell
-
-if [ -z ${SHELL+x} ]; then
-	export SHELL=$(which zsh)
-fi
-
 # Standard Configs
 
 export LANG=en_US.UTF-8
@@ -163,3 +111,5 @@ export TERM=screen-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
+export WINEPREFIX=$HOME/win32
+export WINEARCH=win32

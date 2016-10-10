@@ -23,6 +23,11 @@
         create: true
         force: true
         path: vim/vim-plug/plug.vim
+    ~/.config/nvim/autoload/plug.vim:
+        relink: true
+        create: true
+        force: true
+        path: vim/vim-plug/plug.vim
     ~/.vim/colors/Chasing_Logic.vim:
         relink: true
         create: true
@@ -43,4 +48,9 @@
         create: true
         force: true
         path: vimperator/vimperatorrc
+    ~/.sage/init.sage:
+        relink: true
+        create: true
+        force: true
+        path: ./sage/init.sage
 
