@@ -53,4 +53,9 @@
         create: true
         force: true
         path: ./sage/init.sage
+    ~/.cvimrc:
+        relink: true
+        create: true
+        force: true
+        path: ./cvim/cvimrc
 

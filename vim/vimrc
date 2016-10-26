@@ -4,13 +4,14 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'mbbill/undotree'
-Plug 'PProvost/vim-ps1'
 Plug 'tpope/vim-fugitive'
 Plug 'klen/python-mode'
-Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-surround'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'lervag/vimtex'
+Plug 'zchee/deoplete-jedi'
+Plug 'rhysd/vim-grammarous'
 
 call plug#end()
 
@@ -35,12 +36,6 @@ nnoremap <C-l> <C-w>l
 " Relative line number
 set relativenumber
 
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-
-" Write with sudo
-cmap w!! w !sudo tee > /dev/null %
-
 " Syntax Highlighting
 syntax on 
 colorscheme Chasing_Logic
@@ -49,6 +44,13 @@ filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set smarttab
+
+" Word Count for Latex
+function WordCount()
+	let wc =  system("texcount " . expand("%") . " | sed '3!d' | cut -d' ' -f 4") 
+	let g:wordcount = wc
+	return wc
+endfunction
 
 " Set Statusline
 set laststatus=2
@@ -67,9 +69,11 @@ let g:pymode_lint_ignore = "E501,E231,E225,E262,E251,E261,E302"
 let g:pymode_lint_cwindow = 0
 
 "" Deoplete
-let g:deoplete#enable_at_startup = 0
+let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
-let g:deoplete#auto_complete_start_length = 0
+let g:deoplete#disable_auto_complete = 1
+" Disable completion on tex files
+autocmd BufEnter *.tex :call deoplete#disable()
 
 " Clang_complete
 let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
@@ -100,14 +104,19 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 map <leader>/ <Plug>NERDCommenterInvert
 
+"Vim Latex settings
+let g:tex_comment_nospell=1
+
 " Reload
 nmap <leader>vr :source ~/.vimrc<cr>
 
-" Close vim if NerdTree is only buffer
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
+" Search Options
 set hlsearch
+set ignorecase
+set smartcase
+
 
 " Clear trailing whitespace in selected file types on save
 autocmd BufWritePre *.py,*.js,*.hs,*.html,*.css,*.scss :%s/\s\+$//e
+autocmd BufReadPre *.tex :set spell
+

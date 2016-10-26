@@ -1,0 +1,15 @@
+let configpath = '/home/ccheek/.cvimrc'
+set localconfig
+
+set smoothscroll
+set ignorecase
+set autohidecursor
+unmap x
+
+site '*://www.reddit.com/*' {
+	unmap j
+	unmap k
+	unmap [
+	unmap ]
+	set numerichints
+}
