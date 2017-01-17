@@ -10,12 +10,6 @@
     ~/.zshrc:
         force: true
         path: zsh/zshrc
-    ~/.config/nvim/init.vim:
+    ~/.local.vim:
         force: true
-        path: nvim/init.vim
-    ~/.local/share/nvim/site/autoload/plug.vim:
-        force: true
-        path: nvim/vim-plug/plug.vim
-    ~/.config/nvim/colors/desert.vim:
-        force: true
-        path: nvim/colorschemes/desert
+        path: nvim/local.vim
