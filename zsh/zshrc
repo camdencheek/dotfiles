@@ -1,10 +1,10 @@
-# Shell Aliases
 
+# Shell Aliases
 alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
-alias nv='nvim'
-alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
 alias open='xdg-open'
+alias todo='nvim ~/notes/todo.txt'
 
 # Tmsu aliases
 alias tag='tmsu tag'
@@ -13,16 +13,42 @@ alias tag='tmsu tag'
 
 alias ta='tmux attach-session -t '
 alias tn='tmux new -s '
-alias tl='tmux list-sessions'
+
+# Dir-scroller
+source ~/.dotfiles/zsh/plugins/zsh-dir-scroller/dir-scroller.zsh
+bindkey '^H' _dir_scroller_prev
+bindkey '^L' _dir_scroller_next
+
 
 # Autojump
 
 source /etc/profile.d/autojump.sh
 
+# Edit with nvim or sudo edit with nvim
+source ~/scripts/permissions.sh
+nv() {
+	if [ ! -a "$1" ] && can_write $(dirname $1); then
+		nvim $1
+		return
+	else
+		sudoedit $1
+		return
+	fi
+
+	if can_edit $1; then
+		nvim $1
+		return
+	else
+		sudoedit $1
+		return
+	fi
+}
+
+
 # Config editing aliases
 
-alias ez='nvim ~/.zshrc'
-alias ev='nvim ~/.vimrc'
+alias ez='nvim ~/.zshrc && source ~/.zshrc'
+alias ev='nvim ~/.config/nvim/init.vim'
 alias et='nvim ~/.tmux.conf'
 
 # Extract alias
@@ -54,6 +80,7 @@ alias gac='git add -A && git commit -m'
 xcape -e 'Control_L=Escape'
 
 # Completion
+bindkey '^Xr' most-recent-file
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -U compinit && compinit
@@ -113,3 +140,4 @@ export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export WINEPREFIX=$HOME/win32
 export WINEARCH=win32
+export VIRTUAL_ENV_DISABLE_PROMPT=1

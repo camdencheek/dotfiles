@@ -1,61 +1,21 @@
 - defaults:
     link:
         relink: true
+        create: true
+
 
 - clean: ['~']
 
 - link: 
     ~/.zshrc:
-        relink: true
         force: true
         path: zsh/zshrc
     ~/.config/nvim/init.vim:
-        relink: true
         force: true
-        create: true
-        path: vim/vimrc
-    ~/.vimrc:
-        relink: true
+        path: nvim/init.vim
+    ~/.local/share/nvim/site/autoload/plug.vim:
         force: true
-        path: vim/vimrc
-    ~/.vim/autoload/plug.vim:
-        relink: true
-        create: true
+        path: nvim/vim-plug/plug.vim
+    ~/.config/nvim/colors/desert.vim:
         force: true
-        path: vim/vim-plug/plug.vim
-    ~/.config/nvim/autoload/plug.vim:
-        relink: true
-        create: true
-        force: true
-        path: vim/vim-plug/plug.vim
-    ~/.vim/colors/Chasing_Logic.vim:
-        relink: true
-        create: true
-        force: true
-        path: vim/Chasing_Logic.vim
-    ~/.config/nvim/colors/Chasing_Logic.vim:
-        relink: true
-        create: true
-        force: true
-        path: vim/Chasing_Logic.vim
-    ~/.tmux.conf:
-        relink: true
-        create: true
-        force: true
-        path: tmux/tmux.conf
-    ~/.tmux/plugins/tpm:
-        relink: true
-        create: true
-        force: true
-        path: tmux/tpm
-    ~/.sage/init.sage:
-        relink: true
-        create: true
-        force: true
-        path: ./sage/init.sage
-    ~/.cvimrc:
-        relink: true
-        create: true
-        force: true
-        path: ./cvim/cvimrc
-
+        path: nvim/colorschemes/desert

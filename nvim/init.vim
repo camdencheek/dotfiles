@@ -7,22 +7,23 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'klen/python-mode'
 Plug 'tpope/vim-surround'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'rip-rip/clang_complete'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'lervag/vimtex'
-Plug 'zchee/deoplete-jedi'
 Plug 'rhysd/vim-grammarous'
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-repeat'
+Plug 'freitass/todo.txt-vim'
 
 call plug#end()
 
+set mouse=
 
-set timeout timeoutlen=200 ttimeoutlen=100
+set timeout timeoutlen=300 ttimeoutlen=200
 
 let mapleader = ","
 let g:mapleader = ","
-
-" Set clipboard for system clipboard
-set clipboard=unnamedplus
+let maplocalleader = ','
 
 " Disable completion docs buffer
 set completeopt-=preview
@@ -38,19 +39,20 @@ set relativenumber
 
 " Syntax Highlighting
 syntax on 
-colorscheme Chasing_Logic
+colorscheme desert
 
 filetype plugin indent on 
 set tabstop=4
 set shiftwidth=4
 set smarttab
 
-" Word Count for Latex
-function WordCount()
-	let wc =  system("texcount " . expand("%") . " | sed '3!d' | cut -d' ' -f 4") 
-	let g:wordcount = wc
-	return wc
-endfunction
+" Sneak
+nmap f <Plug>Sneak_s
+nmap F <Plug>Sneak_S
+xmap f <Plug>Sneak_s
+xmap F <Plug>Sneak_S
+omap f <Plug>Sneak_s
+omap F <Plug>Sneak_S
 
 " Set Statusline
 set laststatus=2
@@ -72,11 +74,16 @@ let g:pymode_lint_cwindow = 0
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#disable_auto_complete = 1
+
+"Clang Complete
+let g:clang_library_path='/usr/lib/libclang.so.3.9'
+
 " Disable completion on tex files
 autocmd BufEnter *.tex :call deoplete#disable()
-
-" Clang_complete
-let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+" Wrap at words on tex files
+autocmd BufEnter *.tex :set wrap linebreak
+" Spell check tex files
+autocmd BufReadPre *.tex :set spell
 
 " Undofile
 set undofile
@@ -115,8 +122,5 @@ set hlsearch
 set ignorecase
 set smartcase
 
-
 " Clear trailing whitespace in selected file types on save
 autocmd BufWritePre *.py,*.js,*.hs,*.html,*.css,*.scss :%s/\s\+$//e
-autocmd BufReadPre *.tex :set spell
-
