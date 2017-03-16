@@ -1,15 +1,15 @@
 - defaults:
-    link:
-        relink: true
-        create: true
+  link:
+    relink: true
+    create: true
+    force: true
 
 
 - clean: ['~']
 
+- shell:
+  - git submodule update --init --recursive
+
 - link: 
-    ~/.zshrc:
-        force: true
-        path: zsh/zshrc
-    ~/.local.vim:
-        force: true
-        path: nvim/local.vim
+  ~/.zshrc: zsh/zshrc
+  ~/.editorconfig: editorconfig/editorconfig
