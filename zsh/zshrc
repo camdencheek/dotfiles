@@ -10,6 +10,17 @@ alias clip='xargs echo -n | tee >(xsel --clipboard)'
 # Update all canvas files
 alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
 
+# cd aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# create parent directories automatically
+alias mkdir='mkdir -pv'
+
+#safety net
+alias rm='rm -I --preserve-root'
+
 # Autojump
 
 source /etc/profile.d/autojump.sh
