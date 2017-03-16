@@ -55,7 +55,20 @@ function box_name {
 
 
 # Directory info.
-local current_dir='${$(pwd)/#$HOME/~}'
+function formatted_dir {
+    long=${$(pwd)/#$HOME/\~}
+    if [[ ${#long} -gt 40 ]]; then
+        if [ ${long[1]} = "~" ]; then
+            echo "~/.../$(basename $(pwd))"
+        else
+            echo "/.../$(basename $(pwd))"
+        fi
+    else
+        echo ${long}
+    fi
+}
+#local current_dir='${$(pwd)/#$HOME/~}'
+local current_dir='$(formatted_dir)'
 
 # Git info.
 
