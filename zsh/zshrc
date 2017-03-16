@@ -4,29 +4,28 @@ alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
 alias open='xdg-open'
-alias todo='nvim ~/notes/todo.txt'
-
-# Tmsu aliases
-alias tag='tmsu tag'
-
-# Tmux aliases
-
-alias ta='tmux attach-session -t '
-alias tn='tmux new -s '
-
-# Dir-scroller
-source ~/.dotfiles/zsh/plugins/zsh-dir-scroller/dir-scroller.zsh
-bindkey '^H' _dir_scroller_prev
-bindkey '^L' _dir_scroller_next
-
+alias todo='nvim ~/notes/todo.org'
+# Output and copy to clipboard without trailing newline
+alias clip='xargs echo -n | tee >(xsel --clipboard)'
+# Update all canvas files
+alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
 
 # Autojump
 
 source /etc/profile.d/autojump.sh
 
+sha() {
+    sha256sum $1 | cut -d' ' -f1 | tee >(tr -d '[:space:]' | xsel --clipboard) 
+}
+
 # Edit with nvim or sudo edit with nvim
 source ~/scripts/permissions.sh
 nv() {
+    if [ ! -n "$1" ]; then
+        nvim
+        return
+    fi
+
 	if [ ! -a "$1" ] && can_write $(dirname $1); then
 		nvim $1
 		return
@@ -48,7 +47,7 @@ nv() {
 # Config editing aliases
 
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
-alias ev='nvim ~/.config/nvim/init.vim'
+alias ev='nvim ~/.SpaceVim.d/init.vim'
 alias et='nvim ~/.tmux.conf'
 
 # Extract alias
@@ -75,9 +74,6 @@ alias gcl='git clean -dix'
 alias gb='git branch'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
-
-# Tap caps lock for escape
-xcape -e 'Control_L=Escape'
 
 # Completion
 bindkey '^Xr' most-recent-file
@@ -141,3 +137,5 @@ export VISUAL=$EDITOR
 export WINEPREFIX=$HOME/win32
 export WINEARCH=win32
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+
