@@ -56,15 +56,27 @@ function box_name {
 
 # Directory info.
 function formatted_dir {
-    long=${$(pwd)/#$HOME/\~}
-    if [[ ${#long} -gt 40 ]]; then
-        if [ ${long[1]} = "~" ]; then
-            echo "~/.../$(basename $(pwd))"
-        else
-            echo "/.../$(basename $(pwd))"
-        fi
+    initial=${$(pwd)/#$HOME/\~}
+    end_string="${initial}"
+    if [[ ${#end_string} -le 40 ]]; then
+        echo ${end_string}
     else
-        echo ${long}
+        # requires extended_glob
+        end_string=${end_string#(\~)#/}
+        while [ ${#end_string} -gt 40 ]; do
+            temp_end_string=${end_string#*/}
+            echo "E: ${end_string}\nT: ${temp_end_string}\n\n" >> ~/debug
+            if [ ${#end_string} = ${#temp_end_string} ]; then
+                end_string=${temp_end_string}
+                break
+            fi
+            end_string=${temp_end_string}
+        done
+        if [[ ${initial[1]} = "~" ]]; then
+            echo "~/.../${end_string}"
+        else
+            echo "/.../${end_string}"
+        fi
     fi
 }
 #local current_dir='${$(pwd)/#$HOME/~}'
