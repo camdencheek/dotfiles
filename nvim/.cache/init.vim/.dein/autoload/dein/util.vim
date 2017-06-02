@@ -327,8 +327,9 @@ function! dein#util#_save_state(is_starting) abort
         \ .'/state_'.fnamemodify(v:progname, ':r').'.vim')
 endfunction
 function! dein#util#_clear_state() abort
-  for cache in dein#util#_globlist(g:dein#_base_path.'/state_*.vim')
-        \ + dein#util#_globlist(g:dein#_base_path.'/cache_*')
+  let base = get(g:, 'dein#cache_directory', g:dein#_base_path)
+  for cache in dein#util#_globlist(base.'/state_*.vim')
+        \ + dein#util#_globlist(base.'/cache_*')
     call delete(cache)
   endfor
 endfunction
@@ -653,10 +654,18 @@ function! s:tsort_impl(target, mark, sorted) abort
 endfunction
 
 function! dein#util#_check_install(plugins) abort
-  let plugins = filter(empty(a:plugins) ? values(dein#get()) :
-        \ filter(map(dein#util#_convert2list(a:plugins),
-        \ 'dein#get(v:val)'), '!empty(v:val)'),
-        \     '!isdirectory(v:val.path)')
+  if !empty(a:plugins)
+    let invalids = filter(dein#util#_convert2list(a:plugins),
+          \ 'empty(dein#get(v:val))')
+    if !empty(invalids)
+      call dein#util#_error('Invalid plugins: ' .
+            \ string(map(invalids, 'v:val')))
+      return -1
+    endif
+  endif
+  let plugins = empty(a:plugins) ? values(dein#get()) :
+        \ map(dein#util#_convert2list(a:plugins), 'dein#get(v:val)')
+  let plugins = filter(plugins, '!isdirectory(v:val.path)')
   if empty(plugins) | return 0 | endif
   call dein#util#_notify('Not installed plugins: ' .
         \ string(map(plugins, 'v:val.name')))

@@ -1148,35 +1148,84 @@ Options~
 
   Default value: 1
 
+*g:vimtex_toc_custom_matchers*
+  This option is a list of custom TOC matchers. A matcher is used to define
+  the entries that are included in the TOC window. It is implemented as
+  a |Dictionary| with a specified set of keys, see below for the
+  specification.
+
+  As an example, one can use this option to add TOC entries for a custom
+  environment. Say you have defined an environment `mycustomenv`, then
+  instances of this environment could be added to the TOC with the following
+  configuration: >
+
+    let g:vimtex_toc_custom_matchers = [
+            \ { 'title' : 'My Custom Environment',
+            \   're' : '\v^\s*\\begin\{mycustomenv\}' }
+            \]
+<
+  Default value: []
+
+                                                    *toc_matcher_specification*
+  A TOC matcher is defined as a |Dictionary| where the possible keys are
+  specified below. In order to write a matcher, one should also be aware of
+  the `context` argument that is passed to the matcher functions, as well as
+  the specification of the `toc entry` return value. However, since this kind
+  of customization is advanced I refer users to the source file for further
+  specification of these objects. In particular, see the function
+  `s:toc.parse(...)` in `autoload/vimtex/toc.vim`.
+
+    re~
+      Type: |String|
+      Required: `yes`
+      This specifies a regular expression that should match the current line
+      for the desired TOC entry.
+
+    title~
+      Type: |String|
+      Required: `no`
+      If the matcher does not have an `action` or `get_entry` key, then it
+      will use a simple, general matcher function to generate the entry. In
+      this case, the `title` key should be specified to give the title of the
+      TOC entry.
+
+    action~
+      Type: |Dictionary-function|
+      Arguments: `context`
+      Required: `no`
+      This key specifies a general action to be performed with the given
+      context on matching lines. It will not add entries to the TOC, and
+      is probably not useful for most people.
+
+    get_entry~
+      Type: |Dictionary-function|
+      Arguments: `context`
+      Returns: `toc entry`
+      Required: `no`
+      This is the general way to define TOC entries. It allows to define the
+      TOC entry based on the context. See e.g.
+      `g:vimtex#toc#matchers#sections` for an example on how to use this.
+
+    continue~
+      Type: |Dictionary-function|
+      Arguments: `context`
+      Returns: `toc entry`
+      Required: `no`
+      Some entries may be specified over several lines, in which case this key
+      becomes necessary in combination with the `get_entry` key. See the built
+      in matcher `g:vimtex#toc#matchers#sections` for an example on how to use
+      this.
+
 *g:vimtex_toc_fold*
   Turn on folding of ToC entries.
 
   Default value: 0
 
-*g:vimtex_toc_fold_levels*
-  This option controls the number of fold levels that will be used if the
-  folding of the ToC is enabled.
+*g:vimtex_toc_fold_level_start*
+  This option controls the initial fold level for the TOC window if folding is
+  enabled.
 
-  Default value: 1
-
-*g:vimtex_toc_show_preamble*
-  Whether to include the preamble in the ToC.
-
-  Default value: 1
-
-*g:vimtex_toc_show_numbers*
-  Set whether or not to show section numbers in ToC.
-
-  Note: The numbers may also be toggled inside the ToC window with the `s`
-        keybinding.
-
-  Default value: 1
-
-*g:vimtex_toc_number_width*
-  Set the display width of numbers in the ToC.  If it is set to 0, then the
-  width is set based on the section depth, see |g:vimtex_toc_tocdepth|.
-
-  Default value: 0
+  Default value: Same as |g:vimtex_toc_tocdepth|
 
 *g:vimtex_toc_refresh_always*
   Set to 0 to manually refresh ToC entries. This may be useful for very large
@@ -1196,11 +1245,26 @@ Options~
 <
   Default value: 1
 
+*g:vimtex_toc_show_preamble*
+  Whether to include the preamble in the ToC.
+
+  Default value: 1
+
+*g:vimtex_toc_show_numbers*
+  Set whether or not to show section numbers in ToC.
+
+  Note: The numbers may also be toggled inside the ToC window with the `s`
+        keybinding.
+
+  Default value: 1
+
 *g:vimtex_toc_tocdepth*
-  Define the number of section levels with section numbering.  Set level
-  corresponding to the desired latex variable `tocdepth`.  For more info on
-  `tocdepth`, see:
+  Define the number of section levels to display.  Set level corresponding to
+  the desired latex variable `tocdepth`.  For more info on `tocdepth`, see:
   http://en.wikibooks.org/w/index.php?title=LaTeX/Document_Structure
+
+  Note: This will also change the width of the number column according to the
+        space needed to show the section numbers.
 
   Note: The variable may be updated inside the ToC window with the mappings
         `+` and `-`.
@@ -1353,6 +1417,17 @@ Options~
         callback to update the viewer.
 
   Default value: 0
+
+*g:vimtex_view_forward_search_on_start*
+  If disabled, the first invocation of the viewer will not perform a forward
+  search to the current cursor position.
+
+  Note: This option is only relevant for the following view methods (see
+  |g:vimtex_view_method|):
+    'mupdf'
+    'zathura'
+
+  Default value: 1
 
 *g:vimtex_view_general_viewer*
   Use generic viewer application, see |vimtex_viewer_general|.
@@ -1996,6 +2071,7 @@ may use: >
         \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
         \ . '|usepackage(\s*\[[^]]*\])?\s*\{[^}]*'
         \ . '|documentclass(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|\w*'
         \ .')'
 
 Note: I don't personally use |deoplete|, and I have not tested the above
@@ -2169,8 +2245,8 @@ Table of contents~
 The ToC entries may be activated/jumped to with <cr> or <space>.  The local
 keybindings are described if |g:vimtex_index_show_help| is enabled.
 
-One may force entries into the ToC through designated comments with the
-following syntax: >
+One may force file input entries into the ToC through designated comments with
+the following syntax: >
 
   % vimtex-include: /path/to/file
 
@@ -2181,11 +2257,16 @@ that was included in this manner will be linked to the current vimtex project,
 and thus the ToC and similar commands will be available, even if the file is
 not a LaTeX file.
 
+The TOC parser uses a list of matchers to parse the LaTeX project for the TOC
+entries. One may add custom matchers through |g:vimtex_toc_custom_matchers|.
+See also |toc_matcher_specification| for a specification of the matcher
+objects.
+
 Associated settings:
     |g:vimtex_toc_enabled|
+    |g:vimtex_toc_custom_matchers|
     |g:vimtex_toc_fold|
-    |g:vimtex_toc_fold_levels|
-    |g:vimtex_toc_number_width|
+    |g:vimtex_toc_fold_level_start|
     |g:vimtex_toc_refresh_always|
     |g:vimtex_toc_show_preamble|
     |g:vimtex_toc_show_numbers|
@@ -2725,6 +2806,14 @@ The following changelog only logs particularly important changes, such as
 changes that break backwards compatibility.  See the git log for the detailed
 changelog.
 
+2017-05-20: Updated TOC options~
+There's been a few updates to the TOC. During this work, I removed some
+unecessary options.
+
+Deprecated options:
+    *g:vimtex_toc_fold_levels*  (was not necessary)
+    *g:vimtex_toc_number_width*  (see |g:vimtex_toc_tocdepth|)
+
 2017-03-31: Refactored quickfix related features~
 I've added a more general layer for handling different error parsers.
 Currently there are few or now changes from the user point of view, but this
@@ -2739,8 +2828,8 @@ Added a general compiler interface, see |vimtex-compiler|.  To configure the
 `latexmk` compiler, see |g:vimtex_compiler_latexmk|.
 
 Deprecated options:
-    *g:vimtex_latexmk_enabled* (use |g:vimtex_compiler_progname|)
-    *g:vimtex_latexmk_progname* (use |g:vimtex_compiler_enabled|)
+    *g:vimtex_latexmk_enabled* (use |g:vimtex_compiler_enabled|)
+    *g:vimtex_latexmk_progname* (use |g:vimtex_compiler_progname|)
     *g:vimtex_latexmk_callback_hooks* (use |g:vimtex_compiler_callback_hooks|)
     *g:vimtex_latexmk_callback*
     *g:vimtex_latexmk_autojump*

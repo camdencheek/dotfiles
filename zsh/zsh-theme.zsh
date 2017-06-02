@@ -1,25 +1,17 @@
 parse_git_dirty () {
-	local STATUS=''
-	local FLAGS
-	FLAGS=('--porcelain')
-	if [[ "$(command git config --get oh-my-zsh.hide-dirty)" != "1" ]]
-	then
-		if [[ $POST_1_7_2_GIT -gt 0 ]]
-		then
-			FLAGS+='--ignore-submodules=dirty'
-		fi
-		if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" = "true" ]]
-		then
-			FLAGS+='--untracked-files=no'
-		fi
-		STATUS=$(command git status ${FLAGS} 2> /dev/null | tail -n1)
-	fi
-	if [[ -n $STATUS ]]
-	then
-		echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+	setopt localoptions noshwordsplit
+	local untracked_dirty=$1 dir=$2
+
+	# use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
+	builtin cd -q $dir
+
+	if [[ $untracked_dirty = 0 ]]; then
+		command git diff --no-ext-diff --quiet --exit-code
 	else
-		echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
+		test -z "$(command git status --porcelain --ignore-submodules -unormal)"
 	fi
+
+	return $?
 }
 
 git_prompt_info () {

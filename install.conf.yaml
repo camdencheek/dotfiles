@@ -8,3 +8,5 @@
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
     ~/.config/nvim: nvim
+    ~/.config/zsh/autoload/prompt_pure_setup: zsh/pure/pure.zsh
+    ~/.config/zsh/autoload/async: zsh/pure/async.zsh

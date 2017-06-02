@@ -68,6 +68,15 @@ function! s:shellslash(path) abort
   endif
 endfunction
 
+let s:executables = {}
+
+function! s:executable(binary) abort
+  if !has_key(s:executables, a:binary)
+    let s:executables[a:binary] = executable(a:binary)
+  endif
+  return s:executables[a:binary]
+endfunction
+
 let s:git_versions = {}
 
 function! s:git_command() abort
@@ -975,11 +984,14 @@ function! s:StageToggle(lnum1,lnum2) abort
         continue
       endif
       execute lnum
-      if filename =~ ' -> '
-        let cmd = ['mv','--'] + reverse(split(filename,' -> '))
-        let filename = cmd[-1]
-      elseif section ==# 'staged'
-        let cmd = ['reset','-q','--',filename]
+      if section ==# 'staged'
+        if filename =~ ' -> '
+          let files_to_unstage = split(filename,' -> ')
+        else
+          let files_to_unstage = [filename]
+        endif
+        let filename = files_to_unstage[-1]
+        let cmd = ['reset','-q','--'] + files_to_unstage
       elseif getline(lnum) =~# '^#\tdeleted:'
         let cmd = ['rm','--',filename]
       elseif getline(lnum) =~# '^#\tmodified:'
@@ -1121,7 +1133,7 @@ function! s:Commit(args, ...) abort
       elseif error ==# '!'
         return s:Status()
       else
-        call s:throw(error)
+        call s:throw(empty(error)?join(errors, ' '):error)
       endif
     endif
   catch /^fugitive:/
@@ -1388,6 +1400,7 @@ function! s:Edit(cmd,bang,...) abort
             endif
           endif
         endfor
+        diffoff!
       endif
     endif
   endif
@@ -2193,7 +2206,7 @@ function! s:BlameSyntax() abort
       continue
     endif
     let seen[hash] = 1
-    if &t_Co > 16 && exists('g:CSApprox_loaded')
+    if &t_Co > 16 && get(g:, 'CSApprox_loaded') && !empty(findfile('autoload/csapprox/per_component.vim', escape(&rtp, ' ')))
           \ && empty(get(s:hash_colors, hash))
       let [s, r, g, b; __] = map(matchlist(hash, '\(\x\x\)\(\x\x\)\(\x\x\)'), 'str2nr(v:val,16)')
       let color = csapprox#per_component#Approximate(r, g, b)
@@ -2222,6 +2235,8 @@ endfunction
 " Section: Gbrowse
 
 call s:command("-bar -bang -range=0 -nargs=* -complete=customlist,s:EditComplete Gbrowse :execute s:Browse(<bang>0,<line1>,<count>,<f-args>)")
+
+let s:redirects = {}
 
 function! s:Browse(bang,line1,count,...) abort
   try
@@ -2328,13 +2343,24 @@ function! s:Browse(bang,line1,count,...) abort
     else
       let remote_for_url = remote
     endif
-    if fugitive#git_version() =~# '^[01]\.|^2\.[0-6]\.'
+    if fugitive#git_version() =~# '^[01]\.\|^2\.[0-6]\.'
       let raw = s:repo().git_chomp('config','remote.'.remote_for_url.'.url')
     else
       let raw = s:repo().git_chomp('remote','get-url',remote_for_url)
     endif
     if raw ==# ''
       let raw = remote
+    endif
+
+    if raw =~# '^https\=://' && s:executable('curl')
+      if !has_key(s:redirects, raw)
+        let s:redirects[raw] = matchstr(system('curl -I ' .
+              \ s:shellesc(raw . '/info/refs?service=git-upload-pack')),
+              \ 'Location: \zs\S\+\ze/info/refs?')
+      endif
+      if len(s:redirects[raw])
+        let raw = s:redirects[raw]
+      endif
     endif
 
     for Handler in g:fugitive_browse_handlers

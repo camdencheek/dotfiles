@@ -143,12 +143,10 @@ name: >
     " working directory (runs "lint --option x"):
     :Neomake! c_lint
 <
-                                                        *neomake-{{makepath}}*
-                                                        *neomake-!!makepath!!*
+                                                           *neomake-args-file*
 When running a maker on a file with |:Neomake|, you may want to control where
 in the `args` list the file's path will appear. To do this, insert '%:p' in
-the `args` list. {{makepath}} and !!makepath!! are no longer used for this,
-but will be retained in the docs for discoverability: >
+the `args` list:  >
     let g:neomake_c_lint_maker = {
         \ 'exe': 'lint',
         \ 'args': ['%:p', '--option', 'x'],
@@ -195,21 +193,21 @@ You can define two optional properties on a maker object to process its
 output: `mapexpr` is applied to the maker's output before any processing, and
 `postprocess` is applied to each of the quickfix or location list entries.
 
-The `mapexpr` property will be passed directly into |map()| as the `expr`
-argument like so: >
+The `mapexpr` property gets passed directly into |map()| as the `expr`
+argument: >
     call map(lines, maker.mapexpr)
 <where `lines` contains the maker output.
 
 The following variables are available in the `mapexpr`:
 
  - `neomake_output_source`: either "stderr" or "stdout", depending on
-   where the output is coming from.  This will be "stdout" always for
+   where the output is coming from. This will be "stdout" always for
    non-async Vim.
  - `neomake_bufname` and `neomake_bufdir`: the buffer's name (|bufname()|) and
    directory, respectively.
 
-The `mapexpr` itself is being evaluated in the context of the affected buffer
-in file mode, and in the context of the buffer that is current when the maker
+The `mapexpr` itself gets evaluated in the context of the affected buffer in
+file mode, and in the context of the buffer that is current when the maker
 finished otherwise.
 
 The following `mapexpr` could be used to prefix the output type: >
@@ -311,6 +309,11 @@ but disable it for some maker only: >
         let g:neomake_tempfile_enabled = 1
         let g:neomake_<ft>_<name>_tempfile_enabled = 0
 <
+                                                *neomake-makers-output_stream*
+Default: "both" ("stdout", "stderr", "both")
+The `output_stream` setting specifies what stream gets used for output from
+the maker.
+Any output on a stream not configured here gets reported as unexpected output.
 
 Global Options                                               *neomake-options*
 
@@ -511,16 +514,15 @@ functions useful.
 *neomake#Make* (options)
 This is the main entrypoint to Neomake, used by the |:Neomake| (and
 |:Neomake!|) command.
-It will run all the given makers, in order.
 
 `options` is a dictionary, and might include:
 - `file_mode`: 1 if the makers should get run against a single file (typically
   used for linting). Default: 1.
 - `enabled_makers`: the makers to use (list). Default: uses configuration.
 
-Returns: a list of job ids.
+Returns: a list of jobinfo objects (|neomake-object-jobinfo|).
 
-Deprecated~
+Deprecated interface (with different return value)~
 The old and deprecated API will accept the following arguments instead of the
 `options` dict: filemode, enabled_makers[, exit_callback].
 The `exit_callback` (which should get replaced by using the
@@ -529,6 +531,7 @@ as its sole argument: >
     { 'status': <exit status of maker>,
     \ 'name': <maker name>,
     \ 'has_next': <1 if another maker follows, 0 otherwise> }
+Returns: a list of job ids.
 
 *neomake#Sh* (command[, callback])
 This function is called by the |:NeomakeSh| command. It runs the specified
@@ -619,16 +622,16 @@ get triggered, e.g. |WinEnter| for the qf window that gets opened/created): >
     augroup END
 <
                                                              *NeomakeFinished*
-The NeomakeFinished autocommand gets triggered after all jobs for a call to
-|:Neomake| etc have finished.
+The NeomakeFinished user autocommand gets triggered after all jobs of a build
+have finished.
 You can use this to e.g. close an empty location or quickfix window.
 Context:
  - `g:neomake_hook_context.jobinfo`: see |neomake-object-jobinfo|.
 
                                                         *NeomakeCountsChanged*
-The NeomakeCountsChanged autocommand gets triggered after counts for the
-location/quickfix list have changed, i.e. the list got reset or new errors
-have been added.
+The NeomakeCountsChanged user autocommand gets triggered after counts for the
+location/quickfix list have changed, either because the list got reset or new
+entries got added.
 You can use this to e.g. update the statusline.
 Context:
  - `g:neomake_hook_context.reset`: 1 if the list got reset, 0 otherwise.
@@ -675,7 +678,6 @@ using this option: >
 
     let g:quickfixsigns_protect_sign_rx = '^neomake_'
 <
-
 6.2 How to configure the makers to be used?~
 
 See |g:neomake_<ft>_enabled_makers| (press `<C-]>` on the link to go there).

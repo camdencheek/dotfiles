@@ -13,3 +13,6 @@
 [submodule "nvim/vim-plug"]
 	path = nvim/vim-plug
 	url = https://github.com/junegunn/vim-plug
+[submodule "zsh/pure"]
+	path = zsh/pure
+	url = git@github.com:sindresorhus/pure.git
