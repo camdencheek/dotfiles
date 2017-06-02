@@ -13,9 +13,12 @@
 [submodule "nvim/vim-plug"]
 	path = nvim/vim-plug
 	url = https://github.com/junegunn/vim-plug
-[submodule "zsh/pure"]
-	path = zsh/pure
-	url = git@github.com:sindresorhus/pure.git
 [submodule "zsh/zsh-syntax-highlighting"]
 	path = zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh/--force"]
+	path = zsh/--force
+	url = git@github.com:ccheek21/pure.git
+[submodule "zsh/pure"]
+	path = zsh/pure
+	url = git@github.com:ccheek21/pure.git
