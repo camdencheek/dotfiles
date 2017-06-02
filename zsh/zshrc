@@ -187,4 +187,4 @@ export WORKON_HOME=~/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 
 
-
+source /home/ccheek/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
