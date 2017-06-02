@@ -19,3 +19,6 @@
 [submodule "zsh/zsh-syntax-highlighting"]
 	path = zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "nvim/autoload/dein.vim"]
+	path = nvim/autoload/dein.vim
+	url = git@github.com:Shougo/dein.vim.git
