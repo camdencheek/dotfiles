@@ -65,7 +65,6 @@ function formatted_dir {
         end_string=${end_string#(\~)#/}
         while [ ${#end_string} -gt 40 ]; do
             temp_end_string=${end_string#*/}
-            echo "E: ${end_string}\nT: ${temp_end_string}\n\n" >> ~/debug
             if [ ${#end_string} = ${#temp_end_string} ]; then
                 end_string=${temp_end_string}
                 break

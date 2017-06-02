@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/var/bricsys/bricscad/Do-NOT-Touch-Anything-in-This-RLM-Directory/11111l1ll1111ll1llllllllllllllll'
+let g:netrw_dirhist_2='/home/ccheek/marcqi/generate/notes/misc'
+let g:netrw_dirhist_3='/home/ccheek/marcqi/generate/revgen'
+let g:netrw_dirhist_4='/home/ccheek/projects/project_euler/p001'
+let g:netrw_dirhist_5='/home/ccheek/projects/project_euler'
+let g:netrw_dirhist_6='/home/ccheek/marcqi/notes/vimwiki/diary'
+let g:netrw_dirhist_7='/home/ccheek/marcqi/notes/vimwiki'
+let g:netrw_dirhist_8='/home/ccheek/.virtualenvs'

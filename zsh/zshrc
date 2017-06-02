@@ -1,13 +1,47 @@
+export PATH="$HOME/scripts:$PATH"
+export LANG=en_US.UTF-8
+export TERM=screen-256color
+export EDITOR=nvim
+export USE_EDITOR=$EDITOR
+export VISUAL=$EDITOR
+export WINEPREFIX=$HOME/win32
+export WINEARCH=win32
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+export ZPLUG_HOME=$HOME/.config/zplug
+
+# PLUGINS
+source ~/.config/zplug/init.zsh
+
+zplug MichaelAquilina/zsh-autoswitch-virtualenv
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
+
 # Shell Aliases
 alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
 alias open='xdg-open'
-alias todo='nvim ~/notes/todo.org'
+alias todo='task next'
 # Output and copy to clipboard without trailing newline
 alias clip='xargs echo -n | tee >(xsel --clipboard)'
 # Update all canvas files
 alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
+alias f='find . -name'
+alias vtask='nvim -c "TW"'
+alias tr='trash'
+alias rm='echo "Use trash!"'
+alias mv='mv -i'
+alias conky='~/.config/conky/conky.sh'
 
 # cd aliases
 alias ..='cd ..'
@@ -17,8 +51,10 @@ alias ....='cd ../../..'
 # create parent directories automatically
 alias mkdir='mkdir -pv'
 
-#safety net
-alias rm='rm -I --preserve-root'
+# Copy path to file
+function cpth() {
+    realpath $1 | xargs echo -n | xsel --clipboard
+}
 
 # Autojump
 
@@ -27,6 +63,7 @@ source /etc/profile.d/autojump.sh
 sha() {
     sha256sum $1 | cut -d' ' -f1 | tee >(tr -d '[:space:]' | xsel --clipboard) 
 }
+
 
 # Edit with nvim or sudo edit with nvim
 source ~/scripts/permissions.sh
@@ -57,7 +94,7 @@ nv() {
 # Config editing aliases
 
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
-alias ev='nvim ~/.SpaceVim.d/init.vim'
+alias ev='nvim ~/.config/nvim/init.vim'
 alias et='nvim ~/.tmux.conf'
 
 # Extract alias
@@ -142,13 +179,9 @@ source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
 
 setopt extended_glob
 
-export LANG=en_US.UTF-8
-export TERM=screen-256color
-export EDITOR=nvim
-export USE_EDITOR=$EDITOR
-export VISUAL=$EDITOR
-export WINEPREFIX=$HOME/win32
-export WINEARCH=win32
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+# Virtualenv
+export WORKON_HOME=~/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh
+
+
 

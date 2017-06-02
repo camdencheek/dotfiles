@@ -1,0 +1,73 @@
+*automkdir*   Autocommand to create dirs as needed
+*automkdir-plugin*
+
+Automkdir
+
+Author: Benjamin R. Haskell - benizi
+
+==============================================================================
+CONTENTS                                            *automkdir-contents* {{{1
+
+1. Contents..........................................|automkdir-contents|
+2. Use a Vim plugin manager..........................|automkdir-managers|
+3. Installation.......................................|automkdir-install|
+4. Usage................................................|automkdir-usage|
+5. Caveats............................................|automkdir-caveats|
+
+==============================================================================
+PLUGIN MANAGERS                                     *automkdir-managers* {{{1
+
+If you don't already use a Vim plugin manager, install one now.
+
+Vundle:
+
+    https://github.com/VundleVim/Vundle.vim#readme
+
+or NeoBundle:
+
+    https://github.com/Shougo/neobundle.vim#readme
+
+or vim-addon-manager (VAM):
+
+    https://github.com/MarcWeber/vim-addon-manager
+
+==============================================================================
+INSTALLATION                                         *automkdir-install* {{{1
+
+To install, do one of the following:
+
+1. Using Vundle, add this to your .vimrc: >
+
+  Plugin 'benizi/vim-automkdir'
+<
+
+Then run: >
+
+  :PluginInstall
+<
+
+2. Using NeoBundle, add this to your .vimrc: >
+
+  NeoBundle 'github:benizi/vim-automkdir'
+<
+
+Then run: >
+
+  :NeobundleInstall
+<
+
+3. Using VAM: >
+
+  :InstallAddons github:benizi/vim-automkdir
+<
+
+==============================================================================
+USAGE                                                  *automkdir-usage* {{{1
+
+It's automatic.
+
+==============================================================================
+CAVEATS                                              *automkdir-caveats* {{{1
+
+Requires a Vim with a built-in |mkdir()|, or an external `mkdir` command that
+accepts the -p argument.  (POSIX)
