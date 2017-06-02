@@ -12,7 +12,7 @@ if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
 endif
 
 
-set runtimepath+=~/.config/nvim/repos/github.com/Shougo/dein.vim/
+set runtimepath+=~/.config/nvim/autoload/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.config/nvim'))
 call dein#add('Shougo/dein.vim')
 call dein#add('christoomey/vim-tmux-navigator')
@@ -51,7 +51,6 @@ call dein#add('scrooloose/nerdcommenter')
 call dein#add('editorconfig/editorconfig-vim', { 'on_cmd' : 'EditorConfigReload'})
 call dein#add('tpope/vim-repeat')
 
-" Git
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-rhubarb', {'merged': 0})
 
