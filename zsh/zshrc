@@ -15,7 +15,7 @@ fpath=("$HOME/.config/zsh/functions" $fpath)
 source /usr/share/zsh/scripts/zplug/init.zsh
 
 #zplug MichaelAquilina/zsh-autoswitch-virtualenv
-source ~/projects/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
+zplug MichaelAquilina/zsh-autoswitch-virtualenv
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -179,10 +179,10 @@ setopt extended_glob
 
 # Virtualenv
 export WORKON_HOME=~/.virtualenvs
-source ~/.local/bin/virtualenvwrapper.sh
+source /usr/bin/virtualenvwrapper.sh
 
 
-source /home/ccheek/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 
