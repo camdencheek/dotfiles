@@ -285,7 +285,7 @@ syntax on
 filetype plugin on
 hi def link VimwikiEqIn Normal
 let g:vimwiki_list = [
-            \ {'path': '~/marcqi/notes/', 
+            \ {'path': '~/marcqi/gen3/notes/', 
             \ 'css_name': 'default.css', 
             \ 'syntax': 'markdown',
             \ 'ext': '.md',
@@ -294,3 +294,10 @@ let g:vimwiki_list = [
             \ {'path': '~/notes/vimwiki'}]
 
 let indent_guides_guide_size = 1
+
+"This allows for change paste motion cp{motion}
+nmap <silent> cp :set opfunc=ChangePaste<CR>g@
+function! ChangePaste(type, ...)
+    silent exe "normal! `[v`]\"_c"
+    silent exe "normal! p"
+endfunction
