@@ -12,7 +12,7 @@ export ZPLUG_HOME=$HOME/.config/zplug
 
 # PLUGINS
 fpath=("$HOME/.config/zsh/functions" $fpath)
-source ~/.config/zplug/init.zsh
+source /usr/share/zsh/scripts/zplug/init.zsh
 
 zplug MichaelAquilina/zsh-autoswitch-virtualenv
 
