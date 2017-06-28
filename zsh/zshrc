@@ -14,7 +14,8 @@ export ZPLUG_HOME=$HOME/.config/zplug
 fpath=("$HOME/.config/zsh/functions" $fpath)
 source /usr/share/zsh/scripts/zplug/init.zsh
 
-zplug MichaelAquilina/zsh-autoswitch-virtualenv
+#zplug MichaelAquilina/zsh-autoswitch-virtualenv
+source ~/projects/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -32,17 +33,14 @@ alias sup='sudo $(fc -ln -1)'
 alias sudo='sudo '
 alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
 alias open='xdg-open'
-alias todo='task next'
 # Output and copy to clipboard without trailing newline
 alias clip='xargs echo -n | tee >(xsel --clipboard)'
 # Update all canvas files
 alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
 alias f='find . -name'
-alias vtask='nvim -c "TW"'
 alias tr='trash'
 alias rm='echo "Use trash!"'
 alias mv='mv -i'
-alias conky='~/.config/conky/conky.sh'
 
 # cd aliases
 alias ..='cd ..'
@@ -185,3 +183,9 @@ source ~/.local/bin/virtualenvwrapper.sh
 
 
 source /home/ccheek/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+setopt INTERACTIVE_COMMENTS
+ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
+
+SOURCE_LANG='german'
+TARGET_LANG='english'
+alias etrans='trans -source english -target german'
