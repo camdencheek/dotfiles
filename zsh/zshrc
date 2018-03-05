@@ -1,4 +1,4 @@
-export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/scripts:/home/ccheek/.gem/ruby/2.4.0/bin:$PATH:/usr/local/bin"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -9,6 +9,8 @@ export WINEARCH=win32
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
 export ZPLUG_HOME=$HOME/.config/zplug
+
+source ~/neuron/nrnenv
 
 # PLUGINS
 fpath=("$HOME/.config/zsh/functions" $fpath)
@@ -29,17 +31,17 @@ fi
 zplug load
 
 # Shell Aliases
-alias sup='sudo $(fc -ln -1)'
+alias org='nvim /home/ccheek/notes/notes.org'
+alias todo='nvim /home/ccheek/notes/todo'
 alias sudo='sudo '
+alias alarm='mpv --loop-playlist=inf "$HOME/scripts/foghorn.mp3"'
 alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
 alias open='xdg-open'
 # Output and copy to clipboard without trailing newline
-alias clip='xargs echo -n | tee >(xsel --clipboard)'
+alias clip='xsel --clipboard'
 # Update all canvas files
-alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
-alias f='find . -name'
+#alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
 alias tr='trash'
-alias rm='echo "Use trash!"'
 alias mv='mv -i'
 
 # cd aliases
@@ -50,9 +52,52 @@ alias ....='cd ../../..'
 # create parent directories automatically
 alias mkdir='mkdir -pv'
 
+# fd - cd to selected directory
+function fd() {
+    local dir
+    dir=$(ls -ad $HOME/**/*(/) 2> /dev/null | fzf +m) &&
+    cd "$dir"
+    print -S "cd $dir"
+}
+
 # Copy path to file
 function cpth() {
     realpath $1 | xargs echo -n | xsel --clipboard
+}
+
+function waitfor() {
+    for pid in "$@"; do
+        while kill -0 "$pid"; do
+            sleep 0.5
+        done
+    done
+}
+
+function remotewaitfor() {
+    while ssh "$2" "kill -0 $1"; do
+        sleep 0.5
+    done
+}
+
+
+function multi {
+    cmd=$1
+    shift
+    while [[ $cmd = "ssh" ]]; do
+        pre_check="$(echo $@ | tr ' ' '\n' | sed -e 's/^.*@//g' | \
+            xargs nmap -p 22 -PN -oG - | grep Port | grep -v open)"
+        test "${pre_check}x" != "x" && (clear; echo "$pre_check") || break
+    done
+    tmux send-keys -t 0 "$cmd ${@[1]}"
+    for ((pane = 1; pane < ${#@[@]}; pane++)); do
+        tmux splitw -h
+        tmux send-keys -t $pane "$cmd ${@[pane+1]}"
+        tmux select-layout tiled > /dev/null
+    done
+    tmux set-window-option synchronize-panes on > /dev/null
+    tmux set-window-option pane-active-border-style fg=red > /dev/null
+    tmux set-window-option pane-border-style fg=yellow > /dev/null
+    tmux send-keys Enter
 }
 
 # Autojump
@@ -72,21 +117,21 @@ nv() {
         return
     fi
 
-	if [ ! -a "$1" ] && can_write $(dirname $1); then
-		nvim $1
-		return
-	else
-		sudoedit $1
-		return
-	fi
+    if [ ! -a "$1" ] && can_write $(dirname $1); then
+        nvim $1
+        return
+    else
+        sudoedit $1
+        return
+    fi
 
-	if can_edit $1; then
-		nvim $1
-		return
-	else
-		sudoedit $1
-		return
-	fi
+    if can_edit $1; then
+        nvim $1
+        return
+    else
+        sudoedit $1
+        return
+    fi
 }
 
 
@@ -102,9 +147,9 @@ alias extract='dtrx'
 # Determine ls type
 
 if ls --color -d . > /dev/null 2>&1; then
-	alias ls=' ls --color=auto'
+    alias ls=' ls --color=auto'
 elif ls -G -d . > /dev/null 2>&1; then
-	alias ls=' ls -G'
+    alias ls=' ls -G'
 fi
 
 # Git Aliases

@@ -3,7 +3,9 @@ set nocompatible
 " Python bin setup
 let g:python_host_prog='/usr/bin/python2.7'
 let g:python3_host_prog='/usr/bin/python3.6'
-let g:pymode_rope = 0
+let g:pymode_rope = 1
+let g:pymode_rope_completion = 1
+let g:pymode_lint = 0
 
 " Setup dein  ---------------------------------------------------------------{{{
 if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
@@ -47,10 +49,12 @@ call dein#add('pocari/vim-denite-emoji')
 
 " Editing
 call dein#add('tpope/vim-surround')
+call dein#add('tpope/vim-speeddating')
 call dein#add('scrooloose/nerdcommenter')
 call dein#add('editorconfig/editorconfig-vim', { 'on_cmd' : 'EditorConfigReload'})
 call dein#add('tpope/vim-repeat')
-
+call dein#add('godlygeek/tabular')
+call dein#add('vim-scripts/utl.vim')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-rhubarb', {'merged': 0})
 
@@ -105,6 +109,9 @@ call dein#add('autozimu/LanguageClient-neovim', { 'on_ft' : 'rust'})
 " Markdown
 call dein#add('plasticboy/vim-markdown', { 'on_ft' : 'markdown'})
 
+" Orgmode
+call dein#add('jceb/vim-orgmode', {'on_ft' : 'org'})
+
 
 " UI
 call dein#add('vim-airline/vim-airline', {'merged' : 0, 'loadconf' : 1})
@@ -143,7 +150,7 @@ let g:indentLine_faster = 1
 
 " Leaders
 let mapleader=','
-let localleader=','
+let maplocalleader=','
 
 " Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
@@ -174,7 +181,6 @@ set softtabstop=4
 set shiftwidth=4
 
 " Linenum column
-set relativenumber
 set number
 
 " Backup
@@ -235,7 +241,7 @@ set ttimeout
 set ttimeoutlen=50
 
 " Mappings
-map <C-c> <Esc><Esc>
+map <C-c> <Esc><Esc>:redraw!<cr>
 "" Undotree
 map <C-u> :UndotreeToggle<CR>
 "" Vim Move
@@ -263,7 +269,7 @@ let g:LanguageClient_serverCommands = {
 let g:LanguageClient_autoStart = 1
 
 " Python Configuration
-let g:pymode_lint = 0
+"let g:pymode_lint = 0
 let g:pymode_virtualenv = 0
 
 " Markdown configuration
@@ -280,18 +286,6 @@ autocmd FileType {html,markdown,tex} setlocal wrap
 autocmd FileType {html,markdown,tex} nnoremap <expr> j v:count ? 'j' : 'gj'
 autocmd FileType {html,markdown,tex} nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Vimwiki
-syntax on
-filetype plugin on
-hi def link VimwikiEqIn Normal
-let g:vimwiki_list = [
-            \ {'path': '~/marcqi/gen3/notes/', 
-            \ 'css_name': 'default.css', 
-            \ 'syntax': 'markdown',
-            \ 'ext': '.md',
-            \ 'custom_wiki2html': 'wiki2html.sh'}, 
-            \
-            \ {'path': '~/notes/vimwiki'}]
 
 let indent_guides_guide_size = 1
 
@@ -301,3 +295,20 @@ function! ChangePaste(type, ...)
     silent exe "normal! `[v`]\"_c"
     silent exe "normal! p"
 endfunction
+
+" Tex folding
+"autocmd FileType {tex} setlocal foldmethod=marker
+"autocmd FileType {tex} setlocal foldmarker=%{{{,%}}}
+let vimtex_fold_manual = 1
+
+" Beginning and end of line shortcuts
+nnoremap H 0
+nnoremap L $
+
+" Syntax
+if has("syntax")
+    syntax on
+    filetype on
+    au BufNewFile,BufRead *.sage set filetype=python
+endif
+

@@ -35,6 +35,7 @@ augroup json_autocmd
 augroup END
 au! BufRead,BufNewFile *.pp setfiletype puppet
 au! BufRead,BufNewFile Puppetfile setfiletype ruby
+au BufNewFile,BufRead *vimperatorrc*,*.vimp set filetype=vimperator
 augroup irssi_ftdetect
   au!
   au BufRead,BufNewFile *irssi/config set ft=irssi
@@ -81,4 +82,3 @@ autocmd BufNewFile,BufReadPost *.pug set filetype=pug
 
 " Jade
 autocmd BufNewFile,BufReadPost *.jade set filetype=pug
-au BufNewFile,BufRead *vimperatorrc*,*.vimp set filetype=vimperator
