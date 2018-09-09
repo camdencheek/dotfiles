@@ -1,42 +1,25 @@
-export PATH="$HOME/scripts:/home/ccheek/.gem/ruby/2.4.0/bin:$PATH:/usr/local/bin"
+zmodload zsh/zprof
+export PATH="$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
+export GOPATH="$HOME/go"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
-export WINEPREFIX=$HOME/win32
-export WINEARCH=win32
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
-export ZPLUG_HOME=$HOME/.config/zplug
+export COLORTERM=truecolor
+export NR_JMX_TOOL="$HOME/bluemedora/nrjmx/bin/nrjmx"
 
-source ~/neuron/nrnenv
-
-# PLUGINS
 fpath=("$HOME/.config/zsh/functions" $fpath)
-source /usr/share/zsh/scripts/zplug/init.zsh
-
-#zplug MichaelAquilina/zsh-autoswitch-virtualenv
-zplug MichaelAquilina/zsh-autoswitch-virtualenv
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
-zplug load
 
 # Shell Aliases
+alias notes='nvim $(rg --files ~/notes | fzf)'
+alias nv='nvim'
 alias org='nvim /home/ccheek/notes/notes.org'
 alias todo='nvim /home/ccheek/notes/todo'
 alias sudo='sudo '
 alias alarm='mpv --loop-playlist=inf "$HOME/scripts/foghorn.mp3"'
 alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
-alias open='xdg-open'
 # Output and copy to clipboard without trailing newline
 alias clip='xsel --clipboard'
 # Update all canvas files
@@ -52,86 +35,10 @@ alias ....='cd ../../..'
 # create parent directories automatically
 alias mkdir='mkdir -pv'
 
-# fd - cd to selected directory
-function fd() {
-    local dir
-    dir=$(ls -ad $HOME/**/*(/) 2> /dev/null | fzf +m) &&
-    cd "$dir"
-    print -S "cd $dir"
-}
 
 # Copy path to file
 function cpth() {
-    realpath $1 | xargs echo -n | xsel --clipboard
-}
-
-function waitfor() {
-    for pid in "$@"; do
-        while kill -0 "$pid"; do
-            sleep 0.5
-        done
-    done
-}
-
-function remotewaitfor() {
-    while ssh "$2" "kill -0 $1"; do
-        sleep 0.5
-    done
-}
-
-
-function multi {
-    cmd=$1
-    shift
-    while [[ $cmd = "ssh" ]]; do
-        pre_check="$(echo $@ | tr ' ' '\n' | sed -e 's/^.*@//g' | \
-            xargs nmap -p 22 -PN -oG - | grep Port | grep -v open)"
-        test "${pre_check}x" != "x" && (clear; echo "$pre_check") || break
-    done
-    tmux send-keys -t 0 "$cmd ${@[1]}"
-    for ((pane = 1; pane < ${#@[@]}; pane++)); do
-        tmux splitw -h
-        tmux send-keys -t $pane "$cmd ${@[pane+1]}"
-        tmux select-layout tiled > /dev/null
-    done
-    tmux set-window-option synchronize-panes on > /dev/null
-    tmux set-window-option pane-active-border-style fg=red > /dev/null
-    tmux set-window-option pane-border-style fg=yellow > /dev/null
-    tmux send-keys Enter
-}
-
-# Autojump
-
-source /etc/profile.d/autojump.sh
-
-sha() {
-    sha256sum $1 | cut -d' ' -f1 | tee >(tr -d '[:space:]' | xsel --clipboard) 
-}
-
-
-# Edit with nvim or sudo edit with nvim
-source ~/scripts/permissions.sh
-nv() {
-    if [ ! -n "$1" ]; then
-        nvim
-        return
-    fi
-
-    if [ ! -a "$1" ] && can_write $(dirname $1); then
-        nvim $1
-        return
-    else
-        sudoedit $1
-        return
-    fi
-
-    if can_edit $1; then
-        nvim $1
-        return
-    else
-        sudoedit $1
-        return
-    fi
+    realpath $1 | xargs echo -n | pbcopy
 }
 
 
@@ -139,7 +46,7 @@ nv() {
 
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
 alias ev='nvim ~/.config/nvim/init.vim'
-alias et='nvim ~/.tmux.conf'
+#alias et='nvim ~/.tmux.conf'
 
 # Extract alias
 alias extract='dtrx'
@@ -155,6 +62,7 @@ fi
 # Git Aliases
 
 alias ga='git add'
+alias gap='git add --patch'
 alias gc='git commit -m'
 alias gl='git pull --prune'
 alias gp='git push origin HEAD'
@@ -167,8 +75,10 @@ alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-autoload -U compinit && compinit
-autoload -U promptinit && promptinit
+autoload -U async && async
+autoload -U compinit promptinit
+compinit
+promptinit
 prompt pure
 
 # History
@@ -199,8 +109,8 @@ bindkey -e
 
 # Terminal Colors
 
-autoload -U colors
-colors
+#autoload -U colors
+#colors
 
 TC='\e['
 Rst="${TC}0m"     # Reset all coloring and style
@@ -217,20 +127,14 @@ White="${TC}37m";
 
 #source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
 
-# Standard Configs
-#
-
 setopt extended_glob
 
-# Virtualenv
-export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
 
-
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 
-SOURCE_LANG='german'
-TARGET_LANG='english'
-alias etrans='trans -source english -target german'
+# FZF options
+#
+source "$HOME/.dotfiles/zsh/fzf-key-bindings.zsh"
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

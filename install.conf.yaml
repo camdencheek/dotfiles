@@ -10,3 +10,5 @@
     ~/.config/nvim: nvim
     ~/.config/zsh/functions/prompt_pure_setup: zsh/pure/pure.zsh
     ~/.config/zsh/functions/async: zsh/pure/async.zsh
+    ~/.config/zsh/autoload/zgen.zsh: zsh/zgen/zgen.zsh
+    ~/.config/zsh/autoload/z.sh: zsh/z/z.sh

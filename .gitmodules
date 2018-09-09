@@ -22,3 +22,12 @@
 [submodule "zsh/pure"]
 	path = zsh/pure
 	url = git@github.com:ccheek21/pure.git
+[submodule "zsh/zgen"]
+	path = zsh/zgen
+	url = https://github.com/tarjoilija/zgen.git
+[submodule "zsh/z"]
+	path = zsh/z
+	url = git@github.com:rupa/z.git
+[submodule "zsh/fzf"]
+	path = zsh/fzf
+	url = git@github.com:junegunn/fzf.git

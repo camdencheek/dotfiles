@@ -1,164 +1,47 @@
 set nocompatible
 
-" Python bin setup
-let g:python_host_prog='/usr/bin/python2.7'
-let g:python3_host_prog='/usr/bin/python3.6'
-let g:pymode_rope = 1
-let g:pymode_rope_completion = 1
-let g:pymode_lint = 0
+call plug#begin('~/.cache/nvim/plugged')
+Plug 'morhetz/gruvbox'
 
-" Setup dein  ---------------------------------------------------------------{{{
-if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
-	call system(expand("mkdir -p $HOME/.config/nvim/repos/github.com"))
-	call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/repos/github.com/Shougo/dein.vim"))
-endif
-
-
-set runtimepath+=~/.config/nvim/autoload/dein.vim
-call dein#begin(expand('~/.config/nvim'))
-call dein#add('Shougo/dein.vim')
-call dein#add('christoomey/vim-tmux-navigator')
-
-" Autocompletion
-" call dein#add('Shougo/neocomplete',        { 'on_i' : 1, 'loadconf' : 1, })
-call dein#add('Shougo/neco-syntax',        { 'on_i' : 1})
-call dein#add('ujihisa/neco-look',         { 'on_i' : 1})
-call dein#add('Shougo/neoinclude.vim',     { 'on_i' : 1})
-call dein#add('jiangmiao/auto-pairs',       { 'merged' : 0})
-call dein#add('Shougo/deoplete.nvim',      { 'on_i' : 1, 'loadconf' : 1})
-
-" Checkers
-call dein#add('neomake/neomake', { 'merged': 0, 'loadconf' : 1, 'loadconf_before': 1})
-
-" Core
-call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-call dein#add('benizi/vim-automkdir')
-
-" Ctrlp
-call dein#add('ctrlpvim/ctrlp.vim', {'loadconf' : 1})
-
-" Colorscheme
-call dein#add('morhetz/gruvbox')
-
-" Denite
-call dein#add('Shougo/denite.nvim', {'merged': 0, 'loadconf': 1})
-
-" Emoji
-call dein#add('junegunn/vim-emoji')
-call dein#add('pocari/vim-denite-emoji')
-
-" Editing
-call dein#add('tpope/vim-surround')
-call dein#add('tpope/vim-speeddating')
-call dein#add('scrooloose/nerdcommenter')
-call dein#add('editorconfig/editorconfig-vim', { 'on_cmd' : 'EditorConfigReload'})
-call dein#add('tpope/vim-repeat')
-call dein#add('godlygeek/tabular')
-call dein#add('vim-scripts/utl.vim')
-call dein#add('tpope/vim-fugitive')
-call dein#add('tpope/vim-rhubarb', {'merged': 0})
-
-" Hex
-call dein#add('fidian/hexmode', {'merged': 0})
+Plug 'fatih/vim-go', {'for':'go'}
+Plug 'prabirshrestha/async.vim'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
+Plug 'junegunn/vim-easy-align'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+Plug 'zchee/deoplete-go', {'do': 'make', 'for':'go'}
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
+Plug 'svermeulen/vim-easyclip'
+Plug 'zephod/vim-iterm2-navigator'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-slash'
 
 
-" Incsearch
-call dein#add('haya14busa/incsearch.vim', {'merged': 0})
-call dein#add('haya14busa/vim-asterisk', {'merged': 0})
+Plug 'mbbill/undotree'
+Plug 'haya14busa/incsearch.vim'
 
-" Taskwarrior
-call dein#add('blindFS/vim-taskwarrior', {'merged': 0})
-
-" Lang General
-call dein#add('groenewege/vim-less',          { 'on_ft' : ['less']})
-call dein#add('cakebaker/scss-syntax.vim',              { 'on_ft' : ['scss','sass']})
-call dein#add('hail2u/vim-css3-syntax',                 { 'on_ft' : ['css','scss','sass']})
-call dein#add('ap/vim-css-color',                       { 'on_ft' : ['css','scss','sass','less','styl']})
-call dein#add('othree/html5.vim',                       { 'on_ft' : ['html']})
-call dein#add('wavded/vim-stylus',                      { 'on_ft' : ['styl']})
-call dein#add('digitaltoad/vim-jade',                   { 'on_ft' : ['jade']})
-call dein#add('juvenn/mustache.vim',                    { 'on_ft' : ['mustache']})
-call dein#add('leafgarland/typescript-vim',             { 'on_ft' : ['typescript']})
-call dein#add('kchmck/vim-coffee-script',               { 'on_ft' : ['coffee']})
-call dein#add('leshill/vim-json',                       { 'on_ft' : ['javascript','json']})
-call dein#add('elixir-lang/vim-elixir',                 { 'on_ft' : 'elixir'})
-call dein#add('PotatoesMaster/i3-vim-syntax',           { 'on_ft' : 'i3'})
-call dein#add('isundil/vim-irssi-syntax',               { 'on_ft' : 'irssi'})
-call dein#add('lervag/vimtex',                          { 'on_ft' : 'tex'})
-call dein#add('vimperator/vimperator.vim',              { 'on_ft' : 'vimperator'})
-call dein#add('voxpupuli/vim-puppet',                   {'on_ft' : 'puppet'})
-call dein#add('peterhoeg/vim-qml',                      { 'on_ft' : 'qml'})
-call dein#add('cespare/vim-toml',                      { 'on_ft' : 'toml'})
-
-" Lang Vim
-call dein#add('syngan/vim-vimlint',                      { 'on_ft' : 'vim'})
-call dein#add('ynkdir/vim-vimlparser',                      { 'on_ft' : 'vim'})
-
-" Lang Python
-call dein#add('klen/python-mode',                      { 'on_ft' : 'python'})
-
-" Lang C
-call dein#add('tweekmonster/deoplete-clang2')
-
-" Lang Rust
-call dein#add('rust-lang/rust.vim', { 'on_ft' : 'rust'})
-
-" Language Client
-call dein#add('autozimu/LanguageClient-neovim', { 'on_ft' : 'rust'})
-
-" Markdown
-call dein#add('plasticboy/vim-markdown', { 'on_ft' : 'markdown'})
-
-" Orgmode
-call dein#add('jceb/vim-orgmode', {'on_ft' : 'org'})
+Plug 'racer-rust/vim-racer', {'for':'rust'}
+Plug 'sebastianmarkow/deoplete-rust', {'for':'rust'}
 
 
-" UI
-call dein#add('vim-airline/vim-airline', {'merged' : 0, 'loadconf' : 1})
-call dein#add('vim-airline/vim-airline-themes', {'merged': 0})
-call dein#add('mbbill/undotree', {'merged': 0})
+Plug 'rust-lang/rust.vim', {'for':'rust'}
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 
-" Unite
-call dein#add('Shougo/neoyank.vim')
-
-" Wiki
-call dein#add('vimwiki/vimwiki')
-
-
-
-if dein#check_install()
-	call dein#install()
-	let pluginsExist=1
-endif
-
-call dein#end()
-filetype plugin indent on
-" }}}
+call plug#end()
 
 " Colorscheme
 colorscheme gruvbox
 set background=dark
 set termguicolors
 
-" Indent Line
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#09AA08'
-let g:indentLine_concealcursor = 'niv'
-let g:indentLine_conceallevel = 2
-let g:indentLine_fileTypeExclude = ['help', 'vimfiler']
-let g:indentLine_faster = 1
-
 " Leaders
 let mapleader=','
 let maplocalleader=','
-
-" Tmux Navigator
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
 " Hide cmd
 set noshowcmd
@@ -174,11 +57,6 @@ set wildmenu
 " Do not break words
 set linebreak
 
-" Tab options
-set tabstop=4
-set expandtab
-set softtabstop=4
-set shiftwidth=4
 
 " Linenum column
 set number
@@ -241,32 +119,7 @@ set ttimeout
 set ttimeoutlen=50
 
 " Mappings
-map <C-c> <Esc><Esc>:redraw!<cr>
-"" Undotree
-map <C-u> :UndotreeToggle<CR>
-"" Vim Move
-vmap <C-n> <Plug>MoveBlockDown
-vmap <C-m> <Plug>MoveBlockUp
-nmap <C-n> <Plug>MoveLineDown
-nmap <C-m> <Plug>MoveLineUp
-
-" Leader for system clipboard
-nnoremap <silent> <Leader>p "+]p
-nnoremap <silent> <Leader>P "+]P
-
-nnoremap <silent> <Leader>y :y+<cr>
-nnoremap <silent> <Leader>c ^"+c$
-nnoremap <silent> <Leader>d ^"+d$
-
-vnoremap <silent> <Leader>y "+y
-vnoremap <silent> <Leader>c "+c
-vnoremap <silent> <Leader>d "+d
-
-" Rust Configuration
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ }
-let g:LanguageClient_autoStart = 1
+map <silent> <C-c> <Esc><Esc>:redraw!<cr>
 
 " Python Configuration
 "let g:pymode_lint = 0
@@ -287,14 +140,7 @@ autocmd FileType {html,markdown,tex} nnoremap <expr> j v:count ? 'j' : 'gj'
 autocmd FileType {html,markdown,tex} nnoremap <expr> k v:count ? 'k' : 'gk'
 
 
-let indent_guides_guide_size = 1
 
-"This allows for change paste motion cp{motion}
-nmap <silent> cp :set opfunc=ChangePaste<CR>g@
-function! ChangePaste(type, ...)
-    silent exe "normal! `[v`]\"_c"
-    silent exe "normal! p"
-endfunction
 
 " Tex folding
 "autocmd FileType {tex} setlocal foldmethod=marker
@@ -312,3 +158,53 @@ if has("syntax")
     au BufNewFile,BufRead *.sage set filetype=python
 endif
 
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#rust#racer_binary='/Users/ccheek/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path='/Users/ccheek/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src'
+
+let g:deoplete#sources#go#gocode_binary='/Users/ccheek/go/bin/gocode'
+
+" Tab options
+set tabstop=4
+set expandtab
+set softtabstop=4
+set shiftwidth=4
+
+" Easy Align
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+let g:easy_align_ignore_groups = []
+
+" Easy Clip
+let g:EasyClipShareYanks = 1
+let g:EasyClipAutoFormat = 1
+let g:EasyClipUsePasteDefaults = 0
+let g:EasyClipEnableBlackHoleRedirect = 0
+let g:EasyClipUsePasteToggleDefaults = 0
+
+" Ctrl-P
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_prompt_mappings = {
+      \ 'PrtSelectMove("j")': ['<c-n>'],
+      \ 'PrtSelectMove("k")': ['<c-p>'],
+      \ 'PrtHistory(-1)': [],
+      \ 'PrtHistory(1)': [],
+      \ }
+
+" Vim-go
+let g:go_highlight_functions = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+
+nmap gb :GoBuild<Enter>
+nmap gt :GoTest<Enter>
+
+nmap <C-p> :Files<Enter>
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
