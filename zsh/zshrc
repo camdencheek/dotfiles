@@ -1,7 +1,7 @@
 export PATH="$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
 export GOPATH="$HOME/go"
 export LANG=en_US.UTF-8
-export TERM=screen-256color
+export TERM=xterm-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -37,7 +37,7 @@ function cpth() {
 
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
 alias ev='nvim ~/.config/nvim/init.vim'
-#alias et='nvim ~/.tmux.conf'
+alias et='nvim ~/.tmux.conf'
 
 # Extract alias
 alias extract='dtrx'

@@ -16,7 +16,7 @@ Plug 'zchee/deoplete-go', {'do': 'make', 'for':'go'}
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 Plug 'svermeulen/vim-easyclip'
-Plug 'zephod/vim-iterm2-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-slash'
@@ -208,3 +208,15 @@ nmap gt :GoTest<Enter>
 
 nmap <C-p> :Files<Enter>
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" Tmux
+let g:tmux_navigator_no_mappings = 1
+
+noremap <silent> <C-h> <Esc>:TmuxNavigateLeft<cr>
+noremap <silent> <C-j> <Esc>:TmuxNavigateDown<cr>
+noremap <silent> <C-k> <Esc>:TmuxNavigateUp<cr>
+noremap <silent> <C-l> <Esc>:TmuxNavigateRight<cr>
+noremap! <silent> <C-h> <Esc>:TmuxNavigateLeft<cr>
+noremap! <silent> <C-j> <Esc>:TmuxNavigateDown<cr>
+noremap! <silent> <C-k> <Esc>:TmuxNavigateUp<cr>
+noremap! <silent> <C-l> <Esc>:TmuxNavigateRight<cr>

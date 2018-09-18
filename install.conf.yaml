@@ -10,8 +10,10 @@
 - link: 
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
+    ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
     ~/.config/nvim/init.vim: nvim/init.vim
     ~/.config/nvim/autoload/plug.vim: nvim/autoload/plug.vim
     ~/.config/zsh/functions/prompt_pure_setup: zsh/pure/pure.zsh
     ~/.config/zsh/functions/async: zsh/pure/async.zsh
     ~/.config/zsh/autoload/zgen.zsh: zsh/zgen/zgen.zsh
+    ~/.tmux.conf: tmux/tmux.conf
