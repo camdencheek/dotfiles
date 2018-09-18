@@ -2,11 +2,8 @@
   - [git submodule update --init --recursive, Installing submodules]
 
 - defaults:
-    link:
-      relink: true
-      create: true
-      force: true
-
+    link: 
+        create: true
 - link: 
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
