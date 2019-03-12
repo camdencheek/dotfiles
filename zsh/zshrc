@@ -1,25 +1,34 @@
-export PATH="$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
+# Start tmux on login
+[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+
+export PATH="/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
 export GOPATH="$HOME/go"
+export JAVA_HOME=$(/usr/libexec/java_home)
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
-export RUST_SRC_PATH=/home/ccheek/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+export RUST_SRC_PATH=/Users/ccheek/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src
 export COLORTERM=truecolor
 export NR_JMX_TOOL="$HOME/bluemedora/nrjmx/bin/nrjmx"
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d) <(fd -t d . ~)'
+export FZF_CTRL_T_OPTS='--tiebreak=index'
+export GROOVY_HOME="/usr/local/opt/groovy/libexec"
 
 fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
+alias keyboard='node ~/scripts/keyboard.js'
 alias notes='nvim $(rg --files ~/notes | fzf)'
 alias ls='exa'
 alias nv='nvim'
 alias org='nvim /home/ccheek/notes/notes.org'
-alias todo='nvim /home/ccheek/notes/todo'
+alias todo='nvim ~/notes/todo'
 alias sudo='sudo '
 alias alarm='mpv --loop-playlist=inf "$HOME/scripts/foghorn.mp3"'
-alias pubkey="cat ~/.ssh/id_rsa.pub | xsel --clipboard | echo '=> Public key copied to pasteboard.'"
+alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 # Output and copy to clipboard without trailing newline
 alias clip='xsel --clipboard'
 # Update all canvas files
@@ -46,12 +55,12 @@ alias extract='dtrx'
 
 alias ga='git add'
 alias gap='git add --patch'
+alias gsup='git submodule init && git submodule update'
 alias gc='git commit -m'
 alias gl='git pull --prune'
-alias gp='git push origin HEAD'
+alias gp='git push --follow-tags origin HEAD'
 alias gd='git diff'
 alias gco='git checkout'
-alias gcb='git copy-branch-name'
 alias gcl='git clean -dix'
 alias gb='git branch'
 alias gs='git status -sb'
@@ -59,7 +68,8 @@ alias gac='git add -A && git commit -m'
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -U async && async
-autoload -U compinit promptinit
+autoload -Uz compinit && compinit
+autoload -Uz promptinit
 compinit
 promptinit
 prompt pure
@@ -67,8 +77,8 @@ prompt pure
 # History
 
 HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt append_history
 setopt extended_history
 setopt hist_ignore_space
@@ -87,8 +97,10 @@ setopt extended_glob
 
 WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 
-# Vim keybindings
+# Emacs keybindings
+# for more info, man zshzle
 bindkey -e
+
 
 # Terminal Colors
 
@@ -120,4 +132,17 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 # FZF options
 #
 source "$HOME/.dotfiles/zsh/fzf-key-bindings.zsh"
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+# Update fre on directory change
+fre_chpwd() {
+  fre --add "$(pwd)"
+}
+typeset -gaU chpwd_functions
+chpwd_functions+=fre_chpwd
+
+eval "$(nodenv init -)"
+
+
+
+#export PATH="$HOME/.jenv/bin:$PATH"
+#eval "$(jenv init -)"
