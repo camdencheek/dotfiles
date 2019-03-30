@@ -21,7 +21,8 @@ Plug 'pbogut/fzf-mru.vim'
 Plug 'bkad/camelcasemotion'
 Plug 'mbbill/undotree'
 Plug 'haya14busa/incsearch.vim'
-Plug 'fatih/vim-go'
+Plug 'mustache/vim-mustache-handlebars'
+"Plug 'fatih/vim-go'
 Plug 'racer-rust/vim-racer', {'for':'rust'}
 Plug 'rust-lang/rust.vim', {'for':'rust'}
 Plug 'w0rp/ale'
@@ -29,7 +30,7 @@ Plug 'w0rp/ale'
 " Typescript
 Plug 'HerringtonDarkholme/yats.vim'
 "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-
+"
 call plug#end()
 
 " Colorscheme
@@ -288,3 +289,5 @@ cnoremap <C-d> <C-f>
 " NERDTree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
+
