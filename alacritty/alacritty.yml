@@ -29,7 +29,7 @@ window:
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: full
+  decorations: none
 
 scrolling:
   # How many lines of scrollback to keep,
@@ -108,33 +108,33 @@ render_timer: false
 # and cursor.background colors, otherwise invert the colors of the cursor.
 
 # Colors (Gruvbox dark)
-colors: # Default colors
+colors:
+  # Default colors
   primary:
     background: '0x282828'
+    foreground: '0xf8f0e1'
 
-
-      ## Normal colors
-      ##  # Normal colors
+  # Normal colors
   normal:
-    black:   '0x282828'
-    red:     '0xf1322e'
-    green:   '0x8fdd1f'
-    yellow:  '0xc89700'
-    blue:    '0x2aa7ff'
-    magenta: '0xdc3887'
-    cyan:    '0x38e0d3'
-    white:   '0xffffff'
+    black:   '0x171717'
+    red:     '0xfb4934'
+    green:   '0x97d01a'
+    yellow:  '0xd79921'
+    blue:    '0x3eabdf'
+    magenta: '0xff2491'
+    cyan:    '0x0fdcb6'
+    white:   '0xebebeb'
 
-  ## Bright colors
+  # Bright colors
   bright:
-    black:   '0x282828'
-    red:     '0xf1322e'
-    green:   '0x8fdd1f'
-    yellow:  '0xc89700'
-    blue:    '0x2aa7ff'
-    magenta: '0xdc3887'
-    cyan:    '0x38e0d3'
-    white:   '0xffffff'
+    black:   '0x38252c'
+    red:     '0xfb4934'
+    green:   '0x97d01a'
+    yellow:  '0xfabd2f'
+    blue:    '0x3eabdf'
+    magenta: '0xff2491'
+    cyan:    '0x0a9b81'
+    white:   '0xf8f8f8'
 
 
 # Visual Bell
@@ -193,6 +193,10 @@ mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
   hide_when_typing: false
+  url: 
+    launcher: open
+    modifiers: Control
+
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
