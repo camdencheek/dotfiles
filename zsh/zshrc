@@ -3,7 +3,6 @@
 
 export PATH="/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
 export GOPATH="$HOME/go"
-export JAVA_HOME=$(/usr/libexec/java_home)
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
 export EDITOR=nvim
@@ -139,6 +138,3 @@ fre_chpwd() {
 }
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd
-
-eval "$(nodenv init -)"
-
