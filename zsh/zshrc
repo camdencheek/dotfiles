@@ -1,4 +1,4 @@
-# Start tmux on login
+#Start tmux on login
 [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
 
 export PATH="/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
@@ -142,7 +142,3 @@ chpwd_functions+=fre_chpwd
 
 eval "$(nodenv init -)"
 
-
-
-#export PATH="$HOME/.jenv/bin:$PATH"
-#eval "$(jenv init -)"
