@@ -85,9 +85,9 @@ font:
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
-  offset:
-    x: 1
-    y: 1
+  #offset:
+    #x: 1
+    #y: 1
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to
@@ -101,20 +101,17 @@ font:
   # false.
   use_thin_strokes: true
 
-# Should display the render timer
-render_timer: false
-
 # Use custom cursor colors. If true, display the cursor in the cursor.foreground
 # and cursor.background colors, otherwise invert the colors of the cursor.
 
 # Colors (Gruvbox dark)
 colors:
-  # Default colors
+  ## Default colors
   primary:
     background: '0x282828'
     foreground: '0xf8f0e1'
 
-  # Normal colors
+  ## Normal colors
   normal:
     black:   '0x171717'
     red:     '0xfb4934'
@@ -125,9 +122,9 @@ colors:
     cyan:    '0x0fdcb6'
     white:   '0xebebeb'
 
-  # Bright colors
+  ## Bright colors
   bright:
-    black:   '0x38252c'
+    black:   '0xaaaaaa'
     red:     '0xfb4934'
     green:   '0x97d01a'
     yellow:  '0xfabd2f'
@@ -195,7 +192,6 @@ mouse:
   hide_when_typing: false
   url: 
     launcher: open
-    modifiers: Control
 
 
 selection:

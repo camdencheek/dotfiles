@@ -1,38 +1,50 @@
 #Start tmux on login
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+[ -z "$TMUX" ] && { tmux attach || exec tmux new-session  && exit; }
 
-export PATH="/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/go/bin:$HOME/.cargo/bin"
-export GOPATH="$HOME/go"
+# General env
+export PATH="$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin"
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
-export RUST_SRC_PATH=/Users/ccheek/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src
 export COLORTERM=truecolor
+
+# Vulkan env
+export VULKAN_SDK="$HOME/.vulkan_sdk/macOS"
+export PATH="$VULKAN_SDK/bin:$PATH"
+export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH"
+export VK_ICD_FILENAMES="$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json"
+export VK_LAYER_PATH="$VULKAN_SDK/etc/vulkan/explicit_layer.d"
+export SHADERC_LIB_DIR="$VULKAN_SDK/lib"
+
+# Lang env
+export GROOVY_HOME="/usr/local/opt/groovy/libexec"
+export GOPATH="$HOME/go"
+export RUST_SRC_PATH=/Users/ccheek/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src
+
+# Personal env
+export BINDPLANE_AWS_USERNAME=ccheek""
+export BINDPLANE_HOME="$HOME/src/bindplane"
 export NR_JMX_TOOL="$HOME/bluemedora/nrjmx/bin/nrjmx"
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d) <(fd -t d . ~)'
 export FZF_CTRL_T_OPTS='--tiebreak=index'
-export GROOVY_HOME="/usr/local/opt/groovy/libexec"
+export PROD_API="https://bplog-api.bindplane.bluemedora.com"
+export DEV_API="https://b4vmn9ra2i.execute-api.us-east-1.amazonaws.com/dev"
 
 fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
-alias keyboard='node ~/scripts/keyboard.js'
-alias notes='nvim $(rg --files ~/notes | fzf)'
+alias bp=bindplane
+alias doco='docker-compose'
+alias note='nvim -c "cd ~/notes" ~/notes/index.md'
+alias jot='nvim -c "cd ~/notes" ~/notes/jots.md'
 alias ls='exa'
 alias nv='nvim'
-alias org='nvim /home/ccheek/notes/notes.org'
-alias todo='nvim ~/notes/todo'
 alias sudo='sudo '
-alias alarm='mpv --loop-playlist=inf "$HOME/scripts/foghorn.mp3"'
 alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
-# Output and copy to clipboard without trailing newline
-alias clip='xsel --clipboard'
-# Update all canvas files
-#alias canvas="python3 $HOME/projects/canvas_downloader/main.py --config $HOME/projects/canvas_downloader/config.yaml"
-alias tr='trash'
+alias cat='bat'
+alias clip='pbcopy'
 alias mv='mv -i'
 
 # Copy path to file
@@ -40,15 +52,18 @@ function cpth() {
     realpath $1 | xargs echo -n | pbcopy
 }
 
+function pass() {
+  session=$(bw unlock | sed -n 's/$ export BW_SESSION="\(.*\)"/\1/p')
+  export BW_SESSION="${session%%[[:space:]]}"
+  name=$(bw list items | jq -r '.[].name' | fzf)
+  bw get password "${name}" | tr -d '\n' | pbcopy
+}
 
 # Config editing aliases
 
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
 alias ev='nvim ~/.config/nvim/init.vim'
 alias et='nvim ~/.tmux.conf'
-
-# Extract alias
-alias extract='dtrx'
 
 # Git Aliases
 
@@ -64,6 +79,7 @@ alias gcl='git clean -dix'
 alias gb='git branch'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
+alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -U async && async
@@ -100,23 +116,6 @@ WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 # for more info, man zshzle
 bindkey -e
 
-
-# Terminal Colors
-
-#autoload -U colors
-#colors
-
-TC='\e['
-Rst="${TC}0m"     # Reset all coloring and style
-Black="${TC}30m";
-Red="${TC}31m";
-Green="${TC}32m";
-Yellow="${TC}33m";
-Blue="${TC}35m";
-Purple="${TC}35m";
-Cyan="${TC}36m";
-White="${TC}37m";
-
 # Theme
 
 #source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
@@ -138,3 +137,6 @@ fre_chpwd() {
 }
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd
+
+eval "$(nodenv init -)"
+

@@ -2,18 +2,19 @@ set nocompatible
 
 call plug#begin('~/.cache/nvim/plugged')
 Plug 'morhetz/gruvbox'
-
+Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/vim-easy-align'
-Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 Plug 'svermeulen/vim-easyclip'
+Plug 'jremmen/vim-ripgrep'
 Plug 'christoomey/vim-tmux-navigator'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -22,11 +23,15 @@ Plug 'bkad/camelcasemotion'
 Plug 'mbbill/undotree'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'vimwiki/vimwiki'
+Plug 'tbabej/taskwiki'
+Plug 'svermeulen/vim-yoink'
 "Plug 'fatih/vim-go'
-Plug 'racer-rust/vim-racer', {'for':'rust'}
-Plug 'rust-lang/rust.vim', {'for':'rust'}
+"Plug 'racer-rust/vim-racer', {'for':'rust'}
+"Plug 'rust-lang/rust.vim', {'for':'rust'}
 Plug 'w0rp/ale'
-"
+
+
 " Typescript
 Plug 'HerringtonDarkholme/yats.vim'
 "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
@@ -45,6 +50,9 @@ let maplocalleader=','
 
 " Swap
 set noswapfile 
+
+" Don't split words on hyphens
+set iskeyword+=-
 
 "Line
 set cursorline
@@ -124,12 +132,19 @@ set hidden
 set ttimeout
 set ttimeoutlen=50
 
+" Don't redraw during macro execution
+set lazyredraw
+
 " Mappings
 nnoremap <C-c> <Esc>
 vnoremap <C-c> <Esc>gV
 onoremap <C-c> <Esc>
 cnoremap <C-c> <C-C><Esc>
 inoremap <C-c> <Esc>`^
+nnoremap <leader>t :NERDTreeToggle<CR>
+
+" NERDCommenter
+let g:NERDSpaceDelims = 1
 
 " Python Configuration
 "let g:pymode_lint = 0
@@ -167,6 +182,7 @@ if has("syntax")
 		filetype on
 		au BufNewFile,BufRead *.sage set filetype=python
 endif
+filetype plugin on
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
@@ -229,13 +245,13 @@ noremap! <silent> <C-l> <Esc>:TmuxNavigateRight<cr>
 
 nmap <C-p> :Files<Enter>
 
-nmap <C-g> :Rg<Enter>
-command! -bang -nargs=* Rg
-	\ call fzf#vim#grep(
-	\   'rg --column --line-number --no-heading --hidden --fixed-strings --follow --ignore-case --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --color=always '.shellescape(<q-args>), 1,
-	\   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
-	\           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-	\   <bang>0)
+nmap <C-g> :RgLive<Enter>
+command! -bang -nargs=* RgLive
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --hidden --fixed-strings --follow --ignore-case --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
 
 " Topd integration
 "function IncrementTopd()
@@ -250,22 +266,28 @@ let g:rust_recommended_style = 1
 
 map gd <Plug>(ale_go_to_definition)
 map gf <Plug>(ale_fix)
+let g:ale_completion_enabled = 1
 let g:ale_linters = {
 			\   'go': [
 			\     'golangserver',
-			\     'golint',
-			\     'gometalinter',
-			\     'gofmt',
+            \     'golint',
+            \     'go vet',
+			\   ],
+			\   'rust': [
+			\     'rls',
 			\   ],
 			\   'ruby': [
-			\     'rubocop',
 			\     'solargraph',
+			\     'rubocop',
 			\   ]
 			\ }
 let g:ale_fixers = {
 			\ 'typescript': [
 			\   'tslint',
 			\   'remove_trailing_lines',
+			\ ],
+			\ 'ruby': [
+			\   'rubocop',
 			\ ],
 			\}
 
@@ -290,4 +312,11 @@ cnoremap <C-d> <C-f>
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/notes',
+            \ 'syntax': 'markdown', 'ext': '.md',
+            \ 'automatic_nested_syntax': 1}]
+let g:vimwiki_folding = 'list'
 
+" Vim yoink
+let g:yoinkSavePersistently = 1
