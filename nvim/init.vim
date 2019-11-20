@@ -5,7 +5,8 @@ Plug 'morhetz/gruvbox'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
+" Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
@@ -26,9 +27,6 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'vimwiki/vimwiki'
 Plug 'tbabej/taskwiki'
 Plug 'svermeulen/vim-yoink'
-"Plug 'fatih/vim-go'
-"Plug 'racer-rust/vim-racer', {'for':'rust'}
-"Plug 'rust-lang/rust.vim', {'for':'rust'}
 Plug 'w0rp/ale'
 
 
@@ -269,9 +267,8 @@ map gf <Plug>(ale_fix)
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
 			\   'go': [
-			\     'golangserver',
+			\     'gopls',
             \     'golint',
-            \     'go vet',
 			\   ],
 			\   'rust': [
 			\     'rls',
@@ -282,6 +279,12 @@ let g:ale_linters = {
 			\   ]
 			\ }
 let g:ale_fixers = {
+            \ 'go': [
+            \   'gofmt',
+            \   'goimports',
+            \   'remove_trailing_lines',
+            \   'trim_whitespace',
+			\ ],
 			\ 'typescript': [
 			\   'tslint',
 			\   'remove_trailing_lines',
@@ -320,3 +323,9 @@ let g:vimwiki_folding = 'list'
 
 " Vim yoink
 let g:yoinkSavePersistently = 1
+
+" deoplete settings
+call deoplete#custom#option({
+            \    'auto_complete_delay': 100,
+            \    'max_list': 100,
+            \ })
