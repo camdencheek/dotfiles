@@ -1,3 +1,4 @@
+---
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 
 # Any items in the `env` entry below will be added as
@@ -31,6 +32,8 @@ window:
   # Setting this to false will result in window without borders and title bar.
   decorations: none
 
+  dynamic_title: true
+
 scrolling:
   # How many lines of scrollback to keep,
   # '0' will disable scrolling.
@@ -39,23 +42,6 @@ scrolling:
   # Number of lines the viewport will move for every line
   # scrolled when scrollback is enabled (history > 0).
   multiplier: 1
-
-  # Faux Scrolling
-  #
-  # The `faux_multiplier` setting controls the number
-  # of lines the terminal should scroll when the alternate
-  # screen buffer is active. This is used to allow mouse
-  # scrolling for applications like `man`.
-  #
-  # To disable this completely, set `faux_multiplier` to 0.
-  faux_multiplier: 3
-
-  # Automatically scroll to the bottom when new text is written
-  # to the terminal.
-  auto_scroll: false
-
-# Display tabs using this many cells (changes require restart)
-tabspaces: 4
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: true
@@ -78,7 +64,7 @@ font:
   italic:
     family: Hack
     # Style can be specified to pick a specific face.
-     #style: Italic
+    # style: Italic
 
   # Point size of the font
   size: 12
@@ -156,7 +142,7 @@ colors:
 #
 # To completely disable the visual bell, set its duration to 0.
 #
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
 
@@ -190,14 +176,12 @@ mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
   hide_when_typing: false
-  url: 
+  url:
     launcher: open
 
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
-dynamic_title: true
 
 
 cursor:

@@ -1,39 +1,29 @@
 set nocompatible
 
 call plug#begin('~/.cache/nvim/plugged')
+
+Plug 'stephpy/vim-yaml'
 Plug 'morhetz/gruvbox'
 Plug 'Shougo/deoplete.nvim'
-Plug 'tpope/vim-markdown'
+Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-" Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'sheerun/vim-polyglot'
-Plug 'jiangmiao/auto-pairs'
-Plug 'svermeulen/vim-easyclip'
 Plug 'jremmen/vim-ripgrep'
 Plug 'christoomey/vim-tmux-navigator'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
-Plug 'bkad/camelcasemotion'
 Plug 'mbbill/undotree'
-Plug 'haya14busa/incsearch.vim'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'vimwiki/vimwiki'
-Plug 'tbabej/taskwiki'
 Plug 'svermeulen/vim-yoink'
-Plug 'w0rp/ale'
+Plug 'neovim/nvim-lspconfig'
+Plug 'Raimondi/delimitMate'
 
-
-" Typescript
-Plug 'HerringtonDarkholme/yats.vim'
-"Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-"
 call plug#end()
 
 " Colorscheme
@@ -47,7 +37,7 @@ let mapleader=','
 let maplocalleader=','
 
 " Swap
-set noswapfile 
+set noswapfile
 
 " Don't split words on hyphens
 set iskeyword+=-
@@ -133,13 +123,16 @@ set ttimeoutlen=50
 " Don't redraw during macro execution
 set lazyredraw
 
+" Live substitution
+set inccommand=nosplit
+
 " Mappings
 nnoremap <C-c> <Esc>
 vnoremap <C-c> <Esc>gV
 onoremap <C-c> <Esc>
 cnoremap <C-c> <C-C><Esc>
 inoremap <C-c> <Esc>`^
-nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <C-t> :NERDTreeToggleVCS<CR>
 
 " NERDCommenter
 let g:NERDSpaceDelims = 1
@@ -150,8 +143,10 @@ let g:pymode_virtualenv = 0
 
 " Markdown configuration
 let g:vim_markdown_folding_style_pythonic = 1
-let g:vim_markdown_no_default_key_mappings = 1
-let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal = 2
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_autowrite = 1
 
 " Set filetype to text if unset
 autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
@@ -184,16 +179,12 @@ filetype plugin on
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#rust#racer_binary='/Users/ccheek/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/Users/ccheek/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src'
-
-let g:deoplete#sources#go#gocode_binary='/Users/ccheek/go/bin/gocode'
 
 " Tab options
-set tabstop=4
+set tabstop=2
 set expandtab
-set softtabstop=4
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 
 " Easy Align
 nmap ga <Plug>(EasyAlign)
@@ -216,17 +207,6 @@ let g:ctrlp_prompt_mappings = {
 			\ 'PrtHistory(1)': [],
 			\ }
 
-" Vim-go
-let g:go_highlight_functions = 1
-let g:go_highlight_function_arguments = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_operators = 1
-
 
 
 " Tmux
@@ -243,89 +223,85 @@ noremap! <silent> <C-l> <Esc>:TmuxNavigateRight<cr>
 
 nmap <C-p> :Files<Enter>
 
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, {}, a:fullscreen)
+endfunction
+
 nmap <C-g> :RgLive<Enter>
-command! -bang -nargs=* RgLive
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --hidden --fixed-strings --follow --ignore-case --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-  \   <bang>0)
+command! -nargs=* -bang RgLive call RipgrepFzf(<q-args>, <bang>0)
 
-" Topd integration
-"function IncrementTopd()
-	"execute  "!topd --store_name 'files.json' --add " . expand('%:p')
-"endfunction
-"autocmd BufNewFile,BufReadPost * call IncrementTopd()
+let g:fzf_preview_window = []
 
-" Rust
-let g:rust_recommended_style = 1
-
-"ALE
-
-map gd <Plug>(ale_go_to_definition)
-map gf <Plug>(ale_fix)
-let g:ale_completion_enabled = 1
-let g:ale_linters = {
-			\   'go': [
-			\     'gopls',
-            \     'golint',
-			\   ],
-			\   'rust': [
-			\     'rls',
-			\   ],
-			\   'ruby': [
-			\     'solargraph',
-			\     'rubocop',
-			\   ]
-			\ }
-let g:ale_fixers = {
-            \ 'go': [
-            \   'gofmt',
-            \   'goimports',
-            \   'remove_trailing_lines',
-            \   'trim_whitespace',
-			\ ],
-			\ 'typescript': [
-			\   'tslint',
-			\   'remove_trailing_lines',
-			\ ],
-			\ 'ruby': [
-			\   'rubocop',
-			\ ],
-			\}
 
 " Command line shortcuts
 cmap <C-f> <Right>
 cmap <C-b> <Left>
 cnoremap <C-d> <C-f>
 
-"Snippets
-"map <C-s> <Esc>:Snippets<CR>
-"let g:UltiSnipsEditSplit = 'context'
-"let g:UltiSnipsSnippetsDir="~/.data/myUltiSnips"
-"let g:UltiSnipsSnippetDirectories = ['/Users/ccheek/.data/myUltiSnips']
-"let g:UltiSnipsJumpForwardTrigger='<tab>'
-
-"Typescript
-"autocmd FileType {typescript} nmap gd :TSDef<Enter>
-"let g:nvim_typescript#diagnostics_enable = 0
-"autocmd BufWrite *.ts,*.tsx TSGetDiagnostics
-
 " NERDTree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
-" Vimwiki
-let g:vimwiki_list = [{'path': '~/notes',
-            \ 'syntax': 'markdown', 'ext': '.md',
-            \ 'automatic_nested_syntax': 1}]
-let g:vimwiki_folding = 'list'
+" Undotree
+nmap <C-u> :UndotreeToggle<CR>
 
 " Vim yoink
 let g:yoinkSavePersistently = 1
+
 
 " deoplete settings
 call deoplete#custom#option({
             \    'auto_complete_delay': 100,
             \    'max_list': 100,
+            \    'min_pattern_length': 1,
             \ })
+
+lua << END
+require'nvim_lsp'.rust_analyzer.setup{}
+require'nvim_lsp'.tsserver.setup{}
+require'nvim_lsp'.solargraph.setup{}
+require'nvim_lsp'.gopls.setup{
+  filetypes = { "go" }
+}
+require'nvim_lsp'.vimls.setup{}
+END
+
+
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> gd   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> g?    <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+" nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+
+set omnifunc=v:lua.vim.lsp.omnifunc
+
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
+autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+
+" delimitMate
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
+let b:delimitMate_nesting_quotes = ['`']
+
+" go highlighting
+let g:go_highlight_functions = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+let g:go_def_mapping_enabled = 0
+
