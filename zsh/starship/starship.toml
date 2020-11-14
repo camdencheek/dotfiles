@@ -1,0 +1,26 @@
+format = """
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$cmd_duration
+$character"""
+
+[directory]
+truncate_to_repo = false
+truncation_symbol = ".../"
+format = "[$path]($style) "
+style = "blue bold"
+
+[git_branch]
+format = "[$branch]($style) "
+style = "green bold"
+
+[git_commit]
+tag_disabled = false
+tag_symbol = "| "
+style = "yellow"
+
+[cmd_duration]
+format = " [$duration]($style) "

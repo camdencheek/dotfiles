@@ -260,15 +260,15 @@ call deoplete#custom#option({
             \    'min_pattern_length': 1,
             \ })
 
-lua << END
+lua << EOF
 require'nvim_lsp'.rust_analyzer.setup{}
 require'nvim_lsp'.tsserver.setup{}
 require'nvim_lsp'.solargraph.setup{}
-require'nvim_lsp'.gopls.setup{
-  filetypes = { "go" }
-}
+
+require'nvim_lsp'.gopls.setup {}
+
 require'nvim_lsp'.vimls.setup{}
-END
+EOF
 
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
@@ -284,8 +284,6 @@ nnoremap <silent> g?    <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 
 set omnifunc=v:lua.vim.lsp.omnifunc
-
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
 autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
 
 " delimitMate

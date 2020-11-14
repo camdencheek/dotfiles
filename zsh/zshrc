@@ -3,9 +3,6 @@
 
 # General env
 export PATH="$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin"
-if [[ $(uname) = "Darwin" ]] ; then
-    export PATH="$PATH:/Users/$USER/Library/Python/3.7/bin"
-fi
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -16,72 +13,37 @@ export GPG_TTY=$(tty)
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# Vulkan env
-export VULKAN_SDK="$HOME/.vulkan_sdk/macOS"
-export PATH="$VULKAN_SDK/bin:$PATH"
-export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH"
-export VK_ICD_FILENAMES="$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json"
-export VK_LAYER_PATH="$VULKAN_SDK/etc/vulkan/explicit_layer.d"
-export SHADERC_LIB_DIR="$VULKAN_SDK/lib"
-
 # Lang env
-export GROOVY_HOME="/usr/local/opt/groovy/libexec"
 export GOPATH="$HOME/go"
-# export RUST_SRC_PATH=/Users/ccheek/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
 # Personal env
 export BINDPLANE_AWS_USERNAME=ccheek""
 export BINDPLANE_HOME="$HOME/src/bindplane"
-export NR_JMX_TOOL="$HOME/bluemedora/nrjmx/bin/nrjmx"
 export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d)'
 export FZF_CTRL_T_OPTS='--tiebreak=index --bind tab:down --bind shift-tab:up'
-export PROD_API="https://bplog-api.bindplane.bluemedora.com"
-export DEV_API="https://b4vmn9ra2i.execute-api.us-east-1.amazonaws.com/dev"
 export BP_AGENT_HOME="$HOME/go/src/go.bluemedora.com/bpagent/testbed/darwin"
 
 fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
-alias creds='cat ~/.data/creds.json'
-alias t=task
 alias bp=bindplane
-alias doco='docker-compose'
 alias note='nvim ~/notes/scratch.md'
 alias ls='exa'
-alias nv='nvim'
-alias sudo='sudo '
 alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias cat='bat'
-alias clip='pbcopy'
 alias mv='mv -i'
-alias vscode='open /Applications/Visual\ Studio\ Code.app'
 
 # Copy path to file
 function cpth() {
     realpath $1 | xargs echo -n | pbcopy
 }
 
-function pass() {
-  session=$(bw unlock $(gpg --decrypt ~/scripts/bitwarden_password.gpg 2>/dev/null ) --raw)
-  name=$(bw list items --session $session | jq -r '.[].name' | fzf)
-  echo $name
-  bw get password --session $session $name | pbcopy
-}
-
-function otp() {
-  session=$(bw unlock $(gpg --decrypt ~/scripts/bitwarden_password.gpg 2>/dev/null ) --raw)
-  name=$(bw list items --session $session | jq -r '.[].name' | fzf)
-  bw get totp --session $session $name | pbcopy
-}
-
 # Config editing aliases
-
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
 alias ev='nvim ~/.config/nvim/init.vim'
 alias et='nvim ~/.tmux.conf'
 
 # Git Aliases
-
 alias ga='git add'
 alias gap='git add --patch'
 alias gsup='git submodule init && git submodule update'
@@ -96,31 +58,27 @@ alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
 
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-_zpcompinit_custom() {
-  setopt extendedglob local_options
-  autoload -Uz compinit
-  local zcd=${ZDOTDIR:-$HOME}/.zcompdump
-  local zcdc="$zcd.zwc"
-  # Compile the completion dump to increase startup speed, if dump is newer or doesn't exist,
-  # in the background as this is doesn't affect the current session
-  if [[ -f "$zcd"(#qN.m+1) ]]; then
-        compinit -i -d "$zcd"
-        { rm -f "$zcdc" && zcompile "$zcd" } &!
-  else
-        compinit -C -d "$zcd"
-        { [[ ! -f "$zcdc" || "$zcd" -nt "$zcdc" ]] && rm -f "$zcdc" && zcompile "$zcd" } &!
-  fi
-}
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# _zpcompinit_custom() {
+#   setopt extendedglob local_options
+#   autoload -Uz compinit
+#   local zcd=${ZDOTDIR:-$HOME}/.zcompdump
+#   local zcdc="$zcd.zwc"
+#   # Compile the completion dump to increase startup speed, if dump is newer or doesn't exist,
+#   # in the background as this is doesn't affect the current session
+#   if [[ -f "$zcd"(#qN.m+1) ]]; then
+#         compinit -i -d "$zcd"
+#         { rm -f "$zcdc" && zcompile "$zcd" } &!
+#   else
+#         compinit -C -d "$zcd"
+#         { [[ ! -f "$zcdc" || "$zcd" -nt "$zcdc" ]] && rm -f "$zcdc" && zcompile "$zcd" } &!
+#   fi
+# }
 
-autoload -U async && async
-_zpcompinit_custom
-autoload -Uz promptinit
-promptinit
-prompt pure
+# _zpcompinit_custom
+source <(~/.cargo/bin/starship init zsh --print-full-init)
 
 # History
-
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
@@ -132,32 +90,23 @@ setopt share_history
 setopt hist_ignore_dups
 
 # Directory Options
-
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_silent
+setopt extended_glob
 
 # Define Word Endings
-
 WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 
 # Emacs keybindings
 # for more info, man zshzle
 bindkey -e
 
-# Theme
-
-#source "$HOME/.dotfiles/zsh/zsh-theme.zsh"
-
-setopt extended_glob
-
-
 source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 
 # FZF options
-#
 source "$HOME/.dotfiles/zsh/fzf-key-bindings.zsh"
 
 # Update fre on directory change
@@ -167,45 +116,6 @@ fre_chpwd() {
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd
 
-eval "$(nodenv init -)"
 
-PATH="/Users/ccheek/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/ccheek/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/ccheek/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/ccheek/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/ccheek/perl5"; export PERL_MM_OPT;
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/ccheek/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/ccheek/.miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/ccheek/.miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/ccheek/.miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-export PATH="/Users/ccheek/.jenv/shims:${PATH}"
-export JENV_SHELL=zsh
-export JENV_LOADED=1
-unset JAVA_HOME
-source '/usr/local/Cellar/jenv/0.5.2/libexec/libexec/../completions/jenv.zsh'
-jenv rehash 2>/dev/null
-jenv() {
-  typeset command
-  command="$1"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  enable-plugin|rehash|shell|shell-options)
-    eval `jenv "sh-$command" "$@"`;;
-  *)
-    command jenv "$command" "$@";;
-  esac
-}
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
