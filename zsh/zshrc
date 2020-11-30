@@ -77,7 +77,7 @@ alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
 # }
 
 # _zpcompinit_custom
-source <(~/.cargo/bin/starship init zsh --print-full-init)
+source <(starship init zsh --print-full-init)
 
 # History
 HISTFILE=$HOME/.zsh_history
