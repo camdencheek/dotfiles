@@ -1,0 +1,42 @@
+[user]
+  name = Camden Cheek
+  email = camden@ccheek.com
+	signingkey = AA3B82D30534D13365809E56595BFFE3A04E48B9
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
+
+[merge]
+  ff = only
+
+[commit]
+  gpgSign = true
+
+[push]
+  default = simple
+  followTags = true
+
+[core]
+	autocrlf = false
+
+[url "git@github.com:bluemedora/"]
+	insteadOf = https://github.com/bluemedora/
+
+[alias]
+  stash-all = stash save --include-untracked
+  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+[gpg]
+	program = gpg2
+[pull]
+	rebase = true

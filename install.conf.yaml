@@ -13,3 +13,4 @@
     ~/.config/starship.toml: zsh/starship/starship.toml
     ~/.tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
+    ~/.gitconfig: git/gitconfig
