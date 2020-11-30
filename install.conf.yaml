@@ -12,3 +12,4 @@
     ~/.config/nvim/autoload/plug.vim: nvim/autoload/plug.vim
     ~/.config/starship.toml: zsh/starship/starship.toml
     ~/.tmux.conf: tmux/tmux.conf
+    ~/.hammerspoon/init.lua: hammerspoon/init.lua

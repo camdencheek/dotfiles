@@ -32,6 +32,7 @@ alias ls='exa'
 alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias cat='bat'
 alias mv='mv -i'
+alias nb='jotr'
 
 # Copy path to file
 function cpth() {
@@ -115,7 +116,3 @@ fre_chpwd() {
 }
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd
-
-
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"

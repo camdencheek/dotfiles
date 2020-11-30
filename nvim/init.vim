@@ -268,6 +268,26 @@ require'nvim_lsp'.solargraph.setup{}
 require'nvim_lsp'.gopls.setup {}
 
 require'nvim_lsp'.vimls.setup{}
+
+
+-- Synchronously organise (Go) imports.
+function go_organize_imports_sync(timeout_ms)
+  local context = { source = { organizeImports = true } }
+  vim.validate { context = { context, 't', true } }
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+  if not result then return end
+  result = result[1].result
+  if not result then return end
+  edit = result[1].edit
+  vim.lsp.util.apply_workspace_edit(edit)
+end
+
+vim.api.nvim_command("au BufWritePre *.go lua go_organize_imports_sync(1000)")
+vim.api.nvim_command("au BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)")
+
 EOF
 
 
@@ -278,12 +298,13 @@ nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 " nnoremap <silent> gd   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> g?    <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+nnoremap <silent> g?    <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 " nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 
 set omnifunc=v:lua.vim.lsp.omnifunc
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
 autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
 
 " delimitMate
