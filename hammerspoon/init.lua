@@ -1,4 +1,3 @@
-require "collage"
 
 -- App vars
 local browser = "Firefox Developer Edition"
@@ -145,6 +144,9 @@ end)
 -- Maximize
 hs.hotkey.bind("alt", "m", function()
   local win = hs.window.focusedWindow()
+  if win == nil then
+    return
+  end
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()

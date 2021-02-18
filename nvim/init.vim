@@ -2,6 +2,9 @@ set nocompatible
 
 call plug#begin('~/.cache/nvim/plugged')
 
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'stephpy/vim-yaml'
 Plug 'morhetz/gruvbox'
 Plug 'Shougo/deoplete.nvim'
@@ -13,7 +16,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'christoomey/vim-tmux-navigator'
 Plug '/usr/local/opt/fzf'
@@ -23,8 +27,12 @@ Plug 'mbbill/undotree'
 Plug 'svermeulen/vim-yoink'
 Plug 'neovim/nvim-lspconfig'
 Plug 'Raimondi/delimitMate'
+Plug '~/src/sgbrowse'
 
 call plug#end()
+
+" Highlight embedded lua
+let g:vimsyn_embed = 'l'
 
 " Colorscheme
 colorscheme gruvbox
@@ -35,9 +43,6 @@ set termguicolors
 " Leaders
 let mapleader=','
 let maplocalleader=','
-
-" Swap
-set noswapfile
 
 " Don't split words on hyphens
 set iskeyword+=-
@@ -93,7 +98,8 @@ set directory=$HOME/.data/swap
 
 " No fold enable
 set nofoldenable
-set foldmethod=indent
+set foldmethod=expr
+set foldexpr=nvim_treesitter@foldexpr()
 set nowritebackup
 set matchtime=0
 set ruler
@@ -137,10 +143,6 @@ nnoremap <C-t> :NERDTreeToggleVCS<CR>
 " NERDCommenter
 let g:NERDSpaceDelims = 1
 
-" Python Configuration
-"let g:pymode_lint = 0
-let g:pymode_virtualenv = 0
-
 " Markdown configuration
 let g:vim_markdown_folding_style_pythonic = 1
 let g:vim_markdown_conceal = 2
@@ -151,52 +153,13 @@ let g:vim_markdown_autowrite = 1
 " Set filetype to text if unset
 autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
 
-"" Set wrapping settings, and remap j to do visually down
-set nowrap
-autocmd FileType {html,markdown,tex} setlocal wrap
-autocmd FileType {html,markdown,tex} nnoremap <expr> j v:count ? 'j' : 'gj'
-autocmd FileType {html,markdown,tex} nnoremap <expr> k v:count ? 'k' : 'gk'
-
-
-
-
-" Tex folding
-autocmd FileType {tex} setlocal foldmethod=marker
-autocmd FileType {tex} setlocal foldmarker=%{{{,%}}}
-let vimtex_fold_manual = 1
-
-" Beginning and end of line shortcuts
-nnoremap H 0
-nnoremap L $
-
-" Syntax
-if has("syntax")
-		syntax on
-		filetype on
-		au BufNewFile,BufRead *.sage set filetype=python
-endif
-filetype plugin on
-
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 
 " Tab options
 set tabstop=2
-set expandtab
 set softtabstop=2
 set shiftwidth=2
-
-" Easy Align
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = []
-
-" Easy Clip
-let g:EasyClipShareYanks = 1
-let g:EasyClipAutoFormat = 1
-let g:EasyClipUsePasteDefaults = 0
-let g:EasyClipEnableBlackHoleRedirect = 0
-let g:EasyClipUsePasteToggleDefaults = 0
 
 " Ctrl-P
 let g:ctrlp_map = '<c-p>'
@@ -206,7 +169,6 @@ let g:ctrlp_prompt_mappings = {
 			\ 'PrtHistory(-1)': [],
 			\ 'PrtHistory(1)': [],
 			\ }
-
 
 
 " Tmux
@@ -231,8 +193,11 @@ function! RipgrepFzf(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, {}, a:fullscreen)
 endfunction
 
+
 nmap <C-g> :RgLive<Enter>
 command! -nargs=* -bang RgLive call RipgrepFzf(<q-args>, <bang>0)
+
+command! -bang EditConfig edit ~/.config/nvim/init.vim
 
 let g:fzf_preview_window = []
 
@@ -252,7 +217,6 @@ nmap <C-u> :UndotreeToggle<CR>
 " Vim yoink
 let g:yoinkSavePersistently = 1
 
-
 " deoplete settings
 call deoplete#custom#option({
             \    'auto_complete_delay': 100,
@@ -260,28 +224,18 @@ call deoplete#custom#option({
             \    'min_pattern_length': 1,
             \ })
 
-lua << EOF
-require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.gopls.setup {}
-EOF
 
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent> gd   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> g?    <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-" nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 
 set omnifunc=v:lua.vim.lsp.omnifunc
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
-autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+" autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 2000)
+" autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 10000)
 
 " delimitMate
 let delimitMate_expand_cr = 1
@@ -289,14 +243,21 @@ let delimitMate_expand_space = 1
 let b:delimitMate_nesting_quotes = ['`']
 
 " go highlighting
-let g:go_highlight_functions = 1
-let g:go_highlight_function_arguments = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_operators = 1
-let g:go_def_mapping_enabled = 0
+" let g:go_highlight_functions = 1
+" let g:go_highlight_function_arguments = 1
+" let g:go_highlight_function_calls = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_variable_declarations = 1
+" let g:go_highlight_variable_assignments = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_operators = 1
+" let g:go_def_mapping_enabled = 0
 
+lua << EOF
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true,
+  },
+}
+EOF

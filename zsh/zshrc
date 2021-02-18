@@ -1,8 +1,17 @@
-#Start tmux on login
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Start tmux on login
 [ -z "$TMUX" ] && { tmux attach || exec tmux new-session  && exit; }
 
+ulimit -n 2048
+
 # General env
-export PATH="$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin"
+export PATH="$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -16,23 +25,29 @@ export LC_ALL=en_US.UTF-8
 # Lang env
 export GOPATH="$HOME/go"
 
+# Sourcegraph Setup
+export PGPORT=5432
+export PGHOST=localhost
+export PGUSER=sourcegraph
+export PGPASSWORD=sourcegraph
+export PGDATABASE=sourcegraph
+export PGSSLMODE=disable
+export SOURCEGRAPH_HTTPS_PORT=443
+# https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
+export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
+
 # Personal env
-export BINDPLANE_AWS_USERNAME=ccheek""
-export BINDPLANE_HOME="$HOME/src/bindplane"
 export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d)'
 export FZF_CTRL_T_OPTS='--tiebreak=index --bind tab:down --bind shift-tab:up'
-export BP_AGENT_HOME="$HOME/go/src/go.bluemedora.com/bpagent/testbed/darwin"
 
 fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
-alias bp=bindplane
-alias note='nvim ~/notes/scratch.md'
 alias ls='exa'
 alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias cat='bat'
 alias mv='mv -i'
-alias nb='jotr'
+alias roll='dice eval'
 
 # Copy path to file
 function cpth() {
@@ -41,7 +56,7 @@ function cpth() {
 
 # Config editing aliases
 alias ez='nvim ~/.zshrc && source ~/.zshrc'
-alias ev='nvim ~/.config/nvim/init.vim'
+alias ev='nvim ~/.config/nvim/init.lua'
 alias et='nvim ~/.tmux.conf'
 
 # Git Aliases
@@ -59,25 +74,8 @@ alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
 
-# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# _zpcompinit_custom() {
-#   setopt extendedglob local_options
-#   autoload -Uz compinit
-#   local zcd=${ZDOTDIR:-$HOME}/.zcompdump
-#   local zcdc="$zcd.zwc"
-#   # Compile the completion dump to increase startup speed, if dump is newer or doesn't exist,
-#   # in the background as this is doesn't affect the current session
-#   if [[ -f "$zcd"(#qN.m+1) ]]; then
-#         compinit -i -d "$zcd"
-#         { rm -f "$zcdc" && zcompile "$zcd" } &!
-#   else
-#         compinit -C -d "$zcd"
-#         { [[ ! -f "$zcdc" || "$zcd" -nt "$zcdc" ]] && rm -f "$zcdc" && zcompile "$zcd" } &!
-#   fi
-# }
-
-# _zpcompinit_custom
-source <(starship init zsh --print-full-init)
+# source <(starship init zsh --print-full-init)
+source ~/.dotfiles/zsh/powerlevel10k/powerlevel10k.zsh-theme
 
 # History
 HISTFILE=$HOME/.zsh_history
@@ -103,6 +101,24 @@ WORDCHARS='*?+[]~=&;!#$%^(){}<>'
 # for more info, man zshzle
 bindkey -e
 
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+_zpcompinit_custom() {
+  setopt extendedglob local_options
+  autoload -Uz compinit
+  local zcd=${ZDOTDIR:-$HOME}/.zcompdump
+  local zcdc="$zcd.zwc"
+  # Compile the completion dump to increase startup speed, if dump is newer or doesn't exist,
+  # in the background as this is doesn't affect the current session
+  if [[ -f "$zcd"(#qN.m+1) ]]; then
+        compinit -i -d "$zcd"
+        { rm -f "$zcdc" && zcompile "$zcd" } &!
+  else
+        compinit -C -d "$zcd"
+        { [[ ! -f "$zcdc" || "$zcd" -nt "$zcdc" ]] && rm -f "$zcdc" && zcompile "$zcd" } &!
+  fi
+}
+_zpcompinit_custom
+
 source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
@@ -116,3 +132,12 @@ fre_chpwd() {
 }
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd
+
+# Rust environment
+source $HOME/.cargo/env
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -8,8 +8,8 @@
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
     ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
-    ~/.config/nvim/init.vim: nvim/init.vim
-    ~/.config/nvim/autoload/plug.vim: nvim/autoload/plug.vim
+    ~/.config/nvim/init.lua: nvim/init.lua
+    ~/.config/nvim/lua: nvim/lua
     ~/.config/starship.toml: zsh/starship/starship.toml
     ~/.tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua

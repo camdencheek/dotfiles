@@ -37,6 +37,8 @@
   stash-all = stash save --include-untracked
   glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 [gpg]
-	program = gpg2
+	program = gpg
 [pull]
 	rebase = true
+[init]
+	defaultBranch = main
