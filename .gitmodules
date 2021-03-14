@@ -30,4 +30,4 @@
 	url = git@github.com:junegunn/fzf.git
 [submodule "zsh/powerlevel10k"]
 	path = zsh/powerlevel10k
-	url = git@github.com:romkatv/powerlevel10k.git
+	url = https://github.com/romkatv/powerlevel10k.git

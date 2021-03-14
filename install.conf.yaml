@@ -8,9 +8,7 @@
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
     ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
-    ~/.config/nvim/init.lua: nvim/init.lua
-    ~/.config/nvim/lua: nvim/lua
-    ~/.config/starship.toml: zsh/starship/starship.toml
+    ~/.config/nvim: nvim
     ~/.tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
     ~/.gitconfig: git/gitconfig

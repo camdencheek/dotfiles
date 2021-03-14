@@ -40,5 +40,8 @@
 	program = gpg
 [pull]
 	rebase = true
+  prune = true
 [init]
 	defaultBranch = main
+[fetch]
+	prune = true

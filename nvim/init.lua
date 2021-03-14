@@ -29,7 +29,7 @@ wo.wrap          = false
 o.equalalways    = true -- Auto-resize windows
 
 -- Colorscheme
-vim.api.nvim_command('colorscheme gruvbox')
+vim.cmd([[colorscheme gruvbox]])
 o.background     = 'dark'
 o.termguicolors  = true
 
@@ -40,6 +40,7 @@ o.cindent        = true
 o.tabstop        = 4
 o.softtabstop    = 4
 o.shiftwidth     = 4
+o.expandtab      = false
 
 -- Backup and undo
 o.backup         = true
@@ -53,11 +54,12 @@ o.directory      = data_dir .. 'swap'
 
 -- Folding
 wo.foldenable    = true
-wo.foldmethod    = 'syntax'
+wo.foldmethod    = 'expr'
+wo.foldexpr      = 'nvim_treesitter#foldexpr()'
 wo.foldlevel     = 20
 
 -- Completion
-o.completeopt    = 'menu,menuone,longest'
+o.completeopt    = 'menuone,noselect'
 o.complete       = '.,w,b,u,t'
 o.pumheight      = 15
 
@@ -77,13 +79,6 @@ o.formatoptions  = 'cqrnj'
 -- Splitting
 o.splitright     = true
 o.splitbelow     = true
-
--- Deoplete settings (unconverted)
--- call deoplete#custom#option({
---             \    'auto_complete_delay': 100,
---             \    'max_list': 100,
---             \    'min_pattern_length': 1,
---             \ })
 
 -- Go highlighting
 vim.g.go_highlight_functions             = 1

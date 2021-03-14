@@ -1,28 +1,59 @@
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
 local themes = require('telescope.themes')
+local conf = require('telescope.config').values
+local finders = require('telescope.finders')
+local make_entry = require('telescope.make_entry')
+local pickers = require('telescope.pickers')
 
 require('telescope').setup {
-	mappings = {
-		i = {
-			["<c-q>"] = actions.send_to_qflist,
-		}
+	defaults = {
+		prompt_prefix = '❯ ',
+		selection_caret = '❯ ',
+		color_devicons = true,
+
+		mappings = {
+			i = {
+				["<c-q>"] = actions.send_to_qflist,
+				["<esc>"] = actions.close,
+			}
+		},
+
+		file_sorter = sorters.get_fzy_sorter,
+		file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
+		grep_previewer   = require('telescope.previewers').vim_buffer_vimgrep.new,
+		qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 	},
 
-	file_sorter = sorters.get_fzy_sorter,
-  file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
-  grep_previewer   = require('telescope.previewers').vim_buffer_vimgrep.new,
-  -- qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+	extensions = {
+		fzy_native = {
+			override_generic_sorter = false,
+			override_file_sorter = true,
+		},
+
+		fzf_writer = {
+			use_highlighter = true,
+			minimum_grep_characters = 3,
+		},
+
+		frecency = {
+			workspaces = {
+				["conf"] = "/home/tj/.config/nvim/",
+				["nvim"] = "/home/tj/build/neovim",
+			}
+		}
+	},
 }
+require('telescope').load_extension('fzy_native')
 
 local map_tele = function(key, f)
-  local mode = 'n'
-  local options = {
-    noremap = true,
-    silent = true,
-  }
-  local rhs = '<cmd>Telescope ' .. f .. '<cr>'
-  vim.api.nvim_set_keymap(mode, key, rhs, options)
+	local mode = 'n'
+	local options = {
+		noremap = true,
+		silent = true,
+	}
+	local rhs = '<cmd>Telescope ' .. f .. '<cr>'
+	vim.api.nvim_set_keymap(mode, key, rhs, options)
 end
 
 -- Files
@@ -42,36 +73,39 @@ map_tele('<leader>gp', 'grep_prompt')
 -- Telescope Meta
 map_tele('<leader>fB', 'builtin')
 
-vim.api.nvim_set_keymap('n', '<leader>fn', '<cmd>lua require("cc/plugins/telescope").run("fd_nvim")<cr>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fn', '<cmd>lua require("cc/plugins/telescope").fd_nvim()<cr>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>lua require("cc/plugins/telescope").live_grep()<cr>', { noremap = true, silent = true})
 
-local center_list  -- check the above snippet
-local with_preview -- check the above snippet
+
 local main = {}
 
-local telescopes = {
-  fd_nvim = {
-    fun = "fd",
-    prompt_title = "NVIM Config",
-    shorten_path = false,
-    cwd = "~/.config/nvim",
-  } 
-}
+main.fd_nvim = function()
+	return require('telescope.builtin')["fd"]({
+		prompt_title = "NVIM Config",
+		shorten_path = false,
+		cwd = "~/.config/nvim",
+	})
+end
 
-main.run = function(str)
-  local base, fun, opts
-  if not telescopes[str] then 
-    return print("Sorry not found")
-  else 
-    base = telescopes[str]
-    fun = base.fun
-  end
 
-  if str then
-    print(fun)
-    return require('telescope.builtin')[fun](opts)
-  else 
-    return print("You need to a set a default function")
-  end
+
+local escape_chars = function(string)
+  return string.gsub(string,  "[%(|%)|\\|%[|%]|%-|%{%}|%?|%+|%*]", {
+    ["\\"] = "\\\\", ["-"] = "\\-",
+    ["("] = "\\(", [")"] = "\\)",
+    ["["] = "\\[", ["]"] = "\\]",
+    ["{"] = "\\{", ["}"] = "\\}",
+    ["?"] = "\\?", ["+"] = "\\+",
+    ["*"] = "\\*",
+  })
+end
+
+main.live_grep = function()
+ require('telescope').extensions.fzf_writer.staged_grep {
+   shorten_path = true,
+   fzf_separator = "|>",
+ }
 end
 
 return main
+
