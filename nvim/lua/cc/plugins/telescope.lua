@@ -87,19 +87,6 @@ main.fd_nvim = function()
 	})
 end
 
-
-
-local escape_chars = function(string)
-  return string.gsub(string,  "[%(|%)|\\|%[|%]|%-|%{%}|%?|%+|%*]", {
-    ["\\"] = "\\\\", ["-"] = "\\-",
-    ["("] = "\\(", [")"] = "\\)",
-    ["["] = "\\[", ["]"] = "\\]",
-    ["{"] = "\\{", ["}"] = "\\}",
-    ["?"] = "\\?", ["+"] = "\\+",
-    ["*"] = "\\*",
-  })
-end
-
 main.live_grep = function()
  require('telescope').extensions.fzf_writer.staged_grep {
    shorten_path = true,
