@@ -1,13 +1,15 @@
 -- Leader key
--- Set leader key before loading plugins so that the defined 
+-- Set leader key before loading plugins so that the defined
 -- keybindings are correct
 vim.g.mapleader      = ','
 vim.g.maplocalleader = ','
 
 require('cc/plugins')
+require('cc/notes')
 
 local wo = vim.wo
 local o = vim.o
+local bo = vim.bo
 
 -- Misc options
 o.iskeyword      = o.iskeyword .. '-'
@@ -33,11 +35,12 @@ vim.cmd([[colorscheme gruvbox]])
 o.background     = 'dark'
 o.termguicolors  = true
 
--- Indentation 
+-- Indentation
 o.autoindent     = true
 o.smartindent    = true
 o.cindent        = true
 o.tabstop        = 4
+bo.tabstop        = 4
 o.softtabstop    = 4
 o.shiftwidth     = 4
 o.expandtab      = false
@@ -91,3 +94,4 @@ vim.g.go_highlight_variable_assignments  = 1
 vim.g.go_highlight_extra_types           = 1
 vim.g.go_highlight_operators             = 1
 vim.g.go_def_mapping_enabled             = 0
+
