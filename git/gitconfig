@@ -1,31 +1,31 @@
 [user]
-  name = Camden Cheek
-  email = camden@ccheek.com
+	name = Camden Cheek
+	email = camden@ccheek.com
 	signingkey = AA3B82D30534D13365809E56595BFFE3A04E48B9
 
 [filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 
 [color]
-  diff = auto
-  status = auto
-  branch = auto
-  interactive = auto
-  ui = true
-  pager = true
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
 
 [merge]
-  ff = only
+	ff = only
 
 [commit]
-  gpgSign = true
+	gpgSign = true
 
 [push]
-  default = simple
-  followTags = true
+	default = simple
+	followTags = true
 
 [core]
 	autocrlf = false
@@ -34,14 +34,21 @@
 	insteadOf = https://github.com/bluemedora/
 
 [alias]
-  stash-all = stash save --include-untracked
-  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	stash-all = stash save --include-untracked
+	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+	review = !nvim -p $(git files) +\"tabdo Git diff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+
 [gpg]
 	program = gpg
 [pull]
 	rebase = true
-  prune = true
+	prune = true
 [init]
 	defaultBranch = main
 [fetch]
 	prune = true
+[fixup]
+	commit = true
+[rebase]
+	autosquash = true

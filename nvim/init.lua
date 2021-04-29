@@ -7,59 +7,62 @@ vim.g.maplocalleader = ','
 require('cc/plugins')
 require('cc/notes')
 
-local wo = vim.wo
+local w = vim.wo
 local o = vim.o
-local bo = vim.bo
+local b = vim.bo
 
 -- Misc options
-o.iskeyword      = o.iskeyword .. '-'
-wo.cursorline    = true
-o.showcmd        = false
-o.wildmenu       = true
-wo.linebreak     = true
-wo.number        = true
-o.ruler          = true
-wo.scrolloff     = 7
-o.laststatus     = 2
-o.wildignorecase = true
-o.mouse          = 'n'
+o.equalalways    = true -- Auto-resize windows
 o.hidden         = true
+o.laststatus     = 2
+o.lazyredraw     = true
+o.mouse          = 'n'
+o.ruler          = true
+o.showcmd        = false
 o.ttimeout       = true
 o.ttimeoutlen    = 50
-o.lazyredraw     = true
-wo.wrap          = false
-o.equalalways    = true -- Auto-resize windows
+o.wildignorecase = true
+o.wildmenu       = true
+o.scrolloff      = 7
+o.sidescrolloff  = 7
+w.cursorline     = true
+w.linebreak      = true
+w.number         = true
+w.wrap           = false
 
 -- Colorscheme
 vim.cmd([[colorscheme gruvbox]])
-o.background     = 'dark'
-o.termguicolors  = true
+o.background    = 'dark'
+o.termguicolors = true
 
 -- Indentation
-o.autoindent     = true
-o.smartindent    = true
-o.cindent        = true
-o.tabstop        = 4
-bo.tabstop        = 4
-o.softtabstop    = 4
-o.shiftwidth     = 4
-o.expandtab      = false
+o.autoindent  = true
+b.autoindent  = true
+o.cindent     = true
+b.cindent     = true
+o.tabstop     = 4
+b.tabstop     = 4
+o.softtabstop = 4
+b.softtabstop = 4
+o.shiftwidth  = 4
+b.shiftwidth  = 4
+o.expandtab   = false
+b.expandtab   = false
 
 -- Backup and undo
 o.backup         = true
 o.undofile       = true
 o.undolevels     = 1000
-
-data_dir         = '/Users/ccheek/.data/'
+local data_dir   = '/Users/ccheek/.data/'
 o.backupdir      = data_dir .. 'backup'
 o.undodir        = data_dir .. 'undofile'
 o.directory      = data_dir .. 'swap'
 
 -- Folding
-wo.foldenable    = true
-wo.foldmethod    = 'expr'
-wo.foldexpr      = 'nvim_treesitter#foldexpr()'
-wo.foldlevel     = 20
+w.foldenable    = true
+w.foldmethod    = 'expr'
+w.foldexpr      = 'nvim_treesitter#foldexpr()'
+w.foldlevel     = 20
 
 -- Completion
 o.completeopt    = 'menuone,noselect'
@@ -74,7 +77,7 @@ o.smartcase      = true
 o.inccommand     = 'nosplit'
 
 -- Clipboard
-o.clipboard      = 'unnamedplus'
+o.clipboard      = '' -- don't use system clipboard
 
 -- Formatting
 o.formatoptions  = 'cqrnj'
@@ -82,16 +85,3 @@ o.formatoptions  = 'cqrnj'
 -- Splitting
 o.splitright     = true
 o.splitbelow     = true
-
--- Go highlighting
-vim.g.go_highlight_functions             = 1
-vim.g.go_highlight_function_arguments    = 1
-vim.g.go_highlight_function_calls        = 1
-vim.g.go_highlight_types                 = 1
-vim.g.go_highlight_fields                = 1
-vim.g.go_highlight_variable_declarations = 1
-vim.g.go_highlight_variable_assignments  = 1
-vim.g.go_highlight_extra_types           = 1
-vim.g.go_highlight_operators             = 1
-vim.g.go_def_mapping_enabled             = 0
-

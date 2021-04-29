@@ -35,6 +35,7 @@ export PGSSLMODE=disable
 export SOURCEGRAPH_HTTPS_PORT=443
 # https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
 export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
+export REVIEW_BASE=main
 
 # Personal env
 export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d)'
@@ -49,6 +50,7 @@ alias cat='bat'
 alias mv='mv -i'
 alias roll='dice eval'
 alias lintit='./dev/check/go-lint.sh'
+alias cdr='cd $(git rev-parse --show-toplevel)'
 
 # Copy path to file
 function cpth() {
@@ -94,6 +96,7 @@ setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
 setopt hist_ignore_dups
+setopt inc_append_history
 
 # Directory Options
 setopt auto_pushd
@@ -152,3 +155,9 @@ export NVM_DIR="$HOME/.nvm"
 # Direnv
 eval "$(direnv hook zsh)"
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

@@ -1,12 +1,12 @@
 require('nvim-treesitter.configs').setup {
-	ensure_installed = 'maintained',
+	ensure_installed = {'rust', 'typescript', 'javascript'},
 	highlight = {
 		enable = true,
 		use_languagetree = true,
 	},
 
 	indent = {
-		enable = true,
+		enable = false,
 	},
 
 	incremental_selection = {
