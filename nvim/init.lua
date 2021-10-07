@@ -7,81 +7,79 @@ vim.g.maplocalleader = ','
 require('cc/plugins')
 require('cc/notes')
 
-local w = vim.wo
-local o = vim.o
-local b = vim.bo
+local opt = vim.opt
 
 -- Misc options
-o.equalalways    = true -- Auto-resize windows
-o.hidden         = true
-o.laststatus     = 2
-o.lazyredraw     = true
-o.mouse          = 'n'
-o.ruler          = true
-o.showcmd        = false
-o.ttimeout       = true
-o.ttimeoutlen    = 50
-o.wildignorecase = true
-o.wildmenu       = true
-o.scrolloff      = 7
-o.sidescrolloff  = 7
-w.cursorline     = true
-w.linebreak      = true
-w.number         = true
-w.wrap           = false
+opt.equalalways    = true -- Auto-resize windows
+opt.hidden         = true
+opt.laststatus     = 2
+opt.lazyredraw     = true
+opt.mouse          = 'n'
+opt.ruler          = true
+opt.showcmd        = false
+opt.ttimeout       = true
+opt.ttimeoutlen    = 50
+opt.wildignorecase = true
+opt.wildmenu       = true
+opt.scrolloff      = 7
+opt.sidescrolloff  = 7
+opt.cursorline     = true
+opt.linebreak      = true
+opt.number         = true
+opt.wrap           = false
 
 -- Colorscheme
 vim.cmd([[colorscheme gruvbox]])
-o.background    = 'dark'
-o.termguicolors = true
+opt.background    = 'dark'
+opt.termguicolors = true
 
 -- Indentation
-o.autoindent  = true
-b.autoindent  = true
-o.cindent     = true
-b.cindent     = true
-o.tabstop     = 4
-b.tabstop     = 4
-o.softtabstop = 4
-b.softtabstop = 4
-o.shiftwidth  = 4
-b.shiftwidth  = 4
-o.expandtab   = false
-b.expandtab   = false
+opt.autoindent  = true
+opt.autoindent  = true
+opt.cindent     = true
+opt.cindent     = true
+opt.tabstop     = 4
+opt.tabstop     = 4
+opt.softtabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth  = 4
+opt.shiftwidth  = 4
+opt.expandtab   = false
+opt.expandtab   = false
 
 -- Backup and undo
-o.backup         = true
-o.undofile       = true
-o.undolevels     = 1000
+opt.backup         = true
+opt.undofile       = true
+opt.undolevels     = 1000
 local data_dir   = '/Users/ccheek/.data/'
-o.backupdir      = data_dir .. 'backup'
-o.undodir        = data_dir .. 'undofile'
-o.directory      = data_dir .. 'swap'
+opt.backupdir      = data_dir .. 'backup'
+opt.undodir        = data_dir .. 'undofile'
+opt.directory      = data_dir .. 'swap'
 
 -- Folding
-w.foldenable    = true
-w.foldmethod    = 'expr'
-w.foldexpr      = 'nvim_treesitter#foldexpr()'
-w.foldlevel     = 20
+opt.foldenable    = true
+opt.foldmethod    = 'expr'
+opt.foldexpr      = 'nvim_treesitter#foldexpr()'
+opt.foldlevel     = 20
 
 -- Completion
-o.completeopt    = 'menuone,noselect'
-o.complete       = '.,w,b,u,t'
-o.pumheight      = 15
+-- o.completeopt    = 'menuone,noselect'
+-- o.complete       = '.,w,b,u,t'
+opt.pumheight      = 15
 
 -- Search
-o.incsearch      = true
-o.hlsearch       = true
-o.ignorecase     = true
-o.smartcase      = true
-o.inccommand     = 'nosplit'
+opt.incsearch      = true
+opt.hlsearch       = true
+opt.ignorecase     = true
+opt.smartcase      = true
+opt.inccommand     = 'nosplit'
 
 -- Clipboard
-o.clipboard      = '' -- don't use system clipboard
+opt.clipboard      = '' -- don't use system clipboard
 
 -- Formatting
-o.formatoptions  = 'cqrnj'
+opt.formatoptions  = 'cqrnj'
 
 -- Splitting
-o.splitright     = true
-o.splitbelow     = true
+opt.splitright     = true
+opt.splitbelow     = true

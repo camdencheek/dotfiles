@@ -34,10 +34,10 @@
 	insteadOf = https://github.com/bluemedora/
 
 [alias]
+	gone = ! "git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
 	stash-all = stash save --include-untracked
 	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
-	review = !nvim -p $(git files) +\"tabdo Git diff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 
 [gpg]
 	program = gpg

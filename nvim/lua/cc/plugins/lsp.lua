@@ -1,13 +1,13 @@
-require('lspconfig').rust_analyzer.setup {
-    cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-	on_attach=require('completion').on_attach
-}
-require('lspconfig').tsserver.setup{}
-require('lspconfig').gopls.setup {
-	on_attach=require('completion').on_attach
-}
+require('lspconfig').tsserver.setup({
+	on_attach = function(client)
+		client.resolved_capabilities.document_formatting = false
+	end
+})
 require('lspconfig').ccls.setup {}
 require('lspconfig').sumneko_lua.setup {}
+require('lspconfig').graphql.setup {}
+require('lspconfig').gopls.setup {}
+require('lspconfig').rust_analyzer.setup {}
 
 -- From https://www.chrisatmachine.com/Neovim/28-neovim-lua-development/
 USER = vim.fn.expand('$USER')
@@ -56,42 +56,10 @@ a.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>',           
 a.nvim_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>',                       { noremap = true})
 a.nvim_set_keymap('n', 'g/', '<cmd>lua require("cc.plugins.lsp").disable_diag()<cr>',   { noremap = true})
 
--- local telescope_mapper = require('cc/plugins/telescope/mappings')
--- telescope_mapper('gr', 'lsp_references', {
--- 	sorting_strategy = "ascending",
--- 	prompt_position = "top",
--- 	ignore_filename = true,
--- }, true)
-
-
 vim.o.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-function goimports(timeoutms)
-	local context = { source = { organizeImports = true } }
-	vim.validate { context = { context, "t", true } }
-
-	local params = vim.lsp.util.make_range_params()
-	params.context = context
-
-	local method = "textDocument/codeAction"
-	local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
-	if resp and resp[1] then
-		local result = resp[1].result
-		if result and result[1] then
-			local edit = result[1].edit
-			vim.lsp.util.apply_workspace_edit(edit)
-		end
-	end
-
-	vim.lsp.buf.formatting_sync()
-end
-
-
-
-
-
-vim.cmd('autocmd BufWritePre *.go lua goimports(2000)')
-vim.cmd('autocmd BufWritePre *.tsx lua goimports(2000)')
+vim.cmd('autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 2000)')
+vim.cmd('autocmd BufWritePre *.tsx,*.ts,*.js,*.jsx lua vim.lsp.buf.formatting_sync(nil, 2000)')
 
 local M = {}
 

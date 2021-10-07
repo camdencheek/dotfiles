@@ -17,6 +17,7 @@ export TERM=screen-256color
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
+export MANPAGER='nvim +Man!'
 export COLORTERM=truecolor
 export GPG_TTY=$(tty)
 export LC_CTYPE=en_US.UTF-8
@@ -32,7 +33,6 @@ export PGUSER=sourcegraph
 export PGPASSWORD=sourcegraph
 export PGDATABASE=sourcegraph
 export PGSSLMODE=disable
-export SOURCEGRAPH_HTTPS_PORT=443
 # https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
 export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
 export REVIEW_BASE=main
@@ -51,6 +51,9 @@ alias mv='mv -i'
 alias roll='dice eval'
 alias lintit='./dev/check/go-lint.sh'
 alias cdr='cd $(git rev-parse --show-toplevel)'
+function prettify() {
+	prettier $(git diff --name-only | grep -E '\.(js|json|ts|tsx|graphql|md|scss)$') --write --list-different --config prettier.config.js
+}
 
 # Copy path to file
 function cpth() {
@@ -65,25 +68,17 @@ alias et='nvim ~/.tmux.conf'
 # Git Aliases
 alias ga='git add'
 alias gap='git add --patch'
-alias gsup='git submodule init && git submodule update'
 alias gc='git commit -m'
 alias gl='git pull --prune'
-alias gp='git push -u --follow-tags origin HEAD'
-alias gpm='git push -u --follow-tags origin HEAD:master-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
-alias gd='git diff'
+alias gp='git push --follow-tags'
+alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref HEAD)'
+alias gpd='git push --set-upstream origin HEAD:backend-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
+alias gpm='git push --set-upstream origin HEAD:master-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
-alias gcl='git clean -dix'
-alias gb='git branch'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
-alias gcob='git_checkout_tracking'
 
-git_checkout_tracking()  {
-  git checkout -b $1 && git branch --set-upstream-to "origin/master-dry-run/cc/$1"
-}
-
-# source <(starship init zsh --print-full-init)
 source ~/.dotfiles/zsh/powerlevel10k/powerlevel10k.zsh-theme
 
 # History
@@ -92,7 +87,6 @@ HISTSIZE=100000
 SAVEHIST=100000
 setopt append_history
 setopt extended_history
-setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
 setopt hist_ignore_dups
