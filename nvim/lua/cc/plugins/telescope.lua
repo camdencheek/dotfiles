@@ -19,8 +19,27 @@ require('telescope').setup {
 		grep_previewer   = require('telescope.previewers').vim_buffer_vimgrep.new,
 		qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 	},
+
+	extensions = {
+		-- fzy_native = {
+		-- 	override_generic_sorter = false,
+		-- 	override_file_sorter = true,
+		-- },
+
+		-- fzf_writer = {
+		-- 	use_highlighter = true,
+		-- 	minimum_grep_characters = 3,
+		-- },
+
+		-- frecency = {
+		-- 	workspaces = {
+		-- 		["conf"] = "/home/tj/.config/nvim/",
+		-- 		["nvim"] = "/home/tj/build/neovim",
+		-- 	}
+		-- }
+	},
 }
-require('telescope').load_extension('fzf')
+require('telescope').load_extension('fzy_native')
 
 local map_tele = function(key, f)
 	local mode = 'n'

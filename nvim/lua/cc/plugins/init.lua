@@ -4,7 +4,6 @@ require('packer').startup(function()
 	-- Packer can manage itself as an optional plugin
 	use {'wbthomason/packer.nvim', opt = true}
 	use {
-		'git-time-metric/gtm-vim-plugin',
 		'junegunn/vim-easy-align',
 		'tjdevries/nlua.nvim',
 		'tpope/vim-fugitive',
