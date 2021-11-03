@@ -7,12 +7,7 @@ require('packer').startup(function()
 		'git-time-metric/gtm-vim-plugin',
 		'junegunn/vim-easy-align',
 		'tjdevries/nlua.nvim',
-		-- 'lukas-reineke/indent-blankline.nvim',
 		'tpope/vim-fugitive',
-		-- 'TimUntersberger/neogit',
-		-- 'tanvirtin/vgit.nvim',
-		-- 'tpope/vim-repeat',
-		-- 'tpope/vim-rhubarb',
 
 		-- javascript
 		'maxmellon/vim-jsx-pretty',
@@ -21,13 +16,10 @@ require('packer').startup(function()
 		'tpope/vim-surround',
 
 		-- Trying lua plugin
-		-- Kommentary works pretty well, can probably remove this soon
-		-- 'tpope/vim-commentary',
 		'b3nj5m1n/kommentary',
 
 		-- File browsing
 		-- nvim-tree is working pretty well, can probably remove this soon
-		-- 'preservim/nerdtree',
 		'kyazdani42/nvim-web-devicons',
 		'kyazdani42/nvim-tree.lua',
 
