@@ -1,7 +1,7 @@
 
 -- App vars
 local browser = "Firefox Developer Edition"
-local terminal = "Alacritty"
+local terminal = "kitty"
 local slack = "Slack"
 local chat = "Telegram"
 local notes = "Boostnote"

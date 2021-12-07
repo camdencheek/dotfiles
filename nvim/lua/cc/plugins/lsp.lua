@@ -4,47 +4,26 @@ require('lspconfig').tsserver.setup({
 	end
 })
 require('lspconfig').ccls.setup {}
-require('lspconfig').sumneko_lua.setup {}
 require('lspconfig').graphql.setup {}
-require('lspconfig').gopls.setup {}
-require('lspconfig').rust_analyzer.setup {}
-
--- From https://www.chrisatmachine.com/Neovim/28-neovim-lua-development/
-USER = vim.fn.expand('$USER')
-
-local sumneko_root_path = ""
-local sumneko_binary = ""
-
-if vim.fn.has("mac") == 1 then
-    sumneko_root_path = "/Users/" .. USER .. "/src/lua-language-server"
-    sumneko_binary = "/Users/" .. USER .. "/src/lua-language-server/bin/macOS/lua-language-server"
-elseif vim.fn.has("unix") == 1 then
-    sumneko_root_path = "/home/" .. USER .. "/src/lua-language-server"
-    sumneko_binary = "/home/" .. USER .. "/src/lua-language-server/bin/Linux/lua-language-server"
-else
-    print("Unsupported system for sumneko")
-end
-
-require'lspconfig'.sumneko_lua.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    settings = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-                -- Setup your lua path
-                path = vim.split(package.path, ';')
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {'vim'}
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}
-            }
-        }
-    }
+require('lspconfig').gopls.setup {
+	settings = {
+		gopls = {
+			analyses = {
+				deepequalerrors = false,
+				fieldalignment = false,
+				nilness = true,
+				shadow = false,
+				unusedparams = false,
+				unusedwrite = true,
+			},
+		},
+	},
+}
+local handle = io.popen("rustup +nightly which rust-analyzer")
+local analyzer = string.gsub(handle:read("*a"), '%s+', '')
+handle:close()
+require('lspconfig').rust_analyzer.setup {
+	cmd = { analyzer },
 }
 
 local a = vim.api

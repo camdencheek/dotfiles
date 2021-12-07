@@ -6,7 +6,8 @@ require('packer').startup(function()
 	use {
 		'junegunn/vim-easy-align',
 		'tjdevries/nlua.nvim',
-		'tpope/vim-fugitive',
+		-- 'tpope/vim-fugitive',
+		-- 'TimUntersberger/neogit',
 
 		-- javascript
 		'maxmellon/vim-jsx-pretty',
@@ -22,8 +23,11 @@ require('packer').startup(function()
 		'kyazdani42/nvim-web-devicons',
 		'kyazdani42/nvim-tree.lua',
 
-		-- Allows easy switching between vim and tmux panes
-		'christoomey/vim-tmux-navigator',
+		-- Allows easy switching between vim and kitty panes
+		{
+			'knubie/vim-kitty-navigator',
+			run = 'cp ./*.py ~/.config/kitty/'
+		},
 
 		-- Custom plugin for opening in sourcegraph
 		'~/src/sgbrowse',
@@ -35,10 +39,9 @@ require('packer').startup(function()
 		-- LSP
 		-- '~/src/nvim-lspconfig',
 		'neovim/nvim-lspconfig',
-		{
-			'nvim-telescope/telescope.nvim',
-			requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
-		},
+		'nvim-lua/plenary.nvim',
+		'nvim-lua/popup.nvim',
+		'nvim-telescope/telescope.nvim',
 		'folke/lsp-trouble.nvim',
 
 		-- Use async fzy for telescope because builtin live_grep is slow
@@ -65,12 +68,16 @@ pcall(require('cc/plugins/fzf'))
 pcall(require('cc/plugins/kommentary'))
 pcall(require('cc/plugins/lsp'))
 pcall(require('cc/plugins/telescope'))
-pcall(require('cc/plugins/tmux'))
 pcall(require('cc/plugins/tree'))
 pcall(require('cc/plugins/treesitter'))
 require('nvim-autopairs').setup({
 	disable_filetype = { "TelescopePrompt" , "vim" },
 })
+-- local neogit = require('neogit')
+-- neogit.setup {
+-- 	kind = "split"
+-- }
+-- vim.api.nvim_set_keymap('n', '<leader>gg',':Neogit kind=split<CR>', {})
 
 local npairs = require('nvim-autopairs')
 

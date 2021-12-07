@@ -29,9 +29,12 @@ opt.number         = true
 opt.wrap           = false
 
 -- Colorscheme
-vim.cmd([[colorscheme gruvbox]])
 opt.background    = 'dark'
 opt.termguicolors = true
+vim.cmd([[
+	au ColorScheme * hi Normal ctermbg=none guibg=none
+	colorscheme gruvbox
+]])
 
 -- Indentation
 opt.autoindent  = true
@@ -51,7 +54,7 @@ opt.expandtab   = false
 opt.backup         = true
 opt.undofile       = true
 opt.undolevels     = 1000
-local data_dir   = '/Users/ccheek/.data/'
+local data_dir   = '/Users/camdencheek/.data/'
 opt.backupdir      = data_dir .. 'backup'
 opt.undodir        = data_dir .. 'undofile'
 opt.directory      = data_dir .. 'swap'

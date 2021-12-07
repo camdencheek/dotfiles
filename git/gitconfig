@@ -39,8 +39,6 @@
 	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
 
-[gpg]
-	program = gpg
 [pull]
 	rebase = true
 	prune = true

@@ -5,8 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Start tmux on login
-[ -z "$TMUX" ] && { tmux attach || exec tmux new-session  && exit; }
 
 ulimit -n 2048
 
@@ -27,12 +25,16 @@ export LC_ALL=en_US.UTF-8
 export GOPATH="$HOME/go"
 
 # Sourcegraph Setup
-export PGPORT=5432
-export PGHOST=localhost
-export PGUSER=sourcegraph
-export PGPASSWORD=sourcegraph
-export PGDATABASE=sourcegraph
-export PGSSLMODE=disable
+# export PGPORT=5432
+# export PGHOST=localhost
+# export PGUSER=sourcegraph
+# export PGPASSWORD=sourcegraph
+# export PGDATABASE=sourcegraph
+# export PGSSLMODE=disable
+
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH=`which chromium`
+
 # https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
 export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
 export REVIEW_BASE=main
@@ -73,7 +75,7 @@ alias gl='git pull --prune'
 alias gp='git push --follow-tags'
 alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gpd='git push --set-upstream origin HEAD:backend-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
-alias gpm='git push --set-upstream origin HEAD:master-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
+alias gpm='git push --set-upstream origin HEAD:main-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
@@ -155,3 +157,7 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc

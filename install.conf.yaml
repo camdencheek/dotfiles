@@ -5,9 +5,10 @@
     link: 
         create: true
 - link: 
+    ~/.psqlrc: psql/psqlrc
     ~/.zshrc: zsh/zshrc
     ~/.editorconfig: editorconfig/editorconfig
-    ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
+    ~/.config/kitty/kitty.conf: kitty/kitty.conf
     ~/.config/nvim: nvim
     ~/.tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
