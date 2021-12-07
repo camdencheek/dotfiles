@@ -7,7 +7,6 @@
 - link: 
     ~/.psqlrc: psql/psqlrc
     ~/.zshrc: zsh/zshrc
-    ~/.editorconfig: editorconfig/editorconfig
     ~/.config/kitty/kitty.conf: kitty/kitty.conf
     ~/.config/nvim: nvim
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
