@@ -10,6 +10,5 @@
     ~/.editorconfig: editorconfig/editorconfig
     ~/.config/kitty/kitty.conf: kitty/kitty.conf
     ~/.config/nvim: nvim
-    ~/.tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
     ~/.gitconfig: git/gitconfig
