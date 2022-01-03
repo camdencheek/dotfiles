@@ -5,7 +5,6 @@ vim.g.mapleader      = ','
 vim.g.maplocalleader = ','
 
 require('cc/plugins')
-require('cc/notes')
 
 local opt = vim.opt
 
@@ -37,18 +36,16 @@ vim.cmd([[
 ]])
 
 -- Indentation
-opt.autoindent  = true
+opt.tabstop     = 4
 opt.autoindent  = true
 opt.cindent     = true
-opt.cindent     = true
-opt.tabstop     = 4
-opt.tabstop     = 4
-opt.softtabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth  = 4
-opt.shiftwidth  = 4
-opt.expandtab   = false
-opt.expandtab   = false
+opt.expandtab   = true
+vim.cmd([[
+	autocmd FileType go setlocal noexpandtab
+    autocmd FileType org setlocal ts=2 sts=2 sw=2
+]])
 
 -- Backup and undo
 opt.backup         = true
@@ -60,10 +57,10 @@ opt.undodir        = data_dir .. 'undofile'
 opt.directory      = data_dir .. 'swap'
 
 -- Folding
-opt.foldenable    = true
-opt.foldmethod    = 'expr'
-opt.foldexpr      = 'nvim_treesitter#foldexpr()'
-opt.foldlevel     = 20
+vim.wo.foldenable    = false
+vim.wo.foldmethod    = 'expr'
+vim.wo.foldexpr      = 'nvim_treesitter#foldexpr()'
+vim.wo.foldlevel     = 99
 
 -- Completion
 -- o.completeopt    = 'menuone,noselect'
@@ -81,7 +78,7 @@ opt.inccommand     = 'nosplit'
 opt.clipboard      = '' -- don't use system clipboard
 
 -- Formatting
-opt.formatoptions  = 'cqrnj'
+-- opt.formatoptions  = 'cqrnj'
 
 -- Splitting
 opt.splitright     = true

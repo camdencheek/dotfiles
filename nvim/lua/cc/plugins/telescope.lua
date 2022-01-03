@@ -57,7 +57,6 @@ map_tele('<leader>ft', 'git_files')
 map_tele('<leader>fg', 'live_grep')
 map_tele('<leader>fo', 'oldfiles')
 map_tele('<leader>fd', 'fd')
-map_tele('<leader>pp', 'project_search')
 
 -- Nvim
 map_tele('<leader>fb', 'buffers')
@@ -70,6 +69,7 @@ map_tele('<leader>fB', 'builtin')
 
 vim.api.nvim_set_keymap('n', '<leader>fc', '<cmd>lua require("cc/plugins/telescope").fd_nvim()<cr>', { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fn', '<cmd>lua require("cc/plugins/telescope").fn_nvim()<cr>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fm', '<cmd>lua require("cc/plugins/telescope").fm_nvim()<cr>', { noremap = true, silent = true})
 
 local main = {}
 
@@ -83,6 +83,13 @@ end
 main.fn_nvim = function()
 	return require('telescope.builtin')["fd"]({
 		prompt_title = "Notes",
+		cwd = "~/notes",
+	})
+end
+
+main.fm_nvim = function()
+	return require('telescope.builtin')["live_grep"]({
+		prompt_title = "Notes Grep",
 		cwd = "~/notes",
 	})
 end

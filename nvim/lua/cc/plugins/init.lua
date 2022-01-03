@@ -6,6 +6,7 @@ require('packer').startup(function()
 	use {
 		'junegunn/vim-easy-align',
 		'tjdevries/nlua.nvim',
+		'~/src/gitlinker.nvim',
 		-- 'tpope/vim-fugitive',
 		-- 'TimUntersberger/neogit',
 
@@ -30,7 +31,7 @@ require('packer').startup(function()
 		},
 
 		-- Custom plugin for opening in sourcegraph
-		'~/src/sgbrowse',
+		-- '~/src/sgbrowse',
 
 		-- Autoclose
 		-- 'steelsojka/pears.nvim',
@@ -61,6 +62,9 @@ require('packer').startup(function()
 
 		-- Colorscheme
 		{"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
+
+		-- Org mode
+		'nvim-orgmode/orgmode',
 	}
 end)
 
@@ -70,6 +74,8 @@ pcall(require('cc/plugins/lsp'))
 pcall(require('cc/plugins/telescope'))
 pcall(require('cc/plugins/tree'))
 pcall(require('cc/plugins/treesitter'))
+pcall(require('cc/plugins/gitlinker'))
+pcall(require('cc/plugins/org'))
 require('nvim-autopairs').setup({
 	disable_filetype = { "TelescopePrompt" , "vim" },
 })

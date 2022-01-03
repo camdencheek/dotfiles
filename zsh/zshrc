@@ -25,12 +25,12 @@ export LC_ALL=en_US.UTF-8
 export GOPATH="$HOME/go"
 
 # Sourcegraph Setup
-# export PGPORT=5432
-# export PGHOST=localhost
-# export PGUSER=sourcegraph
-# export PGPASSWORD=sourcegraph
-# export PGDATABASE=sourcegraph
-# export PGSSLMODE=disable
+export PGPORT=5432
+export PGHOST=localhost
+export PGUSER=sourcegraph
+export PGPASSWORD=sourcegraph
+export PGDATABASE=sourcegraph
+export PGSSLMODE=disable
 
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
@@ -161,3 +161,7 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . 
 
 source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
