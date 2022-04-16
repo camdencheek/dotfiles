@@ -64,6 +64,9 @@ map_tele('<leader>fi', 'search_all_files')
 map_tele('<leader>so', 'woptions')
 map_tele('<leader>gp', 'grep_prompt')
 
+-- LSP
+map_tele('<leader>ga', 'lsp_code_actions')
+
 -- Telescope Meta
 map_tele('<leader>fB', 'builtin')
 
@@ -80,10 +83,18 @@ main.fd_nvim = function()
 	})
 end
 
+-- main.fn_nvim = function()
+-- 	return require('telescope.builtin')["fd"]({
+-- 		prompt_title = "Notes",
+-- 		cwd = "~/notes",
+-- 	})
+-- end
+
 main.fn_nvim = function()
 	return require('telescope.builtin')["fd"]({
 		prompt_title = "Notes",
 		cwd = "~/notes",
+        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
 	})
 end
 

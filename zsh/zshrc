@@ -9,7 +9,7 @@ fi
 ulimit -n 2048
 
 # General env
-export PATH="$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$PATH:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin"
+export PATH="/Users/camdencheek/src/ClickHouse/build/programs:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -31,13 +31,13 @@ export PGUSER=sourcegraph
 export PGPASSWORD=sourcegraph
 export PGDATABASE=sourcegraph
 export PGSSLMODE=disable
+export CTAGS_COMMAND=ctags
 
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
 # https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
 export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
-export REVIEW_BASE=main
 
 # Personal env
 export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d)'
@@ -50,12 +50,7 @@ alias ls='exa'
 alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias cat='bat'
 alias mv='mv -i'
-alias roll='dice eval'
-alias lintit='./dev/check/go-lint.sh'
-alias cdr='cd $(git rev-parse --show-toplevel)'
-function prettify() {
-	prettier $(git diff --name-only | grep -E '\.(js|json|ts|tsx|graphql|md|scss)$') --write --list-different --config prettier.config.js
-}
+alias lintit='./dev/golangci-lint.sh --config .golangci.yml run'
 
 # Copy path to file
 function cpth() {
@@ -74,7 +69,7 @@ alias gc='git commit -m'
 alias gl='git pull --prune'
 alias gp='git push --follow-tags'
 alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref HEAD)'
-alias gpd='git push --set-upstream origin HEAD:backend-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
+alias gpd='git push --set-upstream origin HEAD:backend-integration/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gpm='git push --set-upstream origin HEAD:main-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
 alias gs='git status -sb'
@@ -151,17 +146,15 @@ export NVM_DIR="$HOME/.nvm"
 # Direnv
 eval "$(direnv hook zsh)"
 
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+# source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+# source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
+# export PATH="$HOME/.jenv/bin:$PATH"
+# eval "$(jenv init -)"

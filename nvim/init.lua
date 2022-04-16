@@ -28,8 +28,8 @@ opt.number         = true
 opt.wrap           = false
 
 -- Colorscheme
-opt.background    = 'dark'
 opt.termguicolors = true
+opt.background    = 'dark'
 vim.cmd([[
 	au ColorScheme * hi Normal ctermbg=none guibg=none
 	colorscheme gruvbox
@@ -47,14 +47,20 @@ vim.cmd([[
     autocmd FileType org setlocal ts=2 sts=2 sw=2
 ]])
 
+-- Disable sqlcomplete
+vim.cmd([[
+    let g:omni_sql_no_default_maps = 1
+]])
+
 -- Backup and undo
-opt.backup         = true
+opt.backup         = false
 opt.undofile       = true
 opt.undolevels     = 1000
 local data_dir   = '/Users/camdencheek/.data/'
 opt.backupdir      = data_dir .. 'backup'
 opt.undodir        = data_dir .. 'undofile'
 opt.directory      = data_dir .. 'swap'
+opt.swapfile = false
 
 -- Folding
 vim.wo.foldenable    = false

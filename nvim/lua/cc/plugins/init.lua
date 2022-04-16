@@ -7,7 +7,7 @@ require('packer').startup(function()
 		'junegunn/vim-easy-align',
 		'tjdevries/nlua.nvim',
 		'~/src/gitlinker.nvim',
-		-- 'tpope/vim-fugitive',
+		'tpope/vim-fugitive',
 		-- 'TimUntersberger/neogit',
 
 		-- javascript
@@ -43,7 +43,7 @@ require('packer').startup(function()
 		'nvim-lua/plenary.nvim',
 		'nvim-lua/popup.nvim',
 		'nvim-telescope/telescope.nvim',
-		'folke/lsp-trouble.nvim',
+		-- 'folke/lsp-trouble.nvim',
 
 		-- Use async fzy for telescope because builtin live_grep is slow
 		'nvim-telescope/telescope-fzy-native.nvim',
@@ -54,17 +54,24 @@ require('packer').startup(function()
 
 		{
 			'nvim-treesitter/nvim-treesitter',
-			-- '~/src/nvim-treesitter',
 			run = ':TSUpdate'
 		},
-		'nvim-treesitter/playground',
-		'nvim-treesitter/nvim-treesitter-textobjects',
+        'nvim-treesitter/playground',
 
 		-- Colorscheme
 		{"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
 
-		-- Org mode
-		'nvim-orgmode/orgmode',
+		{
+		    'nvim-neorg/neorg',
+            branch = 'main',
+		    requires = {
+                'nvim-lua/plenary.nvim',
+                'nvim-neorg/neorg-telescope',
+            },
+		},
+
+        'mfussenegger/nvim-dap',
+        'jbyuki/one-small-step-for-vimkind',
 	}
 end)
 
@@ -75,7 +82,8 @@ pcall(require('cc/plugins/telescope'))
 pcall(require('cc/plugins/tree'))
 pcall(require('cc/plugins/treesitter'))
 pcall(require('cc/plugins/gitlinker'))
-pcall(require('cc/plugins/org'))
+pcall(require('cc/plugins/neorg'))
+pcall(require('cc/plugins/dap'))
 require('nvim-autopairs').setup({
 	disable_filetype = { "TelescopePrompt" , "vim" },
 })

@@ -1,5 +1,4 @@
--- App vars
-local hs
+local hs = hs
 
 -- variable config
 hs.window.animationDuration = 0
@@ -133,3 +132,24 @@ hs.fnutils.each({
     hs.hotkey.bind("alt", object.key, function() hs.application.launchOrFocus(object.app) end)
 end)
 
+-- Brightness controls
+local function increaseBrightness()
+    local screen = hs.screen.mainScreen()
+    local current = screen:getBrightness()
+    if (current < 1) then
+        local newBrightness = math.min(current+0.1, 1)
+        screen:setBrightness(newBrightness)
+    end
+end
+
+local function decreaseBrightness()
+    local screen =  hs.screen.mainScreen()
+    local current = screen:getBrightness()
+    if (current > 0) then
+        local newBrightness = math.max(current-0.1, 0)
+        screen:setBrightness(newBrightness)
+    end
+end
+
+hs.hotkey.bind("alt", "e", decreaseBrightness)
+hs.hotkey.bind("alt", "r", increaseBrightness)
