@@ -14,7 +14,7 @@ local function sourcegraph_url_for_data(url_data)
 		url = url .. "/-/blob/" .. url_data.file
 	end
 	if url_data.lstart then
-		url = url .. "?L" .. url_data.lstart
+		url = url .. "?L" .. url_data.lstart .. "-" .. url_data.lend
 	end
 	return url
 end
