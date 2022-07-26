@@ -1,7 +1,19 @@
-require('lspconfig').tsserver.setup {}
-require('lspconfig').ccls.setup {}
-require('lspconfig').graphql.setup {}
-require('lspconfig').gopls.setup {
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+require("lspconfig").tsserver.setup({
+	capabilities = capabilities,
+})
+require("lspconfig").clangd.setup({
+	capabilities = capabilities,
+})
+require("lspconfig").graphql.setup({
+	capabilities = capabilities,
+})
+require("lspconfig").ocamllsp.setup({
+	capabilities = capabilities,
+})
+require("lspconfig").gopls.setup({
+	capabilities = capabilities,
 	settings = {
 		gopls = {
 			analyses = {
@@ -14,49 +26,51 @@ require('lspconfig').gopls.setup {
 			},
 		},
 	},
-}
-require('lspconfig').sumneko_lua.setup {
+})
+require("lspconfig").sumneko_lua.setup({
+	capabilities = capabilities,
 	settings = {
 		Lua = {
 			runtime = {
-				version = 'LuaJIT'
+				version = "LuaJIT",
 			},
 			diagnostics = {
-				globals = { 'vim' }
+				globals = { "vim" },
 			},
 			workspace = {
 				-- Make the server aware of Neovim runtime files
 				library = vim.api.nvim_get_runtime_file("", true),
 			},
-		}
-	}
-}
-require('lspconfig').elmls.setup{}
-require('lspconfig').rust_analyzer.setup {}
+		},
+	},
+})
+require("lspconfig").elmls.setup({
+	capabilities = capabilities,
+})
 
 local a = vim.api
-a.nvim_set_keymap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>',                 { noremap = true})
-a.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>',                  { noremap = true})
-a.nvim_set_keymap('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<cr>',                       { noremap = true})
-a.nvim_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<cr>',              { noremap = true})
-a.nvim_set_keymap('n', 'g?', '<cmd>lua vim.diagnostic.open_float()<cr>',               { noremap = true})
-a.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>',                  { noremap = true})
-a.nvim_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>',                      { noremap = true})
-a.nvim_set_keymap('n', 'g/', '<cmd>lua require("cc.plugins.lsp").disable_diag()<cr>',  { noremap = true})
-a.nvim_set_keymap('n', 'gq', '<cmd>lua vim.diagnostic.setqflist()<cr>',               { noremap = true})
 
-vim.o.omnifunc = 'v:lua.vim.lsp.omnifunc'
+a.nvim_set_keymap("n", "ga", "", { callback = vim.lsp.buf.code_action, noremap = true })
+a.nvim_set_keymap("n", "gd", "", { callback = vim.lsp.buf.definition, noremap = true })
+a.nvim_set_keymap("n", "gt", "", { callback = vim.lsp.buf.type_definition, noremap = true })
+a.nvim_set_keymap("n", "K", "", { callback = vim.lsp.buf.hover, noremap = true })
+a.nvim_set_keymap("n", "gD", "", { callback = vim.lsp.buf.implementation, noremap = true })
+a.nvim_set_keymap("n", "g?", "", { callback = vim.diagnostic.open_float, noremap = true })
+a.nvim_set_keymap("n", "gr", "", { callback = vim.lsp.buf.references, noremap = true })
+a.nvim_set_keymap("n", "gR", "", { callback = vim.lsp.buf.rename, noremap = true })
+a.nvim_set_keymap("n", "gq", "", {
+	callback = function()
+		vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+	end,
+	noremap = true,
+})
+a.nvim_set_keymap("n", "g/", "", {
+	callback = function()
+		vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+			virtual_text = false,
+		})
+	end,
+	noremap = true,
+})
 
-vim.cmd('autocmd BufWritePre *.go,*.elm,*.tsx,*.ts,*.js,*.jsx lua vim.lsp.buf.formatting_sync(nil, 2000)')
-
-local M = {}
-
-M.disable_diag = function()
-	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-		vim.lsp.diagnostic.on_publish_diagnostics, {
-			virtual_text = false
-		}
-	)
-end
-
-return M
+vim.api.nvim_command([[autocmd BufWritePre *.rs,*.go,*.elm lua vim.lsp.buf.formatting_seq_sync()]])

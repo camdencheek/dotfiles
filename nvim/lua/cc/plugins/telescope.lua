@@ -70,27 +70,14 @@ map_tele('<leader>ga', 'lsp_code_actions')
 -- Telescope Meta
 map_tele('<leader>fB', 'builtin')
 
-vim.api.nvim_set_keymap('n', '<leader>fc', '<cmd>lua require("cc/plugins/telescope").fd_nvim()<cr>', { noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fn', '<cmd>lua require("cc/plugins/telescope").fn_nvim()<cr>', { noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fm', '<cmd>lua require("cc/plugins/telescope").fm_nvim()<cr>', { noremap = true, silent = true})
-
-local main = {}
-
-main.fd_nvim = function()
+local function fd_nvim()
 	return require('telescope.builtin')["fd"]({
 		prompt_title = "NVIM Config",
 		cwd = "~/.config/nvim",
 	})
 end
 
--- main.fn_nvim = function()
--- 	return require('telescope.builtin')["fd"]({
--- 		prompt_title = "Notes",
--- 		cwd = "~/notes",
--- 	})
--- end
-
-main.fn_nvim = function()
+local function fn_nvim()
 	return require('telescope.builtin')["fd"]({
 		prompt_title = "Notes",
 		cwd = "~/notes",
@@ -98,12 +85,13 @@ main.fn_nvim = function()
 	})
 end
 
-main.fm_nvim = function()
+local function fm_nvim()
 	return require('telescope.builtin')["live_grep"]({
 		prompt_title = "Notes Grep",
 		cwd = "~/notes",
 	})
 end
 
-return main
-
+vim.api.nvim_set_keymap('n', '<leader>fc', '', { callback = fd_nvim, noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fn', '', { callback = fn_nvim, noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fm', '', { callback = fm_nvim, noremap = true, silent = true})

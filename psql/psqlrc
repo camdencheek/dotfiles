@@ -25,3 +25,4 @@
 \setenv PAGER 'pspg -bX'
 \pset border 2
 \pset linestyle unicode
+/* \pset pager always */

@@ -5,11 +5,27 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+source "$HOME/.dotfiles/zsh/zgen/zgen.zsh"
+if ! zgen saved; then
+
+  # specify plugins here
+  zgen load mafredri/zsh-async
+  zgen load camdencheek/fast-zsh-nvm
+
+  # generate the init script from plugins above
+  zgen save
+fi
+
+if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
+
+# fast-zsh-nvm
+export AUTO_LOAD_NVMRC_FILES=true
+export LOAD_NVMRC_ON_INIT=true
 
 ulimit -n 2048
 
 # General env
-export PATH="/Users/camdencheek/src/ClickHouse/build/programs:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin"
+export PATH="/usr/local/pgsql/bin:/Users/camdencheek/src/sgdb/deploy/yugabyte-2.13.1.0/bin:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin:$HOME/.sg"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -30,8 +46,13 @@ export PGHOST=localhost
 export PGUSER=sourcegraph
 export PGPASSWORD=sourcegraph
 export PGDATABASE=sourcegraph
+export PGDATA=/opt/homebrew/var/postgres
 export PGSSLMODE=disable
 export CTAGS_COMMAND=ctags
+export YSQL_PORT=7010
+export YCQL_PORT=7011
+export MASTER_WEBSERVER_PORT=7012
+export TSERVER_WEBSERVER_PORT=7013
 
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
@@ -63,7 +84,7 @@ alias ev='nvim ~/.config/nvim/init.lua'
 alias et='nvim ~/.tmux.conf'
 
 # Git Aliases
-alias ga='git add'
+alias ga='git add -A'
 alias gap='git add --patch'
 alias gc='git commit -m'
 alias gl='git pull --prune'
@@ -72,6 +93,7 @@ alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref H
 alias gpd='git push --set-upstream origin HEAD:backend-integration/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gpm='git push --set-upstream origin HEAD:main-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
+alias gcl='git clean -df'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
@@ -137,9 +159,6 @@ chpwd_functions+=fre_chpwd
 # Rust environment
 source $HOME/.cargo/env
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -149,12 +168,7 @@ eval "$(direnv hook zsh)"
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-# if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# opam configuration
+[[ ! -r /Users/camdencheek/.opam/opam-init/init.zsh ]] || source /Users/camdencheek/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
-# source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-# source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-
-# export PATH="$HOME/.jenv/bin:$PATH"
-# eval "$(jenv init -)"
+export PATH=/Users/camdencheek/.tiup/bin:$PATH

@@ -17,27 +17,16 @@ parser_config.norg_table = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_installed = {
-        'org',
-        'go',
-        'rust',
-        'elm',
-        'lua',
-        'bash',
-        'typescript',
-        'javascript',
-        'norg',
-        'norg_meta',
-        'norg_table',
+    ensure_installed = 'all',
+    ignore_install = {
+        "comment",  -- bad performance for many nested languages
+        "phpdoc",  -- broken install
+        "markdown", -- very bad performance
     },
-
-    ignore_install = { "comment" },
 
     highlight = {
         enable = true,
-        use_languagetree = true,
-        -- disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-        additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+        -- use_languagetree = true,
     },
 
     indent = {
@@ -46,11 +35,11 @@ require('nvim-treesitter.configs').setup {
 
     incremental_selection = {
         enable = true,
-            keymaps = { -- mappings for incremental selection (visual mappings)
-                init_selection = 'vin',    -- maps in normal mode to init the node/scope selection
-                node_incremental = 'vo',  -- increment to the upper named parent
-                node_decremental = 'vi',  -- decrement to the previous node
-            },
+        keymaps = { -- mappings for incremental selection (visual mappings)
+            init_selection = 'vin',    -- maps in normal mode to init the node/scope selection
+            node_incremental = 'vo',  -- increment to the upper named parent
+            node_decremental = 'vi',  -- decrement to the previous node
+        },
     },
 
     textobjects = {
@@ -64,6 +53,7 @@ require('nvim-treesitter.configs').setup {
             }
         }
     },
+
     playground = {
         enable = true,
         disable = {},

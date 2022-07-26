@@ -30,9 +30,6 @@
 [core]
 	autocrlf = false
 
-[url "git@github.com:bluemedora/"]
-	insteadOf = https://github.com/bluemedora/
-
 [alias]
 	gone = ! "git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
 	stash-all = stash save --include-untracked
@@ -50,3 +47,5 @@
 	commit = true
 [rebase]
 	autosquash = true
+[log]
+	date = local

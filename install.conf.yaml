@@ -9,5 +9,6 @@
     ~/.zshrc: zsh/zshrc
     ~/.config/kitty/kitty.conf: kitty/kitty.conf
     ~/.config/nvim: nvim
+    ~/.config/tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
     ~/.gitconfig: git/gitconfig
