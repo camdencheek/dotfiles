@@ -69,6 +69,31 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  LuaSnip = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    url = "https://github.com/l3MON4D3/LuaSnip"
+  },
+  ["cmp-nvim-lsp"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
+  },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
+  },
+  ["formatter.nvim"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/formatter.nvim",
+    url = "https://github.com/mhartington/formatter.nvim"
+  },
+  ["friendly-snippets"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    url = "https://github.com/rafamadriz/friendly-snippets"
+  },
   ["gitlinker.nvim"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/gitlinker.nvim",
@@ -84,50 +109,70 @@ _G.packer_plugins = {
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/kommentary",
     url = "https://github.com/b3nj5m1n/kommentary"
   },
-  ["lsp-trouble.nvim"] = {
+  ["lspkind.nvim"] = {
     loaded = true,
-    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/lsp-trouble.nvim",
-    url = "https://github.com/folke/lsp-trouble.nvim"
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
   },
   ["lush.nvim"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/lush.nvim",
     url = "https://github.com/rktjmp/lush.nvim"
   },
+  neorg = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/neorg",
+    url = "https://github.com/nvim-neorg/neorg"
+  },
+  ["neorg-telescope"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/neorg-telescope",
+    url = "https://github.com/nvim-neorg/neorg-telescope"
+  },
   ["nlua.nvim"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nlua.nvim",
     url = "https://github.com/tjdevries/nlua.nvim"
   },
-  ["nvim-autopairs"] = {
+  ["nvim-cmp"] = {
     loaded = true,
-    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
-    url = "https://github.com/windwp/nvim-autopairs"
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/kyazdani42/nvim-tree.lua"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
-  },
-  ["nvim-treesitter-textobjects"] = {
-    loaded = true,
-    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-treesitter-textobjects",
-    url = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
-  orgmode = {
+  ["one-small-step-for-vimkind"] = {
     loaded = true,
-    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/orgmode",
-    url = "https://github.com/nvim-orgmode/orgmode"
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/one-small-step-for-vimkind",
+    url = "https://github.com/jbyuki/one-small-step-for-vimkind"
   },
   ["packer.nvim"] = {
     loaded = false,
@@ -150,6 +195,11 @@ _G.packer_plugins = {
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
+    url = "https://github.com/simrat39/rust-tools.nvim"
+  },
   ["telescope-fzf-writer.nvim"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/telescope-fzf-writer.nvim",
@@ -159,6 +209,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim",
     url = "https://github.com/nvim-telescope/telescope-fzy-native.nvim"
+  },
+  ["telescope-luasnip.nvim"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/telescope-luasnip.nvim",
+    url = "https://github.com/benfowler/telescope-luasnip.nvim"
   },
   ["telescope-symbols.nvim"] = {
     loaded = true,
@@ -190,15 +245,15 @@ _G.packer_plugins = {
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/vim-jsx-pretty",
     url = "https://github.com/maxmellon/vim-jsx-pretty"
   },
-  ["vim-kitty-navigator"] = {
-    loaded = true,
-    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/vim-kitty-navigator",
-    url = "https://github.com/knubie/vim-kitty-navigator"
-  },
   ["vim-surround"] = {
     loaded = true,
     path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/vim-surround",
     url = "https://github.com/tpope/vim-surround"
+  },
+  ["vim-tmux-navigator"] = {
+    loaded = true,
+    path = "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
+    url = "https://github.com/christoomey/vim-tmux-navigator"
   }
 }
 
@@ -208,5 +263,6 @@ if should_profile then save_profiles() end
 end)
 
 if not no_errors then
+  error_msg = error_msg:gsub('"', '\\"')
   vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end

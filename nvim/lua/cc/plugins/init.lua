@@ -10,6 +10,7 @@ require("packer").startup(function()
 		"tjdevries/nlua.nvim",
 		"~/src/gitlinker.nvim",
 		"tpope/vim-fugitive",
+        'windwp/nvim-autopairs',
 
 		-- javascript
 		"maxmellon/vim-jsx-pretty",
@@ -72,6 +73,7 @@ require("packer").startup(function()
 		"l3MON4D3/LuaSnip",
 		"rafamadriz/friendly-snippets",
 		"saadparwaiz1/cmp_luasnip",
+		"benfowler/telescope-luasnip.nvim",
 
 		-- DAP
 		"mfussenegger/nvim-dap",
@@ -96,6 +98,7 @@ pcall(require("cc/plugins/gitlinker"))
 pcall(require("cc/plugins/neorg"))
 pcall(require("cc/plugins/dap"))
 pcall(require("cc/plugins/cmp"))
+require('nvim-autopairs').setup({})
 require("luasnip.loaders.from_vscode").lazy_load({
 	path = { "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/friendly-snippets" },
 })

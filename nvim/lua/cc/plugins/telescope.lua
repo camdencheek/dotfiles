@@ -40,6 +40,7 @@ require('telescope').setup {
 	},
 }
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('luasnip')
 
 local map_tele = function(key, f)
 	local mode = 'n'

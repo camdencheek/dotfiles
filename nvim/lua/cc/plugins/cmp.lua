@@ -34,23 +34,13 @@ cmp.setup({
 		["<C-e>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
-		["<Tab>"] = cmp.mapping(function(fallback)
+		["<C-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			elseif has_words_before() then
 				cmp.complete()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
 			else
 				fallback()
 			end
@@ -79,6 +69,17 @@ cmp.setup({
 	experimental = {
 		native_menu = false,
 	},
+
+	enabled = function()
+		-- disable completion in comments
+		local context = require("cmp.config.context")
+		-- keep command mode completion enabled when cursor is in a comment
+		if vim.api.nvim_get_mode().mode == "c" then
+			return true
+		else
+			return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+		end
+	end,
 })
 
 -- Set configuration for specific filetype.
@@ -107,3 +108,6 @@ cmp.setup.cmdline(":", {
 		{ name = "cmdline" },
 	}),
 })
+
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
