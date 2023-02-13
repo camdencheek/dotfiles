@@ -42,7 +42,7 @@ vim.cmd([[
 -- Indentation
 opt.tabstop = 4
 opt.autoindent = true
-opt.cindent = true
+opt.cindent = false
 opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
@@ -95,3 +95,4 @@ opt.clipboard = "" -- don't use system clipboard
 -- Splitting
 opt.splitright = true
 opt.splitbelow = true
+

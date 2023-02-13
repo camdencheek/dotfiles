@@ -46,4 +46,8 @@ require('nvim-tree').setup{
 	}
 }
 
+
+
 vim.keymap.set('n', '<C-t>', function() require('nvim-tree').toggle(true) end)
+
+

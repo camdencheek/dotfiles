@@ -25,7 +25,8 @@ export LOAD_NVMRC_ON_INIT=true
 ulimit -n 2048
 
 # General env
-export PATH="/usr/local/pgsql/bin:/Users/camdencheek/src/sgdb/deploy/yugabyte-2.13.1.0/bin:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin:$HOME/.sg"
+export GOBIN="$HOME/go/bin"
+export PATH="/opt/homebrew/opt/sqlite/bin:/opt/homebrew/opt/llvm/bin:/opt/homebrew/opt/go@1.19/bin:/usr/local/pgsql/bin:/Users/camdencheek/src/sgdb/deploy/yugabyte-2.13.1.0/bin:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin:$HOME/.sg:/Applications/Xcode.app/Contents/Developer/usr/bin"
 export LANG=en_US.UTF-8
 export TERM=screen-256color
 export EDITOR=nvim
@@ -86,7 +87,7 @@ alias et='nvim ~/.tmux.conf'
 # Git Aliases
 alias ga='git add -A'
 alias gap='git add --patch'
-alias gc='git commit -m'
+# alias gc='git commit -m'
 alias gl='git pull --prune'
 alias gp='git push --follow-tags'
 alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref HEAD)'
@@ -172,3 +173,9 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 [[ ! -r /Users/camdencheek/.opam/opam-init/init.zsh ]] || source /Users/camdencheek/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 export PATH=/Users/camdencheek/.tiup/bin:$PATH
+export MG_DEPLOY_SOURCEGRAPH_MANAGED_PATH=/Users/camdencheek/src/sourcegraph/deploy-sourcegraph-managed
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh

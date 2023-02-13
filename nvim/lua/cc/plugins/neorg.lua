@@ -20,22 +20,22 @@ require('neorg').setup {
         ["core.export.markdown"] = {
             config = {},
         },
-        ["core.norg.concealer"] = {
-            config = {
-                icons = {
-                    todo = { enabled = false },
-                    list = { enabled = false },
-                    link = { enabled = false },
-                    ordered = { enabled = false },
-                    ordered_link = { enabled = false },
-                    heading = { enabled = false },
-                    marker = { enabled = false },
-                    definition = { enabled = false },
-                    footnote = { enabled = false },
-                    delimiter = { enabled = false },
-                },
-            },
-        },
+        -- ["core.norg.concealer"] = {
+        --     config = {
+        --         icons = {
+        --             todo = { enabled = false },
+        --             list = { enabled = false },
+        --             link = { enabled = false },
+        --             ordered = { enabled = false },
+        --             ordered_link = { enabled = false },
+        --             heading = { enabled = false },
+        --             marker = { enabled = false },
+        --             definition = { enabled = false },
+        --             footnote = { enabled = false },
+        --             delimiter = { enabled = false },
+        --         },
+        --     },
+        -- },
         ["core.norg.dirman"] = { -- Manage your directories with Neorg
             config = {
                 workspaces = {
@@ -46,6 +46,7 @@ require('neorg').setup {
                 last_workspace = vim.fn.stdpath("cache") .. "/neorg_last_workspace.txt",
             }
         },
-        ["core.gtd.base"] = { config = { workspace = "default" } },
+        ["core.integrations.telescope"] = {},
+        -- ["core.gtd.base"] = { config = { workspace = "default" } },
     },
 }
