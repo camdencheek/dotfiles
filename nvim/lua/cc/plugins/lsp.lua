@@ -20,7 +20,7 @@ require("lspconfig").gopls.setup({
 	capabilities = capabilities,
 	settings = {
 		gopls = {
-            usePlaceholders = true,
+			usePlaceholders = true,
 			analyses = {
 				deepequalerrors = false,
 				fieldalignment = false,
@@ -32,19 +32,24 @@ require("lspconfig").gopls.setup({
 		},
 	},
 })
-require("lspconfig").sumneko_lua.setup({
-	capabilities = capabilities,
+require('lspconfig').lua_ls.setup({
 	settings = {
 		Lua = {
 			runtime = {
-				version = "LuaJIT",
+				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+				version = 'LuaJIT',
 			},
 			diagnostics = {
-				globals = { "vim" },
+				-- Get the language server to recognize the `vim` global
+				globals = { 'vim' },
 			},
 			workspace = {
 				-- Make the server aware of Neovim runtime files
 				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			-- Do not send telemetry data containing a randomized but unique identifier
+			telemetry = {
+				enable = true,
 			},
 		},
 	},
@@ -53,7 +58,7 @@ require("lspconfig").elmls.setup({
 	capabilities = capabilities,
 })
 
-require'lspconfig'.rust_analyzer.setup({
+require 'lspconfig'.rust_analyzer.setup({
 	cmd = { "rustup", "run", "nightly", "rust-analyzer" },
 })
 
@@ -84,7 +89,6 @@ vim.diagnostic.config({ virtual_text = false, })
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.rs,*.go,*.lua,*.ts,*.tsx,*.proto" },
 	callback = function()
-        vim.lsp.buf.format({timeout_ms = 1000})
-    end,
+		vim.lsp.buf.format({ timeout_ms = 1000 })
+	end,
 })
-
