@@ -4,7 +4,7 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
-require("cc/plugins")
+require("plugins")
 
 local opt = vim.opt
 
