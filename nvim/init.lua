@@ -48,10 +48,10 @@ opt.shiftwidth = 4
 opt.expandtab = true
 vim.cmd([[
 	autocmd FileType go setlocal noexpandtab
-    autocmd FileType org setlocal ts=2 sts=2 sw=2
 ]])
 
 -- Disable sqlcomplete
+-- TODO: is this still necessary?
 vim.cmd([[
     let g:omni_sql_no_default_maps = 1
 ]])
@@ -73,8 +73,8 @@ vim.opt.foldlevel = 99
 -- Recalculate folds
 -- See https://github.com/nvim-telescope/telescope.nvim/issues/699
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
-	pattern = { "*" },
-	command = "normal zx",
+    pattern = { "*" },
+    command = "normal zx",
 })
 
 opt.pumheight = 15
@@ -95,4 +95,3 @@ opt.clipboard = "" -- don't use system clipboard
 -- Splitting
 opt.splitright = true
 opt.splitbelow = true
-

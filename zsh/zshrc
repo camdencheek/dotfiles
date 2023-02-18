@@ -10,17 +10,12 @@ if ! zgen saved; then
 
   # specify plugins here
   zgen load mafredri/zsh-async
-  zgen load camdencheek/fast-zsh-nvm
 
   # generate the init script from plugins above
   zgen save
 fi
 
 if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
-
-# fast-zsh-nvm
-export AUTO_LOAD_NVMRC_FILES=true
-export LOAD_NVMRC_ON_INIT=true
 
 ulimit -n 2048
 
@@ -174,8 +169,5 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 
 export PATH=/Users/camdencheek/.tiup/bin:$PATH
 export MG_DEPLOY_SOURCEGRAPH_MANAGED_PATH=/Users/camdencheek/src/sourcegraph/deploy-sourcegraph-managed
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh

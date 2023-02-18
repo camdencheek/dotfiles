@@ -1,12 +1,16 @@
 vim.cmd([[packadd packer.nvim]])
 
-require("packer").startup(function()
-    -- Packer can manage itself as an optional plugin
-    use({ "wbthomason/packer.nvim", opt = true })
+require("packer").startup(function(use)
     use({
-        "folke/neodev.nvim",
+        -- Packer can manage itself as an optional plugin
+        { "wbthomason/packer.nvim", opt = true },
+
+        -- Integration with git.
+        -- Trying out neogit again, but fugitive works pretty okay.
+        -- "tpope/vim-fugitive",
+        { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' },
         "~/src/gitlinker.nvim",
-        "tpope/vim-fugitive",
+
         "windwp/nvim-autopairs",
 
         -- javascript
@@ -24,20 +28,27 @@ require("packer").startup(function()
 
         -- Allows easy switching between vim and kitty panes
         "christoomey/vim-tmux-navigator",
-
         -- LSP
         "neovim/nvim-lspconfig",
         "nvim-lua/plenary.nvim",
         "nvim-lua/popup.nvim",
-        "nvim-telescope/telescope.nvim",
+        -- Autoconfiguration for lua-language-server with neovim APIs
+        "folke/neodev.nvim",
 
-        -- Use async fzy for telescope because builtin live_grep is slow
-        "nvim-telescope/telescope-fzy-native.nvim",
-        "nvim-telescope/telescope-fzf-writer.nvim",
 
-        -- Fuzzy search unicode symbols
-        "nvim-telescope/telescope-symbols.nvim",
+        {
+            "nvim-telescope/telescope.nvim",
+            requires = {
+                -- Use async fzy for telescope because builtin live_grep is slow
+                "nvim-telescope/telescope-fzy-native.nvim",
+                "nvim-telescope/telescope-fzf-writer.nvim",
 
+                -- Fuzzy search unicode symbols
+                "nvim-telescope/telescope-symbols.nvim",
+            },
+        },
+
+        -- Treesitter
         {
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
@@ -57,10 +68,11 @@ require("packer").startup(function()
         "rafamadriz/friendly-snippets",
         "saadparwaiz1/cmp_luasnip",
         "benfowler/telescope-luasnip.nvim",
+
         {
-            'phaazon/mind.nvim',
-            branch = 'v2.2',
-            requires = { 'nvim-lua/plenary.nvim' },
+            "akinsho/toggleterm.nvim",
+            tag = "v2.*",
+            config = require('cc/plugins/toggleterm').setup,
         },
     })
 end)
@@ -72,7 +84,6 @@ pcall(require("cc/plugins/tree"))
 pcall(require("cc/plugins/treesitter"))
 pcall(require("cc/plugins/gitlinker"))
 pcall(require("cc/plugins/cmp"))
-pcall(require("cc/plugins/mind"))
 require("nvim-autopairs").setup({})
 require("luasnip.loaders.from_vscode").lazy_load({
     path = { "/Users/camdencheek/.local/share/nvim/site/pack/packer/start/friendly-snippets" },
