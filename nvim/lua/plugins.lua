@@ -20,6 +20,7 @@ require('lazy').setup({
     {
         'TimUntersberger/neogit',
         dependencies = { 'nvim-lua/plenary.nvim' },
+        keys = require("config.neogit").keys,
     },
     {
         dir = "~/src/gitlinker.nvim",
@@ -39,17 +40,27 @@ require('lazy').setup({
     "tpope/vim-surround",
 
     {
-        "b3nj5m1n/kommentary",
-        config = require("config.kommentary").config,
+        "numToStr/Comment.nvim",
+        config = require("config.comment").config,
     },
 
     -- File browsing
     -- TODO: try out neotree once it stabilizes a bit
+    -- {
+    --     "kyazdani42/nvim-tree.lua",
+    --     config = require("config.tree").config,
+    -- },
+    -- "kyazdani42/nvim-web-devicons",
     {
-        "kyazdani42/nvim-tree.lua",
+        "nvim-neo-tree/neo-tree.nvim",
+        version = "v2.*",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+        },
         config = require("config.tree").config,
     },
-    "kyazdani42/nvim-web-devicons",
 
     -- Allows easy switching between vim and kitty panes
     "christoomey/vim-tmux-navigator",
@@ -94,7 +105,10 @@ require('lazy').setup({
     -- Completion
     {
         "hrsh7th/nvim-cmp",
-        dependencies = { "onsails/lspkind.nvim" },
+        dependencies = {
+            "onsails/lspkind.nvim",
+            "hrsh7th/cmp-cmdline",
+        },
         config = require("config.cmp").config,
     },
 

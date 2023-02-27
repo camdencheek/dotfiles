@@ -1,57 +1,59 @@
 local M = {}
 
 function M.config()
-    local tree_cb = require('nvim-tree.config').nvim_tree_callback
-    require('nvim-tree').setup {
-        disable_netrw = false,
-        git = {
-            enable = false,
-        },
-        view = {
+    local config = {
+        close_if_last_window = true,
+        window = { -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
             mappings = {
-                custom_only = true,
-                list = {
-                    { key = { "<CR>", "o", "<2-LeftMouse>" }, cb = tree_cb("edit") },
-                    { key = { "<2-RightMouse>", "<C-]>" },    cb = tree_cb("cd") },
-                    { key = "<C-v>",                          cb = tree_cb("vsplit") },
-                    { key = "<C-x>",                          cb = tree_cb("split") },
-                    -- { key = "<C-t>",                        cb = tree_cb("tabnew") },
-                    { key = "<",                              cb = tree_cb("prev_sibling") },
-                    { key = ">",                              cb = tree_cb("next_sibling") },
-                    { key = "P",                              cb = tree_cb("parent_node") },
-                    { key = "<BS>",                           cb = tree_cb("close_node") },
-                    { key = "<S-CR>",                         cb = tree_cb("close_node") },
-                    { key = "<Tab>",                          cb = tree_cb("preview") },
-                    { key = "K",                              cb = tree_cb("first_sibling") },
-                    { key = "J",                              cb = tree_cb("last_sibling") },
-                    { key = "I",                              cb = tree_cb("toggle_ignored") },
-                    { key = "H",                              cb = tree_cb("toggle_dotfiles") },
-                    { key = "R",                              cb = tree_cb("refresh") },
-                    { key = "a",                              cb = tree_cb("create") },
-                    { key = "d",                              cb = tree_cb("remove") },
-                    { key = "D",                              cb = tree_cb("trash") },
-                    { key = "r",                              cb = tree_cb("rename") },
-                    { key = "<C-r>",                          cb = tree_cb("full_rename") },
-                    { key = "x",                              cb = tree_cb("cut") },
-                    { key = "c",                              cb = tree_cb("copy") },
-                    { key = "p",                              cb = tree_cb("paste") },
-                    { key = "y",                              cb = tree_cb("copy_name") },
-                    { key = "Y",                              cb = tree_cb("copy_path") },
-                    { key = "gy",                             cb = tree_cb("copy_absolute_path") },
-                    { key = "[c",                             cb = tree_cb("prev_git_item") },
-                    { key = "]c",                             cb = tree_cb("next_git_item") },
-                    { key = "-",                              cb = tree_cb("dir_up") },
-                    { key = "s",                              cb = tree_cb("system_open") },
-                    { key = "q",                              cb = tree_cb("close") },
-                    { key = "g?",                             cb = tree_cb("toggle_help") }
-                }
-            }
-        }
+                ["<space>"] = "none",
+                ["<2-LeftMouse>"] = "open",
+                ["<cr>"] = "open",
+                ["<esc>"] = "revert_preview",
+                ["P"] = "none",
+                ["l"] = "none",
+                ["S"] = "open_split",
+                -- ["S"] = "split_with_window_picker",
+                ["s"] = "open_vsplit",
+                -- ["s"] = "vsplit_with_window_picker",
+                ["t"] = "open_tabnew",
+                -- ["<cr>"] = "open_drop",
+                -- ["t"] = "open_tab_drop",
+                -- ["w"] = "open_with_window_picker",
+                ["C"] = "none",
+                ["z"] = "none",
+                --["Z"] = "expand_all_nodes",
+                ["R"] = "refresh",
+                ["a"] = {
+                    "add",
+                    -- some commands may take optional config options, see `:h neo-tree-mappings` for details
+                    config = {
+                        show_path = "none", -- "none", "relative", "absolute"
+                    }
+                },
+                -- ["A"] = "add_directory", -- also accepts the config.show_path and config.insert_as options.
+                ["A"] = "none", -- also accepts the config.show_path and config.insert_as options.
+                ["d"] = "delete",
+                ["r"] = "rename",
+                ["y"] = "copy_to_clipboard",
+                ["x"] = "cut_to_clipboard",
+                ["p"] = "paste_from_clipboard",
+                ["c"] = "copy", -- takes text input for destination, also accepts the config.show_path and config.insert_as options
+                ["m"] = "move", -- takes text input for destination, also accepts the config.show_path and config.insert_as options
+                ["e"] = "toggle_auto_expand_width",
+                ["q"] = "close_window",
+                ["?"] = "show_help",
+                ["<"] = "prev_source",
+                [">"] = "next_source",
+            },
+        },
+        filesystem = {
+            follow_current_file = true, -- This will find and focus the file in the active buffer every time
+            use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
+            -- instead of relying on nvim autocmd events.
+        },
     }
-
-
-
-    vim.keymap.set('n', '<C-t>', function() require('nvim-tree').toggle(true) end)
+    require("neo-tree").setup(config)
+    vim.keymap.set('n', '<C-t>', function() require('neo-tree.command').execute({ toggle = true }) end)
 end
 
 return M

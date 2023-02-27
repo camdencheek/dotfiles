@@ -40,9 +40,6 @@ function M.config()
                 },
             }),
         },
-        experimental = {
-            native_menu = false,
-        },
         enabled = function()
             -- disable completion in comments
             local context = require("cmp.config.context")
@@ -64,14 +61,6 @@ function M.config()
         }, {
             { name = "buffer" },
         }),
-    })
-
-    -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-            { name = "buffer" },
-        },
     })
 
     -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).

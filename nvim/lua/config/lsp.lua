@@ -43,7 +43,7 @@ function M.config()
                 },
                 -- Do not send telemetry data containing a randomized but unique identifier
                 telemetry = {
-                    enable = true,
+                    enable = false,
                 },
             },
         },
@@ -56,17 +56,15 @@ function M.config()
         })
     end
 
-    local a = vim.api
-
-    a.nvim_set_keymap("n", "ga", "", { callback = vim.lsp.buf.code_action, noremap = true })
-    a.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", { noremap = true, silent = true })
-    a.nvim_set_keymap("n", "gt", "", { callback = vim.lsp.buf.type_definition, noremap = true })
-    a.nvim_set_keymap("n", "K", "", { callback = vim.lsp.buf.hover, noremap = true })
-    a.nvim_set_keymap("n", "gD", ":Telescope lsp_implementations<CR>", { noremap = true, silent = true })
-    a.nvim_set_keymap("n", "g?", "", { callback = vim.diagnostic.open_float, noremap = true })
-    a.nvim_set_keymap("n", "gr", ":Telescope lsp_references<CR>", { noremap = true, silent = true })
-    a.nvim_set_keymap("n", "gR", "", { callback = vim.lsp.buf.rename, noremap = true })
-    a.nvim_set_keymap("n", "gq", "", {
+    vim.api.nvim_set_keymap("n", "ga", "", { callback = vim.lsp.buf.code_action, noremap = true })
+    vim.api.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "gt", "", { callback = vim.lsp.buf.type_definition, noremap = true })
+    vim.api.nvim_set_keymap("n", "K", "", { callback = vim.lsp.buf.hover, noremap = true })
+    vim.api.nvim_set_keymap("n", "gD", ":Telescope lsp_implementations<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "g?", "", { callback = vim.diagnostic.open_float, noremap = true })
+    vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "gR", "", { callback = vim.lsp.buf.rename, noremap = true })
+    vim.api.nvim_set_keymap("n", "gq", "", {
         callback = function()
             vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
         end,
