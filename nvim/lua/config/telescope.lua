@@ -1,9 +1,8 @@
 local M = {}
 
-
 function M.config()
-	local actions = require("telescope.actions")
-	local sorters = require("telescope.sorters")
+    local actions = require("telescope.actions")
+    local sorters = require("telescope.sorters")
     require("telescope").setup({
         defaults = {
             prompt_prefix = "❯ ",
@@ -22,28 +21,25 @@ function M.config()
             grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
             qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
         },
-
         extensions = {
-            -- fzy_native = {
-            -- 	override_generic_sorter = false,
-            -- 	override_file_sorter = true,
-            -- },
+            ["zf-native"] = {
+                -- options for sorting file-like items
+                file = {
+                    -- override default telescope file sorter
+                    enable = true,
 
-            -- fzf_writer = {
-            -- 	use_highlighter = true,
-            -- 	minimum_grep_characters = 3,
-            -- },
+                    -- highlight matching text in results
+                    highlight_results = true,
 
-            -- frecency = {
-            -- 	workspaces = {
-            -- 		["conf"] = "/home/tj/.config/nvim/",
-            -- 		["nvim"] = "/home/tj/build/neovim",
-            -- 	}
-            -- }
+                    -- enable zf filename match priority
+                    match_filename = true,
+                },
+            },
         },
     })
     require("telescope").load_extension("fzy_native")
     require("telescope").load_extension("luasnip")
+    require("telescope").load_extension("zf-native")
 
     local map_tele = function(key, f)
         local mode = "n"
@@ -87,7 +83,7 @@ function M.config()
         require("telescope.builtin")["fd"]({
             prompt_title = "Notes",
             cwd = "~/notes",
-            find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+            find_command = { "fd", "--type", "f", "--strip-cwd-prefix", "--glob", "*.norg" },
         })
         vim.cmd('cd ~/notes')
     end

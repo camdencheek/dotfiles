@@ -17,57 +17,46 @@ fi
 
 if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
 
-ulimit -n 2048
-
 # General env
+# export DOCKER_HOST=tcp://192.168.1.123:2375
 export GOBIN="$HOME/go/bin"
-export PATH="/opt/homebrew/opt/sqlite/bin:/opt/homebrew/opt/llvm/bin:/opt/homebrew/opt/go@1.19/bin:/usr/local/pgsql/bin:/Users/camdencheek/src/sgdb/deploy/yugabyte-2.13.1.0/bin:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin:$HOME/.sg:/Applications/Xcode.app/Contents/Developer/usr/bin"
+export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$HOME/.local/bin:/opt/homebrew/opt/sqlite/bin:/opt/homebrew/opt/llvm/bin:/opt/homebrew/opt/go@1.19/bin:/usr/local/pgsql/bin:/Users/camdencheek/src/sgdb/deploy/yugabyte-2.13.1.0/bin:/usr/local/bin:$PATH:/opt/homebrew/opt/go@1.18/bin:$HOME/go/bin:/usr/local/opt/bison/bin:/opt/chefdk/bin:$HOME/.rbenv/shims:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/src/bindplane/bindplane-scripts/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/bin/go:$HOME/.gem/ruby/2.6.0/bin:/usr/local/bin:$HOME/.sg:/Applications/Xcode.app/Contents/Developer/usr/bin"
 export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 export TERM=screen-256color
+export COLORTERM=truecolor
 export EDITOR=nvim
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export MANPAGER='nvim +Man!'
-export COLORTERM=truecolor
 export GPG_TTY=$(tty)
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-# Lang env
-export GOPATH="$HOME/go"
+export SRC_ENDPOINT=https://sourcegraph.sourcegraph.com
+export SRC_ACCESS_TOKEN=sgp_58224a4e5a6dd0a7aef30868567c532dcfe9ffe2
 
 # Sourcegraph Setup
+export CTAGS_COMMAND=ctags
 export PGPORT=5432
 export PGHOST=localhost
 export PGUSER=sourcegraph
 export PGPASSWORD=sourcegraph
 export PGDATABASE=sourcegraph
-export PGDATA=/opt/homebrew/var/postgres
 export PGSSLMODE=disable
-export CTAGS_COMMAND=ctags
-export YSQL_PORT=7010
-export YCQL_PORT=7011
-export MASTER_WEBSERVER_PORT=7012
-export TSERVER_WEBSERVER_PORT=7013
 
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-export PUPPETEER_EXECUTABLE_PATH=`which chromium`
-
+# export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# export PUPPETEER_EXECUTABLE_PATH=`which chromium`
+#
 # https://sourcegraph.slack.com/archives/CHEKCRWKV/p1610476943373500?thread_ts=1610406413.366700&cid=CHEKCRWKV
-export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
+# export PKG_CONFIG_PATH="/usr/local/opt/sqlite/lib/pkgconfig"
 
 # Personal env
-export FZF_CTRL_T_COMMAND='command cat <(fre --sorted) <(fd -t d)'
-export FZF_CTRL_T_OPTS='--tiebreak=index --bind tab:down --bind shift-tab:up'
 
 fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
 alias ls='exa'
-alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
 alias cat='bat'
-alias mv='mv -i'
-alias lintit='./dev/golangci-lint.sh --config .golangci.yml run'
 
 # Copy path to file
 function cpth() {
@@ -85,7 +74,7 @@ alias gap='git add --patch'
 # alias gc='git commit -m'
 alias gl='git pull --prune'
 alias gp='git push --follow-tags'
-alias gpu='git push --set-upstream origin HEAD:cc/$(git rev-parse --abbrev-ref HEAD)'
+alias gpu='git push --set-upstream origin HEAD:refs/heads/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gpd='git push --set-upstream origin HEAD:backend-integration/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gpm='git push --set-upstream origin HEAD:main-dry-run/cc/$(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
@@ -143,6 +132,8 @@ setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 
 # FZF options
+export FZF_CTRL_T_COMMAND='fre --sorted'
+export FZF_CTRL_T_OPTS='--tiebreak=index --bind tab:down --bind shift-tab:up'
 source "$HOME/.dotfiles/zsh/fzf-key-bindings.zsh"
 
 # Update fre on directory change
@@ -159,15 +150,16 @@ source $HOME/.cargo/env
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Direnv
-eval "$(direnv hook zsh)"
+eval "$(direnv hook zsh)" > /dev/null
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
-# opam configuration
-[[ ! -r /Users/camdencheek/.opam/opam-init/init.zsh ]] || source /Users/camdencheek/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
-export PATH=/Users/camdencheek/.tiup/bin:$PATH
 export MG_DEPLOY_SOURCEGRAPH_MANAGED_PATH=/Users/camdencheek/src/sourcegraph/deploy-sourcegraph-managed
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# pnpm
+export PNPM_HOME="/Users/camdencheek/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

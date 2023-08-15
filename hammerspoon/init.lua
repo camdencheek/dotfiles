@@ -70,49 +70,49 @@ end
 
 -- Tile down binding
 hs.hotkey.bind("alt", "j", function()
-  local win = hs.window.focusedWindow()
-  tileDown(win)
+    local win = hs.window.focusedWindow()
+    tileDown(win)
 end)
 
 -- Tile up binding
 hs.hotkey.bind("alt", "k", function()
-  local win = hs.window.focusedWindow()
-  tileUp(win)
+    local win = hs.window.focusedWindow()
+    tileUp(win)
 end)
 
 -- Tile right binding
 hs.hotkey.bind("alt", "l", function()
-  local win = hs.window.focusedWindow()
-  if not tileRight(win) then
-      win:moveOneScreenEast()
-      tileLeft(win)
-  end
+    local win = hs.window.focusedWindow()
+    if not tileRight(win) then
+        win:moveOneScreenEast()
+        tileLeft(win)
+    end
 end)
 
 -- Tile right binding
 hs.hotkey.bind("alt", "h", function()
-  local win = hs.window.focusedWindow()
-  if not tileLeft(win) then
-      win:moveOneScreenWest()
-      tileRight(win)
-  end
+    local win = hs.window.focusedWindow()
+    if not tileLeft(win) then
+        win:moveOneScreenWest()
+        tileRight(win)
+    end
 end)
 
 -- Maximize
 hs.hotkey.bind("alt", "m", function()
-  local win = hs.window.focusedWindow()
-  if win == nil then
-    return
-  end
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
+    local win = hs.window.focusedWindow()
+    if win == nil then
+        return
+    end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
-  f.x = max.x
-  f.y = max.y
-  f.w = max.w
-  f.h = max.h
-  win:setFrame(f, 0.01)
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h
+    win:setFrame(f, 0.01)
 end)
 
 
@@ -123,10 +123,10 @@ local slack = "Slack"
 local chat = "Telegram"
 local music = "Spotify"
 hs.fnutils.each({
-    { key = "a", app = browser },
-    { key = "d", app = chat },
-    { key = "s", app = slack },
-    { key = "f", app = music },
+    { key = "a",     app = browser },
+    { key = "d",     app = chat },
+    -- { key = "s", app = slack },
+    { key = "f",     app = music },
     { key = "space", app = terminal }
 }, function(object)
     hs.hotkey.bind("alt", object.key, function() hs.application.launchOrFocus(object.app) end)
@@ -137,16 +137,16 @@ local function increaseBrightness()
     local screen = hs.screen.mainScreen()
     local current = screen:getBrightness()
     if (current < 1) then
-        local newBrightness = math.min(current+0.1, 1)
+        local newBrightness = math.min(current + 0.1, 1)
         screen:setBrightness(newBrightness)
     end
 end
 
 local function decreaseBrightness()
-    local screen =  hs.screen.mainScreen()
+    local screen = hs.screen.mainScreen()
     local current = screen:getBrightness()
     if (current > 0) then
-        local newBrightness = math.max(current-0.1, 0)
+        local newBrightness = math.max(current - 0.1, 0)
         screen:setBrightness(newBrightness)
     end
 end

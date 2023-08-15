@@ -5,6 +5,7 @@ function M.config()
     local capabilities = require("cmp_nvim_lsp").default_capabilities(client_capabilities)
     local lspconfig = require("lspconfig")
 
+
     local settings = {
         tsserver = {},
         pylsp = {},
@@ -13,6 +14,7 @@ function M.config()
         elmls = {},
         rust_analyzer = {},
         bufls = {},
+        clangd = {},
         gopls = {
             gopls = {
                 analyses = {
@@ -57,6 +59,7 @@ function M.config()
     end
 
     vim.api.nvim_set_keymap("n", "ga", "", { callback = vim.lsp.buf.code_action, noremap = true })
+    vim.api.nvim_set_keymap("v", "ga", "", { callback = vim.lsp.buf.code_action, noremap = true })
     vim.api.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", { noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "gt", "", { callback = vim.lsp.buf.type_definition, noremap = true })
     vim.api.nvim_set_keymap("n", "K", "", { callback = vim.lsp.buf.hover, noremap = true })
@@ -71,7 +74,7 @@ function M.config()
         noremap = true,
     })
     -- Disable virtual text
-    vim.diagnostic.config({ virtual_text = false, })
+    -- vim.diagnostic.config({ virtual_text = false, })
 
 
     -- Formatting

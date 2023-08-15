@@ -24,7 +24,7 @@
 	gpgSign = true
 
 [push]
-	default = simple
+	default = upstream
 	followTags = true
 
 [core]

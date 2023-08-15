@@ -12,16 +12,27 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-    "folke/which-key.nvim",
-
+    {
+        "sourcegraph/sg.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = require('config.sg').config
+    },
+    --
     -- Integration with git.
     -- Trying out neogit again, but fugitive works pretty okay.
-    -- "tpope/vim-fugitive",
+    "tpope/vim-fugitive",
     {
-        'TimUntersberger/neogit',
+        "sindrets/diffview.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' },
-        keys = require("config.neogit").keys,
+        config = function()
+            require('diffview').setup()
+        end
     },
+    -- {
+    --     'TimUntersberger/neogit',
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     keys = require("config.neogit").keys,
+    -- },
     {
         dir = "~/src/gitlinker.nvim",
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -34,10 +45,16 @@ require('lazy').setup({
     },
 
     -- javascript
-    "maxmellon/vim-jsx-pretty",
-    "pangloss/vim-javascript",
+    {
+        'prettier/vim-prettier',
+        build = 'yarn install --frozen-lockfile --production',
+        ft = { 'javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html' }
+    },
 
-    "tpope/vim-surround",
+    {
+        'kylechui/nvim-surround',
+        config = require("config.surround").config,
+    },
 
     {
         "numToStr/Comment.nvim",
@@ -45,12 +62,6 @@ require('lazy').setup({
     },
 
     -- File browsing
-    -- TODO: try out neotree once it stabilizes a bit
-    -- {
-    --     "kyazdani42/nvim-tree.lua",
-    --     config = require("config.tree").config,
-    -- },
-    -- "kyazdani42/nvim-web-devicons",
     {
         "nvim-neo-tree/neo-tree.nvim",
         version = "v2.*",
@@ -62,8 +73,9 @@ require('lazy').setup({
         config = require("config.tree").config,
     },
 
-    -- Allows easy switching between vim and kitty panes
+    -- Allows easy switching between vim and tmux panes
     "christoomey/vim-tmux-navigator",
+
     -- LSP
     {
         "neovim/nvim-lspconfig",
@@ -80,9 +92,12 @@ require('lazy').setup({
             -- Use async fzy for telescope because builtin live_grep is slow
             "nvim-telescope/telescope-fzy-native.nvim",
             "nvim-telescope/telescope-fzf-writer.nvim",
+            "natecraddock/telescope-zf-native.nvim",
 
             -- Fuzzy search unicode symbols
             "nvim-telescope/telescope-symbols.nvim",
+
+            -- Git stuff
         },
         lazy = false,
         config = require("config.telescope").config,
@@ -124,8 +139,12 @@ require('lazy').setup({
     },
 
     {
-        "akinsho/toggleterm.nvim",
-        version = "v2.*",
-        config = require('config.toggleterm').config,
+        "nvim-neorg/neorg",
+        version = "v5.*",
+        build = ":Neorg sync-parsers",
+        config = require('config.neorg').config,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter"
+        }
     },
 })
