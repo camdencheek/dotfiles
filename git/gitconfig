@@ -57,3 +57,5 @@
 # automatically launch merge tool without displaying a prompt
 [mergetool]
   prompt = false
+[http]
+	cookiefile = /Users/camdencheek/.gitcookies

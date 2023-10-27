@@ -12,12 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-    {
-        "sourcegraph/sg.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = require('config.sg').config
-    },
-    --
     -- Integration with git.
     -- Trying out neogit again, but fugitive works pretty okay.
     "tpope/vim-fugitive",
@@ -74,7 +68,10 @@ require('lazy').setup({
     },
 
     -- Allows easy switching between vim and tmux panes
-    "christoomey/vim-tmux-navigator",
+    {
+        'mrjones2014/smart-splits.nvim',
+        config = require('config.splits').config
+    },
 
     -- LSP
     {
@@ -147,4 +144,14 @@ require('lazy').setup({
             "nvim-treesitter/nvim-treesitter"
         }
     },
+
+    {
+        "epwalsh/obsidian.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = require('config.obsidian').config,
+    }
 })

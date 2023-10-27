@@ -8,6 +8,7 @@ function M.config()
 
     local settings = {
         tsserver = {},
+        svelte = {},
         pylsp = {},
         graphql = {},
         ocamllsp = {},

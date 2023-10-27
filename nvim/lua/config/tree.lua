@@ -21,6 +21,7 @@ function M.config()
                 -- ["w"] = "open_with_window_picker",
                 ["C"] = "none",
                 ["z"] = "none",
+                ["/"] = "fuzzy_sorter",
                 --["Z"] = "expand_all_nodes",
                 ["R"] = "refresh",
                 ["a"] = {
@@ -48,17 +49,15 @@ function M.config()
         },
         filesystem = {
             bind_to_cwd = false,
-            follow_current_file = true, -- This will find and focus the file in the active buffer every time
+            follow_current_file = true,    -- This will find and focus the file in the active buffer every time
             use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
             -- instead of relying on nvim autocmd events.
+            find_command = "fd",
         },
     }
     require("neo-tree").setup(config)
     vim.keymap.set('n', '<C-t>', function()
-        require('neo-tree.command').execute({ toggle = true, dir = vim.fn.getcwd() })
-    end)
-    vim.keymap.set('n', '<C-n>', function()
-        require('neo-tree.command').execute({ toggle = true, dir = vim.fn.expand("$HOME/notes") })
+        require('neo-tree.command').execute({ focus = true, dir = vim.fn.getcwd() })
     end)
 end
 

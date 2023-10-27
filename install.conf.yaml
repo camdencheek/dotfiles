@@ -12,3 +12,4 @@
     ~/.config/tmux.conf: tmux/tmux.conf
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
     ~/.gitconfig: git/gitconfig
+    ~/.config/wezterm/wezterm.lua: wezterm/wezterm.lua

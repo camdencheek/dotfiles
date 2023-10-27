@@ -20,7 +20,8 @@ if ! zgen saved; then
   zgen save
 fi
 
-if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
+# if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
+[ -n "$WEZTERM_PANE" ] && export NVIM_LISTEN_ADDRESS="/tmp/nvim$WEZTERM_PANE"
 
 # General env
 # export DOCKER_HOST=tcp://192.168.1.123:2375
@@ -86,6 +87,7 @@ alias gcl='git clean -df'
 alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
+alias cdr='cd $(git rev-parse --show-toplevel)'
 
 
 source ~/.dotfiles/zsh/powerlevel10k/powerlevel10k.zsh-theme
@@ -159,11 +161,13 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 
 export MG_DEPLOY_SOURCEGRAPH_MANAGED_PATH=/Users/camdencheek/src/sourcegraph/deploy-sourcegraph-managed
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
 # pnpm
 export PNPM_HOME="/Users/camdencheek/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 PROG=sg source /Users/camdencheek/.sourcegraph/sg.zsh_autocomplete
+
+# opam configuration
+[[ ! -r /Users/camdencheek/.opam/opam-init/init.zsh ]] || source /Users/camdencheek/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"

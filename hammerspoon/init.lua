@@ -118,7 +118,7 @@ end)
 
 -- App hotkeys
 local browser = "Firefox Developer Edition"
-local terminal = "kitty"
+local terminal = "WezTerm"
 local slack = "Slack"
 local chat = "Telegram"
 local music = "Spotify"

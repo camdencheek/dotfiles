@@ -4,13 +4,15 @@ function M.config()
     require('nvim-treesitter.configs').setup {
         ensure_installed = 'all',
         ignore_install = {
-            "comment",  -- bad performance for many nested languages
-            "phpdoc",   -- broken install
-            "markdown", -- very bad performance
+            "comment", -- bad performance for many nested languages
+            "phpdoc",  -- broken install
         },
 
         highlight = {
             enable = true,
+            additional_vim_regex_highlighting = {
+                "markdown", -- from obsidian.nvim README.md
+            }
             -- use_languagetree = true,
         },
 
@@ -21,7 +23,7 @@ function M.config()
         incremental_selection = {
             enable = true,
             keymaps = {
-                                         -- mappings for incremental selection (visual mappings)
+                -- mappings for incremental selection (visual mappings)
                 init_selection = 'vin',  -- maps in normal mode to init the node/scope selection
                 node_incremental = 'vo', -- increment to the upper named parent
                 node_decremental = 'vi', -- decrement to the previous node
