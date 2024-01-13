@@ -12,42 +12,42 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- Integration with git.
-	-- Trying out neogit again, but fugitive works pretty okay.
-	"tpope/vim-fugitive",
+	{
+		-- Integration with git.
+		-- Trying out neogit again, but fugitive works pretty okay.
+		-- "tpope/vim-fugitive",
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"sindrets/diffview.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = true,
+	},
 	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("diffview").setup()
-		end,
+		config = {},
 	},
 	{
 		dir = "~/src/gitlinker.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = require("config.gitlinker").config,
 	},
-
 	{
 		"windwp/nvim-autopairs",
-		config = require("config.autopairs").config,
+		event = "InsertEnter",
+		opts = {},
 	},
-
 	{
 		"kylechui/nvim-surround",
 		config = require("config.surround").config,
 	},
 	{
-		"boltlessengineer/smart-tab.nvim",
-		config = require("config.smart-tab").config,
-	},
-
-	{
 		"numToStr/Comment.nvim",
+		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 		config = require("config.comment").config,
 	},
-
-	-- File browsing
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		version = "v2.*",
@@ -67,8 +67,23 @@ require("lazy").setup({
 
 	-- LSP
 	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+			require("config.lsp").config()
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = { "williamboman/mason.nvim" },
+		config = function()
+			require("mason-lspconfig").setup()
+		end,
+	},
+	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"folke/neodev.nvim",
 		},

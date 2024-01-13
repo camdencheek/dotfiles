@@ -38,7 +38,7 @@ function M.config()
         },
     })
     require("telescope").load_extension("fzy_native")
-    require("telescope").load_extension("luasnip")
+    -- require("telescope").load_extension("luasnip")
     require("telescope").load_extension("zf-native")
 
     local map_tele = function(key, f)
@@ -85,7 +85,7 @@ function M.config()
             cwd = "~/notes",
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix", "--glob", "*.norg" },
         })
-        vim.cmd('cd ~/notes')
+        vim.cmd("cd ~/notes")
     end
 
     local function fm_nvim()
@@ -98,6 +98,7 @@ function M.config()
     vim.api.nvim_set_keymap("n", "<leader>fc", "", { callback = fd_nvim, noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "<leader>fn", "", { callback = fn_nvim, noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "<leader>fm", "", { callback = fm_nvim, noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope harpoon marks<CR>", { noremap = true, silent = true })
 end
 
 return M

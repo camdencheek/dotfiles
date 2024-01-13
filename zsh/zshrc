@@ -15,13 +15,20 @@ if ! zgen saved; then
 
   # specify plugins here
   zgen load mafredri/zsh-async
+  zgen load larkery/zsh-histdb
+  zgen load m42e/zsh-histdb-fzf
 
   # generate the init script from plugins above
   zgen save
 fi
 
-# if [ "$TMUX" = "" ]; then exec tmux new -As main; fi
+
 [ -n "$WEZTERM_PANE" ] && export NVIM_LISTEN_ADDRESS="/tmp/nvim$WEZTERM_PANE"
+
+HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
+autoload -Uz add-zsh-hook
+bindkey '^R' histdb-fzf-widget
+
 
 # General env
 # export DOCKER_HOST=tcp://192.168.1.123:2375
@@ -31,6 +38,8 @@ export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
+export CC=$(which gcc)
+export NODE_OPTIONS="--max-old-space-size=16384"
 
 export TERM=screen-256color
 export COLORTERM=truecolor
@@ -39,6 +48,8 @@ export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export MANPAGER='nvim +Man!'
 export GPG_TTY=$(tty)
+# To stop from spamming my filesystem
+export RUSTC_ICE=0
 
 # Sourcegraph Setup
 export PGPORT=5432
@@ -65,7 +76,7 @@ alias cat='bat'
 
 # Copy path to file
 function cpth() {
-    realpath $1 | xargs echo -n | pbcopy
+    realpath "$1" | xargs echo -n | pbcopy
 }
 
 # Config editing aliases
@@ -134,18 +145,19 @@ _zpcompinit_custom() {
 }
 _zpcompinit_custom
 
+
 source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 setopt INTERACTIVE_COMMENTS
 ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
 
 # FZF options
 export FZF_CTRL_T_COMMAND='fre --sorted'
-export FZF_CTRL_T_OPTS='--tiebreak=index --bind tab:down --bind shift-tab:up'
+export FZF_CTRL_T_OPTS='--tiebreak=index --no-sort --bind tab:down --bind shift-tab:up'
 source "$HOME/.dotfiles/zsh/fzf-key-bindings.zsh"
 
 # Update fre on directory change
 fre_chpwd() {
-  fre --add "$(pwd)"
+    fre --add "$(realpath "$(pwd)")"
 }
 typeset -gaU chpwd_functions
 chpwd_functions+=fre_chpwd

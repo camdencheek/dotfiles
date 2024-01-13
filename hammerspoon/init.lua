@@ -115,7 +115,6 @@ hs.hotkey.bind("alt", "m", function()
     win:setFrame(f, 0.01)
 end)
 
-
 -- App hotkeys
 local browser = "Firefox Developer Edition"
 local terminal = "WezTerm"
@@ -125,18 +124,20 @@ local music = "Spotify"
 hs.fnutils.each({
     { key = "a",     app = browser },
     { key = "d",     app = chat },
-    -- { key = "s", app = slack },
+    { key = "s",     app = slack },
     { key = "f",     app = music },
-    { key = "space", app = terminal }
+    { key = "space", app = terminal },
 }, function(object)
-    hs.hotkey.bind("alt", object.key, function() hs.application.launchOrFocus(object.app) end)
+    hs.hotkey.bind("alt", object.key, function()
+        hs.application.launchOrFocus(object.app)
+    end)
 end)
 
 -- Brightness controls
 local function increaseBrightness()
     local screen = hs.screen.mainScreen()
     local current = screen:getBrightness()
-    if (current < 1) then
+    if current < 1 then
         local newBrightness = math.min(current + 0.1, 1)
         screen:setBrightness(newBrightness)
     end
@@ -145,7 +146,7 @@ end
 local function decreaseBrightness()
     local screen = hs.screen.mainScreen()
     local current = screen:getBrightness()
-    if (current > 0) then
+    if current > 0 then
         local newBrightness = math.max(current - 0.1, 0)
         screen:setBrightness(newBrightness)
     end
