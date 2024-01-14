@@ -1,9 +1,12 @@
 local M = {}
 
 function M.config()
+    local t = require("telescope")
     local actions = require("telescope.actions")
     local sorters = require("telescope.sorters")
-    require("telescope").setup({
+    local builtin = require("telescope.builtin")
+
+    t.setup({
         defaults = {
             prompt_prefix = "❯ ",
             selection_caret = "❯ ",
@@ -37,11 +40,9 @@ function M.config()
             },
         },
     })
-    require("telescope").load_extension("fzy_native")
+    t.load_extension("fzy_native")
+    t.load_extension("zf-native")
     -- require("telescope").load_extension("luasnip")
-    require("telescope").load_extension("zf-native")
-
-    local builtin = require("telescope.builtin")
 
     vim.keymap.set("n", "<leader>ff", builtin.find_files)
     vim.keymap.set("n", "<leader>ft", builtin.git_files)
@@ -51,9 +52,7 @@ function M.config()
     vim.keymap.set("n", "<leader>fb", builtin.buffers)
     vim.keymap.set("c", "<C-r>", builtin.command_history)
     vim.keymap.set("n", "<leader>ga", "lsp_code_actions")
-
-    -- Telescope Meta
-    vim.keymap.set("n", "<leader>fB", "builtin")
+    vim.keymap.set("n", "<leader>fB", builtin.builtin)
 
     local function fd_nvim()
         return builtin.fd({
