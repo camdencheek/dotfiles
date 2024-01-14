@@ -22,7 +22,7 @@ require("lazy").setup({
 			"sindrets/diffview.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
-		config = true,
+		config = {},
 	},
 	{
 		"sindrets/diffview.nvim",
@@ -41,7 +41,7 @@ require("lazy").setup({
 	},
 	{
 		"kylechui/nvim-surround",
-		config = require("config.surround").config,
+		opts = {},
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -114,14 +114,10 @@ require("lazy").setup({
 		config = require("config.treesitter").config,
 	},
 	"nvim-treesitter/playground",
-
-	-- Colorscheme
 	{
 		"npxbr/gruvbox.nvim",
 		dependencies = { "rktjmp/lush.nvim" },
 	},
-
-	-- Completion
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -130,8 +126,6 @@ require("lazy").setup({
 		},
 		config = require("config.cmp").config,
 	},
-
-	-- Snippets
 	{
 		"l3MON4D3/LuaSnip",
 		dependencies = {
@@ -139,27 +133,7 @@ require("lazy").setup({
 			"saadparwaiz1/cmp_luasnip",
 			"benfowler/telescope-luasnip.nvim",
 		},
-		config = require("config.luasnip").config,
-	},
-
-	{
-		"nvim-neorg/neorg",
-		version = "v5.*",
-		build = ":Neorg sync-parsers",
-		config = require("config.neorg").config,
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-	},
-
-	{
-		"epwalsh/obsidian.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			"hrsh7th/nvim-cmp",
-		},
-		config = require("config.obsidian").config,
+		opts = {},
 	},
 	{
 		"nvimtools/none-ls.nvim",
