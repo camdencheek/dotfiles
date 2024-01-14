@@ -78,10 +78,9 @@ function M.config()
 		})
 	end
 
-	vim.api.nvim_set_keymap("n", "<leader>fc", "", { callback = fd_nvim, noremap = true, silent = true })
-	vim.api.nvim_set_keymap("n", "<leader>fn", "", { callback = fn_nvim, noremap = true, silent = true })
-	vim.api.nvim_set_keymap("n", "<leader>fm", "", { callback = fm_nvim, noremap = true, silent = true })
-	vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope harpoon marks<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "<leader>fc", fd_nvim)
+	vim.keymap.set("n", "<leader>fn", fn_nvim)
+	vim.keymap.set("n", "<leader>fm", fm_nvim)
 end
 
 return M
