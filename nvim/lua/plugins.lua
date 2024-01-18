@@ -41,7 +41,15 @@ require("lazy").setup({
 	},
 	{
 		"kylechui/nvim-surround",
-		opts = {},
+		opts = {
+			keymaps = {
+				change = "cs",
+				change_cur = "css",
+				visual = "s",
+				visual_line = "S",
+				delete = "ds",
+			},
+		},
 	},
 	{
 		"numToStr/Comment.nvim",

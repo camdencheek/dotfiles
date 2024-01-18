@@ -26,6 +26,8 @@ opt.cursorline = true
 opt.linebreak = true
 opt.number = true
 opt.wrap = false
+opt.textwidth = 120
+opt.list = true
 
 -- Colorscheme
 opt.termguicolors = true
@@ -33,10 +35,10 @@ opt.background = "dark"
 vim.cmd([[
 	au ColorScheme * hi Normal ctermbg=none guibg=none
 	colorscheme gruvbox
-    hi! link TelescopeBorder GruvboxYellowBold
-    hi! link TelescopePromptBorder Normal
-    hi! link TelescopeResultsBorder FloatBorder
-    hi! link TelescopePreviewBorder FloatBorder
+	hi! link TelescopeBorder GruvboxYellowBold
+	hi! link TelescopePromptBorder Normal
+	hi! link TelescopeResultsBorder FloatBorder
+	hi! link TelescopePreviewBorder FloatBorder
 ]])
 
 -- Indentation
@@ -45,10 +47,7 @@ opt.autoindent = true
 opt.cindent = false
 opt.softtabstop = 4
 opt.shiftwidth = 4
-opt.expandtab = true
-vim.cmd([[
-	autocmd FileType go,asm setlocal noexpandtab
-]])
+opt.expandtab = false
 
 -- Disable sqlcomplete
 -- TODO: is this still necessary?
@@ -73,8 +72,8 @@ vim.opt.foldlevel = 99
 -- Recalculate folds
 -- See https://github.com/nvim-telescope/telescope.nvim/issues/699
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
-    pattern = { "*" },
-    command = "normal zx",
+	pattern = { "*" },
+	command = "normal zx",
 })
 
 opt.pumheight = 15
@@ -90,7 +89,7 @@ opt.inccommand = "nosplit"
 opt.clipboard = "" -- don't use system clipboard
 
 -- Formatting
--- opt.formatoptions  = 'cqrnj'
+-- opt.formatoptions = "cqrnj"
 
 -- Splitting
 opt.splitright = true

@@ -6,6 +6,7 @@ function M.config()
 	local sorters = require("telescope.sorters")
 	local builtin = require("telescope.builtin")
 	local previewers = require("telescope.previewers")
+	local make_entry = require("telescope.make_entry")
 
 	t.setup({
 		defaults = {
@@ -38,8 +39,8 @@ function M.config()
 	-- require("telescope").load_extension("luasnip")
 
 	vim.keymap.set("n", "<leader>ff", builtin.find_files)
-	vim.keymap.set("n", "<leader>ft", builtin.git_files)
 	vim.keymap.set("n", "<leader>fg", builtin.live_grep)
+	vim.keymap.set("n", "<leader>ft", builtin.git_files)
 	vim.keymap.set("n", "<leader>fo", builtin.oldfiles)
 	vim.keymap.set("n", "<leader>fd", builtin.fd)
 	vim.keymap.set("n", "<leader>fb", builtin.buffers)
