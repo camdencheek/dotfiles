@@ -1,118 +1,105 @@
 local hs = hs
 
--- variable config
+hs.grid.setGrid(hs.geometry("2x2"))
+hs.grid.setMargins(hs.geometry({ w = 0, h = 0 }))
 hs.window.animationDuration = 0
-hs.window.setShadows(false)
 
-local tileLeft = function(win)
-    local f = win:frame()
-    local newf = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
+local gridLeft = hs.geometry({ x = 0, y = 0, w = 1, h = 2 })
+local gridRight = hs.geometry({ x = 1, y = 0, w = 1, h = 2 })
+local gridTop = hs.geometry({ x = 0, y = 0, w = 2, h = 1 })
+local gridBottom = hs.geometry({ x = 0, y = 1, w = 2, h = 1 })
 
-    newf.x = max.x
-    newf.y = max.y
-    newf.w = max.w / 2
-    newf.h = max.h
-
-    if f ~= newf then
-        win:setFrame(newf, 0)
-        return true
-    else
-        return false
-    end
+local function tableMerge(t1, t2)
+	for k, v in pairs(t2) do
+		t1[k] = v
+	end
 end
 
-local tileRight = function(win)
-    local f = win:frame()
-    local newf = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
+local function axHotfix(win)
+	if not win then
+		win = hs.window.frontmostWindow()
+	end
 
-    newf.x = max.x + (max.w / 2)
-    newf.y = max.y
-    newf.w = max.w / 2
-    newf.h = max.h
+	local axApp = hs.axuielement.applicationElement(win:application())
+	local wasEnhanced = axApp.AXEnhancedUserInterface
+	if wasEnhanced then
+		axApp.AXEnhancedUserInterface = false
+	end
 
-    if f ~= newf then
-        win:setFrame(newf, 0)
-        return true
-    else
-        return false
-    end
+	return function()
+		if wasEnhanced then
+			axApp.AXEnhancedUserInterface = true
+		end
+	end
 end
 
-local tileUp = function(win)
-    local newf = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    newf.x = max.x
-    newf.y = max.y
-    newf.w = max.w
-    newf.h = max.h / 2
-
-    win:setFrame(newf, 0)
+-- See https://github.com/Hammerspoon/hammerspoon/issues/3224
+local function withAxHotfix(fn, position)
+	if not position then
+		position = 1
+	end
+	return function(...)
+		local args = { ... }
+		local revert = axHotfix(args[position])
+		fn(...)
+		revert()
+	end
 end
 
-local tileDown = function(win)
-    local newf = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
+-- Note: these assume a 2x2 grid
+local function tileLeft(win)
+	hs.grid.adjustWindow(function(cell)
+		if cell == gridLeft then
+			win:moveOneScreenWest(false, true)
+			tableMerge(cell, gridRight)
+		else
+			tableMerge(cell, gridLeft)
+		end
+	end, win)
+end
 
-    newf.x = max.x
-    newf.y = max.y + (max.h / 2)
-    newf.w = max.w
-    newf.h = max.h / 2
+local function tileRight(win)
+	hs.grid.adjustWindow(function(cell)
+		if cell == gridRight then
+			win:moveOneScreenEast(false, true)
+			tableMerge(cell, gridLeft)
+		else
+			tableMerge(cell, gridRight)
+		end
+	end, win)
+end
 
-    win:setFrame(newf, 0)
+local function tileDown(win)
+	hs.grid.set(win, gridBottom)
+end
+
+local function tileUp(win)
+	hs.grid.set(win, gridTop)
 end
 
 -- Tile down binding
 hs.hotkey.bind("alt", "j", function()
-    local win = hs.window.focusedWindow()
-    tileDown(win)
+	withAxHotfix(tileDown)(hs.window.focusedWindow())
 end)
 
 -- Tile up binding
 hs.hotkey.bind("alt", "k", function()
-    local win = hs.window.focusedWindow()
-    tileUp(win)
+	withAxHotfix(tileUp)(hs.window.focusedWindow())
 end)
 
 -- Tile right binding
 hs.hotkey.bind("alt", "l", function()
-    local win = hs.window.focusedWindow()
-    if not tileRight(win) then
-        win:moveOneScreenEast()
-        tileLeft(win)
-    end
+	withAxHotfix(tileRight)(hs.window.focusedWindow())
 end)
 
 -- Tile right binding
 hs.hotkey.bind("alt", "h", function()
-    local win = hs.window.focusedWindow()
-    if not tileLeft(win) then
-        win:moveOneScreenWest()
-        tileRight(win)
-    end
+	withAxHotfix(tileLeft)(hs.window.focusedWindow())
 end)
 
 -- Maximize
 hs.hotkey.bind("alt", "m", function()
-    local win = hs.window.focusedWindow()
-    if win == nil then
-        return
-    end
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y
-    f.w = max.w
-    f.h = max.h
-    win:setFrame(f, 0.01)
+	withAxHotfix(hs.grid.maximizeWindow)(hs.window.focusedWindow())
 end)
 
 -- App hotkeys
@@ -122,34 +109,68 @@ local slack = "Slack"
 local chat = "Telegram"
 local music = "Spotify"
 hs.fnutils.each({
-    { key = "a",     app = browser },
-    { key = "d",     app = chat },
-    { key = "s",     app = slack },
-    { key = "f",     app = music },
-    { key = "space", app = terminal },
+	{ key = "a", app = browser },
+	{ key = "d", app = chat },
+	{ key = "s", app = slack },
+	{ key = "f", app = music },
+	{ key = "space", app = terminal },
 }, function(object)
-    hs.hotkey.bind("alt", object.key, function()
-        hs.application.launchOrFocus(object.app)
-    end)
+	hs.hotkey.bind("alt", object.key, function()
+		hs.application.launchOrFocus(object.app)
+	end)
+end)
+
+-- Start and stop meeting recording and notes
+-- TODO: It would be great to pull names and participants from calendar events
+hs.hotkey.bind({ "cmd", "control" }, "l", function()
+	hs.shortcuts.run("Record")
+
+	local notes_dir = os.getenv("HOME") .. os.date("/notes/daily/%Y/%m/%d")
+	hs.execute("mkdir -p" .. notes_dir)
+
+	local notes_file = notes_dir .. "/index.md"
+	print(notes_file)
+	local f = io.open(notes_file, "a+")
+	f:write("\n# Meeting Notes\n\n")
+	f:write(os.date("Start Time: %T\n"))
+	f:write(os.date("Participants: Camden, \n"))
+	-- TODO: move this into a meetings folder for each day
+	f:write(
+		os.date(
+			"[Recording](../../../meetings/%Y%m%d_%H%M_recording.mp3) and [Transcript](../../../meetings/%Y%m%d_%H%M_transcription.txt)\n\n"
+		)
+	)
+	io.close(f)
+
+	assert(hs.application.launchOrFocus(terminal))
+	local wezterm = assert(hs.application.find(terminal))
+	hs.eventtap.keyStroke("cmd", "t", 20000, wezterm)
+	hs.timer.usleep(2000)
+	hs.eventtap.keyStrokes("nvim +99999 " .. notes_file, wezterm)
+	hs.timer.usleep(5000)
+	hs.eventtap.keyStroke("", "return", wezterm)
+end)
+hs.hotkey.bind({ "cmd", "control" }, ";", function()
+	hs.shortcuts.run("Stop Recording")
 end)
 
 -- Brightness controls
 local function increaseBrightness()
-    local screen = hs.screen.mainScreen()
-    local current = screen:getBrightness()
-    if current < 1 then
-        local newBrightness = math.min(current + 0.1, 1)
-        screen:setBrightness(newBrightness)
-    end
+	local screen = hs.screen.mainScreen()
+	local current = screen:getBrightness()
+	if current < 1 then
+		local newBrightness = math.min(current + 0.1, 1)
+		screen:setBrightness(newBrightness)
+	end
 end
 
 local function decreaseBrightness()
-    local screen = hs.screen.mainScreen()
-    local current = screen:getBrightness()
-    if current > 0 then
-        local newBrightness = math.max(current - 0.1, 0)
-        screen:setBrightness(newBrightness)
-    end
+	local screen = hs.screen.mainScreen()
+	local current = screen:getBrightness()
+	if current > 0 then
+		local newBrightness = math.max(current - 0.1, 0)
+		screen:setBrightness(newBrightness)
+	end
 end
 
 hs.hotkey.bind("alt", "e", decreaseBrightness)

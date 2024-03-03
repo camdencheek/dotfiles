@@ -4,7 +4,8 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
-require("plugins")
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 local opt = vim.opt
 
@@ -27,7 +28,8 @@ opt.linebreak = true
 opt.number = true
 opt.wrap = false
 opt.textwidth = 120
-opt.list = true
+
+require("plugins")
 
 -- Colorscheme
 opt.termguicolors = true
@@ -42,11 +44,11 @@ vim.cmd([[
 ]])
 
 -- Indentation
-opt.tabstop = 4
+opt.tabstop = 2
 opt.autoindent = true
 opt.cindent = false
-opt.softtabstop = 4
-opt.shiftwidth = 4
+opt.softtabstop = 2
+opt.shiftwidth = 2
 opt.expandtab = false
 
 -- Disable sqlcomplete
@@ -94,3 +96,5 @@ opt.clipboard = "" -- don't use system clipboard
 -- Splitting
 opt.splitright = true
 opt.splitbelow = true
+
+vim.keymap.set("n", "gx", [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], { silent = true })

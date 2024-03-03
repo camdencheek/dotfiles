@@ -58,6 +58,9 @@ export PGUSER=sourcegraph
 export PGPASSWORD=sourcegraph
 export PGDATABASE=sourcegraph
 export PGSSLMODE=disable
+export SRC_ENDPOINT=https://sourcegraph.com
+export SRC_ACCESS_TOKEN="$(security find-generic-password -s "sourcegraph.com access token" -a 'camden@sourcegraph.com' -w)"
+# export SOURCEGRAPH_API_URL=https://sourcegraph.sourcegraph.com
 alias bc='bazel configure && git add -A && git commit -m "bazel configure"'
 
 # export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
@@ -183,3 +186,5 @@ PROG=sg source /Users/camdencheek/.sourcegraph/sg.zsh_autocomplete
 # opam configuration
 [[ ! -r /Users/camdencheek/.opam/opam-init/init.zsh ]] || source /Users/camdencheek/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+eval "$(atuin init zsh)"

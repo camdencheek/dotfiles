@@ -25,6 +25,7 @@ function M.config()
 			qflist_previewer = previewers.vim_buffer_qflist.new,
 		},
 		extensions = {
+			undo = {},
 			["zf-native"] = {
 				file = {
 					enable = true,
@@ -47,6 +48,7 @@ function M.config()
 	vim.keymap.set("c", "<C-r>", builtin.command_history)
 	vim.keymap.set("n", "<leader>ga", "lsp_code_actions")
 	vim.keymap.set("n", "<leader>fB", builtin.builtin)
+	vim.keymap.set("n", "<leader>fu", require("telescope").extensions.undo.undo)
 	vim.keymap.set("n", "<leader>fc", function()
 		builtin.fd({
 			prompt_title = "NVIM Config",

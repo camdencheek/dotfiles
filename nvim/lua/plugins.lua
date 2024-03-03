@@ -13,15 +13,26 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
-		-- Integration with git.
-		-- Trying out neogit again, but fugitive works pretty okay.
-		-- "tpope/vim-fugitive",
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = { indent = { char = "┆" }, scope = { enabled = false } },
+	},
+	"tpope/vim-fugitive",
+	-- {
+	-- 	-- Integration with git.
+	-- 	-- Trying out neogit again, but fugitive works pretty okay.
+	-- 	-- "tpope/vim-fugitive",
+	-- 	"NeogitOrg/neogit",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"sindrets/diffview.nvim",
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 	},
+	-- 	config = {},
+	-- },
+	{
+		"sourcegraph/sg.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 		config = {},
 	},
 	{
@@ -109,7 +120,7 @@ require("lazy").setup({
 			-- Fuzzy search unicode symbols
 			"nvim-telescope/telescope-symbols.nvim",
 
-			-- Git stuff
+			"debugloop/telescope-undo.nvim",
 		},
 		lazy = false,
 		config = require("config.telescope").config,
