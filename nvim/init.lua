@@ -27,7 +27,6 @@ opt.cursorline = true
 opt.linebreak = true
 opt.number = true
 opt.wrap = false
-opt.textwidth = 120
 
 require("plugins")
 

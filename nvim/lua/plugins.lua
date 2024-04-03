@@ -33,12 +33,12 @@ require("lazy").setup({
 	{
 		"sourcegraph/sg.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-		config = {},
+		opts = {},
 	},
 	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = {},
+		opts = {},
 	},
 	{
 		dir = "~/src/gitlinker.nvim",

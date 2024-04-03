@@ -57,6 +57,28 @@ fzf-git-widget() {
 zle     -N   fzf-git-widget
 bindkey '^G' fzf-git-widget
 
+__bsel() {
+  local cmd="${FZF_CTRL_B_COMMAND:-"command git for-each-ref --sort='-committerdate' --format='%(refname:short) | %(contents:subject)' refs/heads/ | column -t -s'|'" }"
+  setopt localoptions pipefail 2> /dev/null
+  eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_B_OPTS" $(__fzfcmd) -m "$@" | cut -d' ' -f1 | while read item; do
+    echo -n "${(q)item} "
+  done
+  local ret=$?
+  echo
+  return $ret
+}
+
+fzf-branch-widget() {
+  LBUFFER="${LBUFFER}$(__bsel)"
+  local ret=$?
+  zle redisplay
+  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  return $ret
+}
+
+zle     -N   fzf-branch-widget
+bindkey '^W' fzf-branch-widget
+
 # Ensure precmds are run after cd
 fzf-redraw-prompt() {
   local precmd
