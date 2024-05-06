@@ -19,22 +19,11 @@ require("lazy").setup({
 	},
 	"tpope/vim-fugitive",
 	-- {
-	-- 	-- Integration with git.
-	-- 	-- Trying out neogit again, but fugitive works pretty okay.
-	-- 	-- "tpope/vim-fugitive",
-	-- 	"NeogitOrg/neogit",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"sindrets/diffview.nvim",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 	},
-	-- 	config = {},
+	-- 	"sourcegraph/sg.nvim",
+	-- 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+	-- 	opts = {},
 	-- },
-	{
-		"sourcegraph/sg.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-		opts = {},
-	},
+	{},
 	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -45,6 +34,7 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = require("config.gitlinker").config,
 	},
+	-- require("config.llm"),
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -128,7 +118,8 @@ require("lazy").setup({
 
 	-- Treesitter
 	{
-		"nvim-treesitter/nvim-treesitter",
+		-- "nvim-treesitter/nvim-treesitter",
+		dir = "~/src/nvim-treesitter",
 		build = ":TSUpdate",
 		config = require("config.treesitter").config,
 	},
@@ -157,5 +148,41 @@ require("lazy").setup({
 	{
 		"nvimtools/none-ls.nvim",
 		config = require("config.none").config,
+	},
+	require("config.bookmarks"),
+	{
+		"jiaoshijie/undotree",
+		requires = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("undotree").setup({
+				float_diff = true, -- using float window previews diff, set this `true` will disable layout option
+				layout = "left_bottom", -- "left_bottom", "left_left_bottom"
+				position = "left", -- "right", "bottom"
+				ignore_filetype = {
+					"undotree",
+					"undotreeDiff",
+					"qf",
+					"TelescopePrompt",
+					"spectre_panel",
+					"tsplayground",
+				},
+				window = {
+					winblend = 0,
+				},
+				keymaps = {
+					["j"] = "move_next",
+					["k"] = "move_prev",
+					["gj"] = "move2parent",
+					["J"] = "move_change_next",
+					["K"] = "move_change_prev",
+					["<cr>"] = "action_enter",
+					["p"] = "enter_diffbuf",
+					["<C-c>"] = "quit",
+				},
+			})
+			vim.keymap.set("n", "<C-u>", require("undotree").toggle)
+		end,
 	},
 })

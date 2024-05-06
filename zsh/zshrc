@@ -14,6 +14,7 @@ path=(
 	$HOME/.cargo/bin
 	$HOME/.sg
 	$HOME/Library/pnpm
+	/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
 )
 
 # Homebrew
@@ -156,6 +157,9 @@ chpwd_functions+=fre_chpwd
 # Rust environment
 export RUSTC_ICE=0 # To stop from spamming my filesystem
 
+# Go env
+export GOEXPERIMENT=rangefunc
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -164,3 +168,4 @@ if [ -f '/Users/ccheek/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
+export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
