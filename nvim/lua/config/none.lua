@@ -11,7 +11,7 @@ function M.config()
 			-- Linting
 			-- TODO: consider using golangci_lint
 			-- none_ls.builtins.diagnostics.eslint,
-			none_ls.builtins.diagnostics.buf,     -- For proto files
+			none_ls.builtins.diagnostics.buf, -- For proto files
 			none_ls.builtins.diagnostics.buildifier, -- For Bazel files
 			-- none_ls.builtins.diagnostics.jsonlint,
 			-- none_ls.builtins.diagnostics.luacheck,

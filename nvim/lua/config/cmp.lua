@@ -3,7 +3,7 @@ local M = {}
 function M.config()
 	local cmp = require("cmp")
 
-	vim.opt.completeopt = { "menu", "menuone", "noselect" }
+	vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 
 	local lspkind = require("lspkind")
 

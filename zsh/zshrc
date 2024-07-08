@@ -63,7 +63,7 @@ fpath=("$HOME/.config/zsh/functions" $fpath)
 
 # Shell Aliases
 alias ls='exa'
-alias cat='bat'
+# alias cat='bat'
 
 # Copy path to file
 function cpth() {
@@ -90,7 +90,6 @@ alias gs='git status -sb'
 alias gac='git add -A && git commit -m'
 alias gsum='git log --graph --decorate --pretty=oneline --abbrev-commit'
 alias cdr='cd $(git rev-parse --show-toplevel)'
-
 
 source ~/.dotfiles/zsh/powerlevel10k/powerlevel10k.zsh-theme
 

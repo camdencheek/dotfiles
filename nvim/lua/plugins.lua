@@ -13,17 +13,35 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+		config = true,
+	},
+	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = { indent = { char = "┆" }, scope = { enabled = false } },
 	},
 	"tpope/vim-fugitive",
-	-- {
-	-- 	"sourcegraph/sg.nvim",
-	-- 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-	-- 	opts = {},
-	-- },
-	{},
+	{
+		"SuperBo/fugit2.nvim",
+		opts = {
+			width = 70,
+		},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"nvim-lua/plenary.nvim",
+			{
+				"chrisgrieser/nvim-tinygit", -- optional: for Github PR view
+				dependencies = { "stevearc/dressing.nvim" },
+			},
+		},
+		cmd = { "Fugit2", "Fugit2Diff", "Fugit2Graph" },
+		keys = {
+			{ "<leader>F", mode = "n", "<cmd>Fugit2<cr>" },
+		},
+	},
 	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -34,7 +52,6 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = require("config.gitlinker").config,
 	},
-	-- require("config.llm"),
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -51,11 +68,6 @@ require("lazy").setup({
 				delete = "ds",
 			},
 		},
-	},
-	{
-		"numToStr/Comment.nvim",
-		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-		config = require("config.comment").config,
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -118,15 +130,23 @@ require("lazy").setup({
 
 	-- Treesitter
 	{
-		-- "nvim-treesitter/nvim-treesitter",
-		dir = "~/src/nvim-treesitter",
+		"nvim-treesitter/nvim-treesitter",
+		-- dir = "~/src/nvim-treesitter",
 		build = ":TSUpdate",
 		config = require("config.treesitter").config,
 	},
-	"nvim-treesitter/playground",
 	{
-		"npxbr/gruvbox.nvim",
-		dependencies = { "rktjmp/lush.nvim" },
+		"sainnhe/gruvbox-material",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- Optionally configure and load the colorscheme
+			-- directly inside the plugin declaration.
+			vim.g.gruvbox_material_enable_italic = false
+			vim.g.gruvbox_material_enable_bold = true
+			vim.g.gruvbox_material_foreground = "original"
+			vim.cmd.colorscheme("gruvbox-material")
+		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
@@ -157,9 +177,9 @@ require("lazy").setup({
 		},
 		config = function()
 			require("undotree").setup({
-				float_diff = true, -- using float window previews diff, set this `true` will disable layout option
+				float_diff = true,  -- using float window previews diff, set this `true` will disable layout option
 				layout = "left_bottom", -- "left_bottom", "left_left_bottom"
-				position = "left", -- "right", "bottom"
+				position = "left",  -- "right", "bottom"
 				ignore_filetype = {
 					"undotree",
 					"undotreeDiff",

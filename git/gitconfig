@@ -25,7 +25,6 @@
 
 [push]
 	default = upstream
-	followTags = true
 
 [core]
 	autocrlf = false

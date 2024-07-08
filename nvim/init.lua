@@ -30,18 +30,6 @@ opt.wrap = false
 
 require("plugins")
 
--- Colorscheme
-opt.termguicolors = true
-opt.background = "dark"
-vim.cmd([[
-	au ColorScheme * hi Normal ctermbg=none guibg=none
-	colorscheme gruvbox
-	hi! link TelescopeBorder GruvboxYellowBold
-	hi! link TelescopePromptBorder Normal
-	hi! link TelescopeResultsBorder FloatBorder
-	hi! link TelescopePreviewBorder FloatBorder
-]])
-
 -- Indentation
 opt.tabstop = 2
 opt.autoindent = true
@@ -50,17 +38,11 @@ opt.softtabstop = 2
 opt.shiftwidth = 2
 opt.expandtab = false
 
--- Disable sqlcomplete
--- TODO: is this still necessary?
-vim.cmd([[
-    let g:omni_sql_no_default_maps = 1
-]])
-
 -- Backup and undo
 opt.backup = false
 opt.undofile = true
 opt.undolevels = 1000
-local data_dir = "/Users/camdencheek/.data/"
+local data_dir = vim.fm.expand("$HOME/.data/")
 opt.backupdir = data_dir .. "backup"
 opt.undodir = data_dir .. "undofile"
 opt.directory = data_dir .. "swap"
@@ -70,12 +52,6 @@ opt.swapfile = false
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
--- Recalculate folds
--- See https://github.com/nvim-telescope/telescope.nvim/issues/699
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-	pattern = { "*" },
-	command = "normal zx",
-})
 
 opt.pumheight = 15
 
